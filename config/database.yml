@@ -1,0 +1,8 @@
+
+development:
+  adapter: mysql
+  database: b16
+  username: root
+  password: m
+  host: localhost
+  socket: /bn/mysql/tmp/mysql.sock

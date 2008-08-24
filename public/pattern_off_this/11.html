@@ -1,0 +1,334 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+
+  
+    <title>Quoted-Printable - a multipart alternative</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="openid.server" href="http://www.myopenid.com/server">
+    <link rel="openid.delegate" href="http://packagethief.myopenid.com/">
+    
+    <meta http-equiv="X-XRDS-Location" content="http://packagethief.myopenid.com/xrds">
+    <link href="http://quotedprintable.com/feed/atom.xml" rel="alternate" type="application/atom+xml">
+
+    <script src="11_files/prototype.js" type="text/javascript"></script>
+    <script src="11_files/code_highlighter.js" type="text/javascript"></script>
+    <script src="11_files/ruby.js" type="text/javascript"></script>
+    <link href="11_files/application.css" rel="stylesheet" type="text/css">
+  </head><body>
+    <div id="container">
+      <div id="header">
+        <h1><span><a href="http://quotedprintable.com/">Quoted-Printable</a></span></h1>
+        <h2>a multipart alternative</h2>
+      </div>
+
+      <div id="page">
+        <div id="content">
+          
+<div class="hentry" id="article-761">
+  <h2 class="entry-title">
+    <a href="http://quotedprintable.com/2007/11/16/seed-data-in-rails">Seed Data in Rails</a>
+    
+    
+    <span class="comment_count">16</span>
+    
+    
+  </h2>
+  <abbr class="published" title="16T-11-200714:31:00+00:00">
+  <span class="date">Friday, November 16</span>
+</abbr>
+<br class="clear">
+  <div class="entry-content">
+  <p>Someone asked me
+about this the other day, so I thought I’d write about it. In some of
+my applications, I need to “seed” the database with data. This might be
+a list of categories, sections, or other defaults.</p>
+
+
+	<p>There are
+a couple of ways you can do this. One way is to use migrations. You
+create records in your migration via ActiveRecord as you normally
+would, and when you run your migrations, the data is inserted. This
+works OK, except it obscures the location of the data. By the time you
+have a lot of migrations, you’re unlikely to remember that <code>003_create_categories.rb</code> is also the place where you’re adding your default categories.</p>
+
+
+	<p>I
+like to think of migrations as being transient. As your schema grows
+and your project evolves, the chances of your migrations running
+perfectly from top to bottom diminish. When bootstrapping a database,
+it’s a much better idea to load the entire schema via <code>db:schema:load</code> than running through each transformation with migrations.</p>
+
+
+	<p>So, if we’re not using migrations for seed data, where do we keep it? I like to use <span class="caps">YAML</span> fixtures for this. You could use the test fixtures from <code>test/fixtures</code>,
+but this is an inappropriate location. If you were a new developer
+coming on to a project, why would you think to look in the test
+directory for seed data? Test fixtures are for your tests.</p>
+
+
+	<p>For seed data, I create a fixtures directory inside the existing <code>db/</code> directory: <code>db/fixtures</code>. Then I use the following Rake task, called <code>db:seed</code> to load them:</p>
+
+
+<pre><code class="ruby">namespace<span class="symbol"> :db</span> <span class="keywords">do</span>
+  desc <span class="string">"Load seed fixtures (from db/fixtures) into the current environment's database."</span> 
+  task<span class="symbol"> :seed</span> =&gt;<span class="symbol"> :environment</span> <span class="keywords">do</span>
+    <span class="keywords">require</span> <span class="string">'active_record/fixtures'</span>
+    Dir.glob<span class="brackets">(</span>RAILS_ROOT + <span class="string">'/db/fixtures/*.yml'</span><span class="brackets">)</span>.each <span class="keywords">do</span> |file|
+      Fixtures.create_fixtures<span class="brackets">(</span><span class="string">'db/fixtures'</span>, File.basename<span class="brackets">(</span>file, <span class="string">'.*'</span><span class="brackets">)</span><span class="brackets">)</span>
+    <span class="keywords">end</span>
+  <span class="keywords">end</span>
+<span class="keywords">end</span>
+</code></pre>
+
+	<p>So, I might have something like <code>db/fixtures/categories.yml</code>. When I’m bootstrapping the project on a new machine (say, when deploying), I’d just do the following:</p>
+
+
+<pre style="color: white; font-size: 11px; font-family: courier;">$ rake db:create:all
+$ rake db:schema:load
+$ rake db:seed
+</pre>
+
+	<p>How are other folks out there dealing with seed data?</p>
+  
+</div>
+  <ul class="meta">
+  
+  
+  <li>
+    Tags: <a href="http://quotedprintable.com/tags/fixtures" rel="tag">fixtures</a>&nbsp;<a href="http://quotedprintable.com/tags/rails" rel="tag">rails</a>&nbsp;<a href="http://quotedprintable.com/tags/tips" rel="tag">tips</a>&nbsp;
+  </li>
+  
+  <li>
+    Meta: 
+    
+    <a href="http://quotedprintable.com/2007/11/16/seed-data-in-rails">16 comments</a>, 
+    
+    <a href="http://quotedprintable.com/2007/11/16/seed-data-in-rails">permalink</a>
+  </li>
+</ul>
+</div>
+
+
+<div class="hentry" id="article-760">
+  <h2 class="entry-title">
+    <a href="http://quotedprintable.com/2007/11/16/edit-in-textmate-on-leopard">Edit in Textmate on Leopard</a>
+    
+  </h2>
+  <abbr class="published" title="15T-11-200720:52:00+00:00">
+  <span class="date">Thursday, November 15</span>
+</abbr>
+<br class="clear">
+  <div class="entry-content">
+  <p>After upgrading
+to Leopard, I noticed that the ‘Edit in TextMate’ command stopped
+working. This is a neat little hack that allows you to edit the
+contents of just about any Cocoa text control within TextMate. At first
+I was like, meh, no big deal. But after living without it for a few
+weeks, I realized just how useful it is.</p>
+
+
+	<p>A bit of googling
+revealed the cause: the rules governing Input Managers have changed in
+Leopard. Fortunately, TextMate creator Allan Odgaard has a detailed
+post on how to fix this.</p>
+
+
+	<p><a href="http://blog.macromates.com/2007/inputmanagers-on-leopard">http://blog.macromates.com/2007/inputmanagers-on-leopard</a></p>
+
+
+	<h2>Related: <span class="caps">SIMBL</span> Hacks</h2>
+
+
+	<p>Also affected by the change to Input Managers were some of my <span class="caps">SIMBL</span> hacks, specifically, the hack that I used to customize the default colours of Terminal.app: <a href="http://www.culater.net/software/TerminalColors/TerminalColors.php">Mike Solomon’s TerminalColors</a>. Being designed for Tiger’s Terminal.app, this wasn’t working for the new Leopard version.</p>
+
+
+	<p><a href="http://ciaranwal.sh/">Ciaran Walsh</a> has re-hacked the hack, and I’m happy to report that I can finally read blue on a black background again. Thanks Ciaran!</p>
+
+
+	<p><a href="http://ciaranwal.sh/2007/11/01/customising-colours-in-leopard-terminal">http://ciaranwal.sh/2007/11/01/customising-colours-in-leopard-terminal</a></p>
+
+
+	<p><span class="caps">BTW</span>, the new Terminal.app is completely awesome. Finally, a fast, tabbed terminal for <span class="caps">OS X</span>.</p>
+  
+</div>
+  <ul class="meta">
+  
+  
+  <li>
+    Tags: <a href="http://quotedprintable.com/tags/leopard" rel="tag">leopard</a>&nbsp;<a href="http://quotedprintable.com/tags/os%20x" rel="tag">os x</a>&nbsp;<a href="http://quotedprintable.com/tags/simbl" rel="tag">simbl</a>&nbsp;<a href="http://quotedprintable.com/tags/terminal" rel="tag">terminal</a>&nbsp;<a href="http://quotedprintable.com/tags/textmate" rel="tag">textmate</a>&nbsp;
+  </li>
+  
+  <li>
+    Meta: 
+    
+    <a href="http://quotedprintable.com/2007/11/16/edit-in-textmate-on-leopard">permalink</a>
+  </li>
+</ul>
+</div>
+
+
+        </div>
+
+        <div id="sidebar">
+          <div class="sidebar-node">
+  <div id="search" class="search">
+    <form action="/search" id="sform" method="get">
+      <p><input id="q" name="q" value="" type="text"></p>
+    </form>
+    <br>
+  </div>
+</div>
+
+<div class="sidebar-node">
+  <h3>About</h3>
+  <p>
+    Author of <a href="http://beginningrails.com/">Beginning Rails</a> and creator of the ever-popular <a href="http://quotedprintable.com/pages/scribbish">Scribbish</a> theme, Jeffrey Allan Hardy works at <a href="http://37signals.com/">37signals</a>. He lives somewhere in the deep Canadian wilderness with his wife, his dog, and a cat.
+  </p>
+  <p><a href="http://beginningrails.com/"><img src="11_files/beginning_rails.png"></a></p>
+</div>
+
+<div class="sidebar-node">
+  <h3>Stuff</h3>
+  <ul>
+    <li><a href="http://beginningrails.com/">book</a></li>
+    <li><a href="http://packagethief.tumblr.com/">tumblelog</a></li>
+    <li><a href="http://quotedprintable.com/pages/scribbish">scribbish</a></li>
+    <li><a href="http://quotedprintable.com/pages/contextile">contextile</a></li>
+  </ul>
+</div>
+
+<div class="sidebar-node">
+  <h3>Links</h3>
+  <ul>
+    <li><a href="http://37signals.com/">37signals</a></li>
+    <li><a href="http://unspace.ca/">unspace</a></li>
+    <li><a href="http://ccjr.name/">ccjr</a></li>
+    <li><a href="http://hamptoncatlin.com/">hcatlin</a></li>
+    <li><a href="http://fearoffish.co.uk/">fearoffish</a></li>
+    <li><a href="http://nex3.leeweiz.net/">Nex3</a></li>
+    <li><a href="http://bartgdev.com/">bartg</a></li>
+    <li><a href="http://alonelikeastone.com/">cyril</a></li>
+    <li><a href="http://emotionalrobots.com/">emotionalrobot</a></li>
+    <li><a href="http://rethink.unspace.ca/">rethink</a></li>
+  </ul>
+</div>
+
+
+<div class="sidebar-node">
+  <h3>Archives</h3>
+  <ul>
+  
+    <li><a href="http://quotedprintable.com/archives/2008/8">August 2008</a> (0)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2008/7">July 2008</a> (0)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2008/6">June 2008</a> (0)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2008/5">May 2008</a> (0)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2008/4">April 2008</a> (0)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2008/3">March 2008</a> (0)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2008/2">February 2008</a> (0)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2008/1">January 2008</a> (0)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2007/12">December 2007</a> (0)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2007/11">November 2007</a> (2)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2007/10">October 2007</a> (2)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2007/9">September 2007</a> (6)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2007/8">August 2007</a> (2)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2007/7">July 2007</a> (2)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2007/6">June 2007</a> (3)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2007/5">May 2007</a> (0)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2007/4">April 2007</a> (1)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2007/3">March 2007</a> (4)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2007/2">February 2007</a> (2)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2007/1">January 2007</a> (0)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2006/12">December 2006</a> (3)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2006/11">November 2006</a> (4)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2006/10">October 2006</a> (5)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2006/9">September 2006</a> (5)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2006/8">August 2006</a> (0)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2006/7">July 2006</a> (1)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2006/6">June 2006</a> (3)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2006/5">May 2006</a> (1)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2006/4">April 2006</a> (2)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2006/3">March 2006</a> (1)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2006/2">February 2006</a> (5)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2006/1">January 2006</a> (5)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2005/12">December 2005</a> (11)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2005/11">November 2005</a> (6)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2005/10">October 2005</a> (10)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2005/9">September 2005</a> (3)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2005/8">August 2005</a> (0)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2005/7">July 2005</a> (0)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2005/6">June 2005</a> (0)</li>
+  
+    <li><a href="http://quotedprintable.com/archives/2005/5">May 2005</a> (4)</li>
+  
+  </ul>
+</div>
+
+
+<div class="sidebar-node">
+  <h3>Subscribe</h3>
+  <ul>
+    <li><a href="http://quotedprintable.com/feed/atom.xml">Atom Feed</a></li>
+  </ul>
+</div>
+
+<div class="sidebar-node">
+  <p><a href="http://mephistoblog.com/" class="powered"><img alt="mephisto-badge-tiny" src="11_files/mephisto-badge-tiny.png"></a></p>
+</div>
+
+        </div>
+
+        <br style="clear: both;">
+      </div>
+
+      <div id="footer">
+        <hr>
+        <p><a href="http://quotedprintable.com/">Quoted-Printable</a></p>
+        <ul>
+          <li>powered by <a href="http://mephistoblog.com/">Mephisto</a> / styled with <a href="http://quotedprintable.com/pages/scribbish">scribbish</a></li>
+        </ul>
+      </div>
+    </div>
+<script src="11_files/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-52513-1";
+urchinTracker();
+</script>
+  </body></html>

@@ -1,0 +1,323 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+
+
+    <title>http://bikle.com</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+    <script src="/javascripts/prototype.js" type="text/javascript"></script>
+    <script src="/javascripts/code_highlighter.js" type="text/javascript"></script>
+    <script src="/javascripts/ruby.js" type="text/javascript"></script>
+    <script src="/javascripts/sql.js" type="text/javascript"></script>
+    <link href="/stylesheets/application.css" rel="stylesheet" type="text/css">
+  </head><body>
+    <div id="container">
+      <div id="header">
+        <h1><span><a href="http://bikle.com/">http://bikle.com</a></span></h1>
+        <h2><a target="colorw" href="http://www.ficml.org/jemimap/style/color/wheel.html"><img src="http://www.ficml.org/jemimap/style/color/hsvwheel.png" alt="4096 color wheel" border="1" height="63" width="142"></a></h2>
+      </div>
+
+      <div id="page">
+        <div id="content">
+
+<div class="hentry" id="article-761">
+  <h2 class="entry-title">
+    <a href="http://quotedprintable.com/2007/11/16/seed-data-in-rails">Seed Data in Rails</a>
+  </h2>
+
+  <span class="date">2008-11-16</span>
+
+<br class="clear">
+  <div class="entry-content">
+  <p>Someone asked me
+about this the other day, so I thought I’d write about it. In some of
+my applications, I need to “seed” the database with data. This might be
+a list of categories, sections, or other defaults.</p>
+
+
+        <p>There are
+a couple of ways you can do this. One way is to use migrations. You
+create records in your migration via ActiveRecord as you normally
+would, and when you run your migrations, the data is inserted. This
+works OK, except it obscures the location of the data. By the time you
+have a lot of migrations, you’re unlikely to remember that <code>003_create_categories.rb</code> is also the place where you’re adding your default categories.</p>
+
+
+        <p>I
+like to think of migrations as being transient. As your schema grows
+and your project evolves, the chances of your migrations running
+perfectly from top to bottom diminish. When bootstrapping a database,
+it’s a much better idea to load the entire schema via <code>db:schema:load</code> than running through each transformation with migrations.</p>
+
+
+        <p>So, if we’re not using migrations for seed data, where do we keep it? I like to use <span class="caps">YAML</span> fixtures for this. You could use the test fixtures from <code>test/fixtures</code>,
+but this is an inappropriate location. If you were a new developer
+coming on to a project, why would you think to look in the test
+directory for seed data? Test fixtures are for your tests.</p>
+
+
+        <p>For seed data, I create a fixtures directory inside the existing <code>db/</code> directory: <code>db/fixtures</code>. Then I use the following Rake task, called <code>db:seed</code> to load them:</p>
+
+<pre><code class="ruby">
+namespace :db do
+  desc "Load seed fixtures (from db/fixtures) into the current environment's database."
+  task :seed => :environment do
+    require 'active_record/fixtures'
+    Dir.glob(RAILS_ROOT + '/db/fixtures/*.yml').each do |file|
+      Fixtures.create_fixtures('db/fixtures', File.basename(file, '.*'))
+    end
+  end
+end
+</code></pre>
+
+
+<pre><code class="sql">
+-- hello.sql
+CREATE TABLE dropme AS
+SELECT sysdate, 'hello' n FROM dual WHERE 1 = 2 AND 3 != 4 OR 5 > 6
+TABLESPACE users
+/
+
+/* What a goofy sql statement */
+
+</code></pre>
+
+        <p>So, I might have something like <code>db/fixtures/categories.yml</code>. When I’m bootstrapping the project on a new machine (say, when deploying), I’d just do the following:</p>
+
+
+<pre style="color: white; font-size: 11px; font-family: courier;">$ rake db:create:all
+$ rake db:schema:load
+$ rake db:seed
+</pre>
+
+
+
+<pre>
+$ rake db:create:all
+$ rake db:schema:load
+$ rake db:seed
+</pre>
+
+        <p>How are other folks out there dealing with seed data?</p>
+
+</div>
+
+<h4>Installation</h4>
+
+
+        <h5>Typo</h5>
+
+        <p>If you’re using Typo, good news! Scribbish is already built-in. If you prefer the <span class="caps">DIY</span> approach, allow me to facilitate: unpack the archive in the <code>themes</code> directory at the root of your typo application like so:</p>
+
+
+<pre>$ curl -O http://quotedprintable.com/assets/2007/2/17/scribbish-x.x.tar.gz
+$ tar -xzf scribbish-x.x.tar.gz
+</pre>
+
+        <p>The Scribbish theme will now show up in the typo back-end under the ‘Themes’ tab. All you have to do is activate it.</p>
+
+
+        <h5>Mephisto</h5>
+
+
+        <p>From the design section of the Mephisto back-end, click ‘Import new theme’, browse for the <span class="caps">ZIP</span>, and upload it. When you upload a theme, it will not be applied automatically. <strong>You will need to do this through the themes interface.</strong>
+
+
+  <ul class="meta">
+
+
+  <li>
+    Tags: <a href="http://quotedprintable.com/tags/fixtures" rel="tag">fixtures</a>&nbsp;<a href="http://quotedprintable.com/tags/rails" rel="tag">rails</a>&nbsp;<a href="http://quotedprintable.com/tags/tips" rel="tag">tips</a>&nbsp;
+  </li>
+
+  <li>
+    Meta:
+
+    <a href="http://quotedprintable.com/2007/11/16/seed-data-in-rails">16 comments</a>,
+
+    <a href="http://quotedprintable.com/2007/11/16/seed-data-in-rails">permalink</a>
+  </li>
+</ul>
+</div>
+
+
+<div class="hentry" id="article-760">
+  <h2 class="entry-title">
+    <a href="http://quotedprintable.com/2007/11/16/edit-in-textmate-on-leopard">Edit in Textmate on Leopard</a>
+
+  </h2>
+  <abbr class="published" title="15T-11-200720:52:00+00:00">
+  <span class="date">Thursday, November 15</span>
+</abbr>
+<br class="clear">
+  <div class="entry-content">
+  <p>After upgrading
+to Leopard, I noticed that the ‘Edit in TextMate’ command stopped
+working. This is a neat little hack that allows you to edit the
+contents of just about any Cocoa text control within TextMate. At first
+I was like, meh, no big deal. But after living without it for a few
+weeks, I realized just how useful it is.</p>
+
+
+        <p>A bit of googling
+revealed the cause: the rules governing Input Managers have changed in
+Leopard. Fortunately, TextMate creator Allan Odgaard has a detailed
+post on how to fix this.</p>
+
+
+        <p><a href="http://blog.macromates.com/2007/inputmanagers-on-leopard">http://blog.macromates.com/2007/inputmanagers-on-leopard</a></p>
+
+
+        <h2>Related: <span class="caps">SIMBL</span> Hacks</h2>
+
+
+        <p>Also affected by the change to Input Managers were some of my <span class="caps">SIMBL</span> hacks, specifically, the hack that I used to customize the default colours of Terminal.app: <a href="http://www.culater.net/software/TerminalColors/TerminalColors.php">Mike Solomon’s TerminalColors</a>. Being designed for Tiger’s Terminal.app, this wasn’t working for the new Leopard version.</p>
+
+
+        <p><a href="http://ciaranwal.sh/">Ciaran Walsh</a> has re-hacked the hack, and I’m happy to report that I can finally read blue on a black background again. Thanks Ciaran!</p>
+
+
+        <p><a href="http://ciaranwal.sh/2007/11/01/customising-colours-in-leopard-terminal">http://ciaranwal.sh/2007/11/01/customising-colours-in-leopard-terminal</a></p>
+
+
+        <p><span class="caps">BTW</span>, the new Terminal.app is completely awesome. Finally, a fast, tabbed terminal for <span class="caps">OS X</span>.</p>
+
+</div>
+</div>
+
+
+        </div>
+
+        <div id="sidebar">
+          <div class="sidebar-node">
+  <div id="search" class="search">
+
+<!-- SiteSearch Google -->
+<hr />
+<form method="get" action="http://www.google.com/custom" target="google_window">
+<table border="0" >
+<!--
+<tr><td nowrap="nowrap" valign="top" align="left" height="32">
+<a href="http://www.google.com/">
+<img id="googlelogo" src="http://www.google.com/logos/Logo_25wht.gif" border="0" alt="Google" align="middle"></img></a>
+</td></tr>
+-->
+<tr><td nowrap="nowrap">
+<input type="hidden" name="domains" value="bikle.com"></input>
+
+<input type="text" name="q" size="22" maxlength="155" value="oracle"></input>
+</td></tr>
+
+<tr><td>
+<input type="radio" name="sitesearch" value=""  checked="checked"></input>
+<font size="-1" color="#000000">the universe</font>
+
+<input type="radio" name="sitesearch" value="bikle.com"></input>
+<font size="-1" color="#000000">bikle.com</font>
+<br />
+<input type="submit" name="sa" value="Google Generic Search"></input>
+<input type="hidden" name="client" value="pub-8965802770706416"></input>
+<input type="hidden" name="forid" value="1"></input>
+<input type="hidden" name="ie" value="UTF-8"></input>
+<input type="hidden" name="oe" value="UTF-8"></input>
+
+<input type="hidden" name="cof" value="GALT:#008000;GL:1;DIV:#336699;VLC:663399;AH:center;BGC:FFFFFF;LBGC:336699;ALC:0000FF;LC:0000FF;T:000000;GFNT:0000FF;GIMP:0000FF;FORID:1"></input>
+<input type="hidden" name="hl" value="en"></input>
+</td></tr>
+
+</table>
+</form>
+<hr />
+<!-- SiteSearch Google -->
+
+
+
+    <br />
+  </div>
+</div>
+
+<div class="sidebar-node">
+  <h3>Dan:</h3>
+  <p>
+Dan Bikle is an Oracle DBA and Rails Developer.  Contact: bikle@bikle.com
+  </p>
+</div>
+
+
+<div class="sidebar-node">
+  <h3>Links</h3>
+  <ul>
+  <li /><a href="/protected/about/">About</a>
+  <li /><a href="/protected/services/">Services</a>
+  <li /><a href="/protected/contact/">Contact</a>
+  <li /><a href="/protected/tech_tips/">Tech Tips</a>
+  <li /><a href="http://bikle.com/old_site.html">Old Bikle.com Site</a>
+  </ul>
+</div>
+
+<div class="sidebar-node">
+  <h3>Translate</h3>
+  <ul>
+<li /><a target="x" href="http://translate.google.com">http://translate.google.com </a>
+<li /><a target="x" href="http://translate.google.com/translate?u=http%3A%2F%2Fbikle.com&amp;langpair=en%7Ces&amp;hl=en&amp;ie=UTF-8&amp;oe=UTF-8">Español</a>
+<li /><a target="x" href="http://translate.google.com/translate?u=http%3A%2F%2Fbikle.com&amp;langpair=en%7Czh-CN&amp;hl=en&amp;ie=UTF-8&amp;oe=UTF-8">中国版</a>
+<li /><a target="x" href="http://translate.google.com/translate?u=http%3A%2F%2Fbikle.com&amp;langpair=en%7Cru&amp;hl=en&amp;ie=UTF-8&amp;oe=UTF-8">Россия</a>
+<li /><a target="x" href="http://translate.google.com/translate?u=http%3A%2F%2Fbikle.com&amp;langpair=en%7Cpt&amp;hl=en&amp;ie=UTF-8&amp;oe=UTF-8">Português</a>
+<li /><a target="x" href="http://translate.google.com/translate?u=http%3A%2F%2Fbikle.com&amp;langpair=en%7Cde&amp;hl=en&amp;ie=UTF-8&amp;oe=UTF-8">Deutsche</a>
+<li /><a target="x" href="http://translate.google.com/translate?u=http%3A%2F%2Fbikle.com&amp;langpair=en%7Cfr&amp;hl=en&amp;ie=UTF-8&amp;oe=UTF-8">Française</a>
+<li /><a target="x" href="http://translate.google.com/translate?u=http%3A%2F%2Fbikle.com&amp;langpair=en%7Cko&amp;hl=en&amp;ie=UTF-8&amp;oe=UTF-8">한국말</a>
+<li /><a target="x" href="http://translate.google.com/translate?u=http%3A%2F%2Fbikle.com&amp;langpair=en%7Cja&amp;hl=en&amp;ie=UTF-8&amp;oe=UTF-8">日本人</a>
+
+  </ul>
+</div>
+
+
+
+<div class="sidebar-node">
+<hr />
+<hr />
+
+<!-- make money from google -->
+<script type="text/javascript"><!--
+google_ad_client = "pub-8965802770706416";
+google_ad_width = 120;
+google_ad_height = 60;
+google_ad_format = "120x60_as_rimg";
+google_cpa_choice = "CAAQidKWhAIaCNDyooG0tQooKIHD93M";
+google_ad_channel = "";
+//--></script>
+<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+<!-- make money from google -->
+
+<!-- google 160 wide sky scraper -->
+<script type="text/javascript"><!--
+google_ad_client = "pub-8965802770706416";
+google_ad_width = 160;
+google_ad_height = 600;
+google_ad_format = "160x600_as";
+google_ad_type = "text_image";
+google_ad_channel ="";
+//--></script>
+<script type="text/javascript"
+  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+<!-- google 160 wide sky scraper -->
+
+</div>
+        </div>
+
+        <br style="clear: both;" />
+      </div>
+
+      <div id="footer">
+        <hr>
+        <p><a href="http://bikle.com/">http://bikle.com</a></p>
+        <ul>
+          <li>powered by <a href="http://api.rubyonrails.com/">Rails</a> / styled with <a href="http://quotedprintable.com/pages/scribbish">scribbish</a></li>
+        </ul>
+      </div>
+    </div>
+
+
+  </body></html>
