@@ -1,0 +1,2 @@
+module Asls::CategsHelper
+end

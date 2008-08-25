@@ -1,0 +1,118 @@
+-- MySQL dump 10.9
+--
+-- Host: localhost    Database: huycook
+-- ------------------------------------------------------
+-- Server version	4.1.18-log
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Current Database: `huycook`
+--
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `huycook` /*!40100 DEFAULT CHARACTER SET latin1 */;
+
+USE `huycook`;
+
+--
+-- Table structure for table `categs`
+--
+
+DROP TABLE IF EXISTS `categs`;
+CREATE TABLE `categs` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(255) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `categs`
+--
+
+
+/*!40000 ALTER TABLE `categs` DISABLE KEYS */;
+LOCK TABLES `categs` WRITE;
+INSERT INTO `categs` VALUES (1,'Linux/BSD'),(2,'Ruby on Rails'),(3,'Databases'),(4,'Oracle'),(5,'Webservers'),(6,'Ajax'),(7,'Open Source Applications'),(8,'Forums/Mail-Lists'),(9,'Travel'),(10,'Java'),(11,'Python'),(12,'HTML, CSS, JavaScript');
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `categs` ENABLE KEYS */;
+
+--
+-- Table structure for table `categs_urlls`
+--
+
+DROP TABLE IF EXISTS `categs_urlls`;
+CREATE TABLE `categs_urlls` (
+  `categ_id` int(11) default NULL,
+  `urll_id` int(11) default NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `categs_urlls`
+--
+
+
+/*!40000 ALTER TABLE `categs_urlls` DISABLE KEYS */;
+LOCK TABLES `categs_urlls` WRITE;
+INSERT INTO `categs_urlls` VALUES (2,4),(4,1),(3,4),(4,4),(2,2),(1,4),(5,5),(5,6),(3,7),(3,8),(2,5),(6,9),(2,9),(7,7),(7,10),(7,11),(7,12),(1,13),(8,14),(2,14),(2,15),(2,16),(2,17),(9,18),(9,19),(2,20),(2,21),(2,22),(10,22),(1,23),(1,24),(8,25),(6,26),(2,26),(11,27),(2,28),(6,29),(2,29),(8,30),(8,31),(1,30),(1,31),(2,32),(3,32),(2,33),(2,34),(2,35),(6,36),(8,36),(2,36),(2,37),(12,38),(12,39),(6,40),(12,40),(6,41),(12,41),(8,42),(12,43),(2,43),(5,43),(1,44),(2,44),(2,45),(6,46),(7,46),(12,46),(8,46),(1,46),(2,46);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `categs_urlls` ENABLE KEYS */;
+
+--
+-- Table structure for table `schema_info`
+--
+
+DROP TABLE IF EXISTS `schema_info`;
+CREATE TABLE `schema_info` (
+  `version` int(11) default NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `schema_info`
+--
+
+
+/*!40000 ALTER TABLE `schema_info` DISABLE KEYS */;
+LOCK TABLES `schema_info` WRITE;
+INSERT INTO `schema_info` VALUES (5);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `schema_info` ENABLE KEYS */;
+
+--
+-- Table structure for table `urlls`
+--
+
+DROP TABLE IF EXISTS `urlls`;
+CREATE TABLE `urlls` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(255) default NULL,
+  `uurl` varchar(255) default NULL,
+  `ddesc` varchar(255) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `urlls`
+--
+
+
+/*!40000 ALTER TABLE `urlls` DISABLE KEYS */;
+LOCK TABLES `urlls` WRITE;
+INSERT INTO `urlls` VALUES (1,'Tahiti - Oracle Doc Portal','http://tahiti.oracle.com','Portal for Oracle documentation'),(2,'Ruby On Rails API Docs','http://api.rubyonrails.com','rdoc for Ruby on Rails'),(4,'Oracle Tech Net','http://otn.oracle.com','Portal to Oracle Technology.  Has some Rails demos.'),(5,'Mongrel Webserver','http://mongrel.rubyforge.org/','Mongrel is popular with the Rails crowd'),(6,'lighttpd Webserver','http://www.lighttpd.net/','lighttpd is a fast and easily configurable webserver.'),(7,'sqlite database','http://www.sqlite.org/','sqlite is a simple SQL based database.  It\'s useful for some development projects.'),(8,'sqlite3 CLI','http://www.sqlite.org/sqlite.html','sqlite3 command line interface.'),(9,'Active Scaffold','http://activescaffold.com','Active Scaffold is a Ajax based scaffolding for Ruby on Rails sites'),(10,'Wiki named Instiki','http://instiki.org','Instiki is a lightweight wiki based on Ruby on Rails'),(11,'Typo RoR Blog Engine','http://typosphere.org','Typo is a Ruby on Rails Blog Engine'),(12,'Mephisto','http://mephistoblog.com','Mephisto is a Ruby on Rails Blog Engine'),(13,'ubuntu','http://www.ubuntu.com','Ubuntu is a free, Debian derived Linux-based operating system'),(14,'Ruby On Rails Google Group','http://groups.google.com/group/rubyonrails-talk','Ruby On Rails Google Group and Mail List in one'),(15,'acts_as_authenticated plugin','http://wiki.rubyonrails.org/rails/pages/Acts_as_authenticated','acts_as_authenticated plugin for Rails [wiki page]'),(16,'LoginSugar','http://wiki.rubyonrails.org/rails/pages/LoginSugar','LoginSugar by Dav Yaginuma based on SaltedHashLoginGenerator'),(17,'Authorization Plugin','http://www.writertopia.com/developers/authorization','Bill Katz Authorization Plugin for Rails'),(18,'Site about Waikiki in Honolulu Hawaii','http://www.bluewaikiki.com/','Site for condo rental near Waikiki in Honolulu Hawaii'),(19,'Map of Honolulu','http://www.google.com/maps?q=Honolulu,+HI,+USA','Google Map of Honolulu Hawaii'),(20,'RubyForge: piston','http://piston.rubyforge.org/','Piston is a utility that eases vendor branch management, similar to svn:externals'),(21,'Mephisto Blog Forum','http://groups.google.com/group/MephistoBlog','Forum for Mephisto Blog Engine'),(22,'JRuby is Ruby inside of Java','http://jruby.codehaus.org/','JRuby allows you to run Ruby inside of a Java VM.  It\'s good enough to run Rails!'),(23,'FreeBSD Forums','http://www.freebsdforums.org/forums/','FreeBSD Forums'),(24,'Nabble FreeBSD Forums','http://www.nabble.com/FreeBSD-f6549.html','Nabble FreeBSD Forums. Nabble is a portal to many mail-lists.'),(25,'Nabble Forums','http://www.nabble.com/','Nabble is a large portal to many forums and mail-lists.  They offer free hosting of forums and free archival of mail-lists'),(26,'Tutorial: Active Scaffold with Rails','http://www-128.ibm.com/developerworks/linux/library/l-activescaffold/','ActiveScaffold Tutorial with short discussion on normal Rails scaffold'),(27,'Django: Python based  Web framework','http://www.djangoproject.com/','Django is like Ruby on Rails but written in Python'),(28,'Streamlined: Rails based framework','http://www.streamlinedframework.org/pages/about','Streamlined is a framework, on top of Rails, that allows you to quickly generate interfaces for your ActiveRecord models'),(29,'Hobo: Builder of Rails-Ajax Apps','http://hobocentral.net/','Hobo: Rails based framework for building Ajax interfaces via custom markup: DRYML'),(30,'signup for: freebsd-questions@freebsd.org','http://lists.freebsd.org/mailman/listinfo/freebsd-questions','FreeBSD Mail List signup'),(31,'FreeBSD Mail List','http://lists.freebsd.org/pipermail/freebsd-questions/','FreeBSD Mail List Archives'),(32,'Rails foreign key generator / migration','http://www.redhillonrails.org/#foreign_key_migrations','Foreign Key Migrations is a plugin that automatically generates foreign-key constraints when creating tables'),(33,'SVN Main Page','http://subversion.tigris.org/','SVN (Subversion Source Control) Main Page'),(34,'SVN Forum','http://www.svnforum.org/','SVN forum.  Post SVN (Subversion Source Control) questions here.'),(35,'SVN Mail List','http://subversion.tigris.org/servlets/ProjectMailingListList','SVN Mail List'),(36,'Active Scaffold Forum','http://groups.google.com/group/activescaffold','Active Scaffold Forum at google groups'),(37,'Ruby on Rails RIA SDK (Flex) by Adobe','http://groups.google.com/group/adobe-rubyonrails-ria-sdk','Flex and Rails discussion'),(38,'4096 Color Wheel','http://www.ficml.org/jemimap/style/color/wheel.html','A Web Based Color Wheel Application'),(39,'A List Apart','http://alistapart.com/topics/code','A List Apart is Popular With Web Developers'),(40,'Yahoo! User Interface Library','http://developer.yahoo.com/yui/','YUI is a set of utilities and controls, written in JavaScript, for building sites with the web2.0 look.'),(41,'Ext JS - JavaScriptLibrary','http://extjs.com','A set of JavaScript, Ajax, UI compenents which can be used to add the web 2.0 look and feel to a website.'),(42,'ForumGrouper.com','http://ForumGrouper.com','Allows you to place your favorite forums into groups and then track posts you make to those forums.'),(43,'Hpricot parser/scraper of HTML','http://code.whytheluckystiff.net/hpricot','Use Hpricot  Ruby Class To Copy/Scrape HTML Elements From Websites Using Expressions Built  From CSS And/Or XPath'),(44,'LinRails Linux Package of Rails, and MySQL','http://linrails.thembid.com/','LinRails is a Linux/Ubuntu feisty Package of Ruby, Rubygems, Rails, Mongrel, MySQL, ncurses, OpenSSL, and zlib'),(45,'Patrick Lenz Rails Book Review And Tutorial','http://www.computerworld.com/action/article.do?command=viewArticleBasic&articleId=9025299','Combination Tutorial/Book Review Of SitePoint Rails Book By Patrick Lenz'),(46,'SuperHappyDevHouse','http://groups.google.com/group/SHDH-Announce','Group page of  web-technical focused social scene in South Bay and Peninsula');
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `urlls` ENABLE KEYS */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
