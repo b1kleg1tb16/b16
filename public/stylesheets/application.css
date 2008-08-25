@@ -3,10 +3,12 @@
  Imports all stylesheets; sets defaults for bare elements
  --------------------------------------------------------------*/
 
+/* css validator hates @import. So, use link-href in the html-head.
 @import 'layout.css';
 @import 'content.css';
 @import 'syntax.css';
 @import 'local.css';
+*/
 
 @media print { #sidebar { display: none; }
                #content { float: none; width:90%; }
@@ -14,8 +16,8 @@
                #content form.comments { display:none; } }
 
 body {
-	background: #fff url("/images/background.gif") repeat-x left top;
-	font: normal 12px "lucida grande", verdana, arial, helvetica, sans-serif;
+        background: #fff url("/images/background.gif") repeat-x left top;
+        font: normal 12px "lucida grande", verdana, arial, helvetica, sans-serif;
 }
 
 input,
@@ -29,10 +31,23 @@ a:link,  a:visited { color: #000; }
 a:hover, a:active  { color: #fff; background: #000; }
 
 /* http://longren.org/2006/09/27/wrapping-text-inside-pre-tags */
+/*
 pre {
   white-space: pre-wrap;
   white-space: -moz-pre-wrap !important;
   white-space: -pre-wrap;
   white-space: -o-pre-wrap;
   word-wrap: break-word;
+}
+*/
+
+/* http://www.longren.org/2006/09/27/wrapping-text-inside-pre-tags/#comment-198030 */
+pre {
+ overflow-x: auto; /* Use horizontal scroller if needed; for Firefox 2, not needed in Firefox 3 */
+ white-space: pre-wrap; /* css-3 */
+ white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
+ white-space: -pre-wrap; /* Opera 4-6 */
+ white-space: -o-pre-wrap; /* Opera 7 */
+ /* width: 99%; */
+ word-wrap: break-word; /* Internet Explorer 5.5+ */
 }
