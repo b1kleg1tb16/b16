@@ -1,0 +1,550 @@
+<pre>
+<h2>Copying Data From A Ruby On Rails Session Into An Oracle Session</h2>
+2008-04-27 Dan Bikle
+---------------------
+
+<b>Motivation</b>
+
+An Oracle session contains information about a current connection to the database.
+
+Three useful features of Oracle can be tied to an Oracle session:
+
+<li />Historical reporting of session behavior (Auditing and Performance Tuning)
+<li />Attach resource constraints to active sessions
+<li />Attach security constraints to active sessions
+
+<b>Oracle Sessions vs. RoR Sessions</b>
+
+Oracle Session Documentation:
+  <a href='http://download.oracle.com/docs/cd/B19306_01/server.102/b14220/process.htm#sthref1481' target='t'>http://download.oracle.com/docs/cd/B19306_01/server.102/b14220/process.htm#sthref1481</a>
+
+An Oracle session has some similarities to an an RoR session.
+
+A Ruby On Rails (RoR) session is an object which keeps track of a connection to an RoR website.
+
+RoR Session Documentation:
+  <a href='http://api.rubyonrails.com/classes/ActionController/SessionManagement/ClassMethods.html#M000273' target='t'>http://api.rubyonrails.com/classes/ActionController/SessionManagement/ClassMethods.html#M000273</a>
+  <a href='http://api.rubyonrails.com/classes/ActionController/Base.html#M000460' target='t'>http://api.rubyonrails.com/classes/ActionController/Base.html#M000460</a>
+
+
+A typical data value found in an RoR session is the login-name of the
+user who initiated the connection.  Of additional interest to us is
+the name of the RoR-controller and the last called method in that
+controller.
+
+These three data values can be copied to the corresponding Oracle session.
+
+<b>RoR Controllers</b>
+
+If you are unfamiliar with RoR, a method in an RoR-controller can
+serve as an entry point to the Ruby code resident within an RoR application.
+
+Most of the business logic within an RoR site lies within the methods
+of the controller classes of that site.
+
+RoR-Controller Documentation:
+  <a href='http://api.rubyonrails.com/classes/ActionController/Base.html' target='t'>http://api.rubyonrails.com/classes/ActionController/Base.html</a>
+
+
+For example the URL,
+<a href='http://hpricot.com/demos' target='t'>http://hpricot.com/demos</a>
+corresponds to a controller class named "DemosController".
+
+If you navigate to the above URL you may both interact with the
+methods in that controller and see the Ruby syntax which drives the
+controller.  The methods in that controller have names like:
+  search
+  search_remove
+  search_search
+  at
+  innerhtml
+
+and so on
+
+Another way to see the Ruby syntax behind the controller methods is via RDoc:
+  <a href='http://hpricot.com/app/classes/DemosController.html' target='t'>http://hpricot.com/app/classes/DemosController.html</a>
+
+If you spend some time interacting with the demos at hpricot.com, take
+some time to study your URL history of that site.  Then study the Ruby
+syntax behind the controller methods and determine how the URLs map to
+controller functionality.
+
+
+<b>Motivation 1: Historical Reporting Of Oracle Session Behavior</b>
+
+Historical reporting of Oracle session behavior is often the first
+step for any Oracle DBA tasked with performance tuning the database.
+Aside from performance tuning, the DBA might depend on historical
+reporting of Oracle session behavior for auditing and general
+information about growth trends. But generally if a DBA is looking at
+historical Oracle session behavior he is doing it as part of a
+performance tuning effort.
+
+<b>Motivation 2: Resource constraints applied to active Oracle sessions</b>
+
+Oracle provides a sophisticated mechanism for constraining resource consumption by Oracle sessions.
+
+It is called the "Resource Manager":
+  <a href='http://www.google.com/search?q=oracle+resource+manager' target='t'>http://www.google.com/search?q=oracle+resource+manager</a>
+
+
+The Resource Manager looks at attributes in each Oracle session.
+Next, it tries to match them to resource constraint policies established by the DBA.
+
+If a match is found, then resources such as CPU and I/O are rationed to the matched Oracle session.
+
+If a match is not found, the Oracle session is free to consume all the resources it can pull from the Operating System.
+
+Here is an example policy statement which illustrates the value of the Resource Manager to a book selling site:
+
+<li />A user with books in his cart and is "checking-out" should not be constrained
+<li />A user with books in his cart should get more resources than a user with no books in his cart
+<li />A user with no books in his cart should get more resources than a bot which is crawling the site
+<li />A bot crawling the site should get more resources than batch programs which create BI reports.
+
+
+<b>Motivation 3: Security constraints applied to active Oracle sessions</b>
+
+Oracle provides functionality to restrict data access based on Oracle
+session attributes.  This is useful for situations where permissions
+need to change at run-time.  It's a large topic which can be studied
+via a careful reading about "Oracle VPD":
+  <a href='http://www.google.com/search?q=oracle+vpd' target='t'>http://www.google.com/search?q=oracle+vpd</a>
+
+So, any RoR developer who knows how to copy RoR-session values to the corresponding Oracle session, will
+then be able to access three large areas of Oracle functionality:
+
+<li />Performance Tuning combined with end-to-end tracing
+<li />Policy based resource constraints
+<li />Run-time configurable security constraints
+
+<b>Adding attributes to an Oracle session via sqlplus</b>
+
+Oracle provides us a tool named sqlplus which can be used to both
+craft and submit SQL statements to the database.
+
+Sqlplus Documentation:
+  <a href='http://download.oracle.com/docs/cd/B19306_01/server.102/b14356/toc.htm' target='t'>http://download.oracle.com/docs/cd/B19306_01/server.102/b14356/toc.htm</a>
+
+It's a powerful command line tool; demonstrating it's use is simple.
+
+Sqlplus allows us to describe the columns of the view v$session:
+
+502 bash-03:19:47-dbiklelt:~ $
+502 bash-03:19:48-dbiklelt:~ $
+502 bash-03:19:48-dbiklelt:~ $
+502 bash-03:19:49-dbiklelt:~ $ sqlplus system/manager
+
+SQL*Plus: Release 10.2.0.1.0 - Production on Sun Apr 27 03:19:57 2008
+
+Copyright (c) 1982, 2005, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 10g Enterprise Edition Release 10.2.0.1.0 - Production
+With the Partitioning, OLAP and Data Mining options
+
+03:19:57 orcl SQL &gt;
+03:20:05 orcl SQL &gt;
+03:20:05 orcl SQL &gt; desc v$session
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SADDR                                              RAW(4)
+ SID                                                NUMBER
+ SERIAL#                                            NUMBER
+ AUDSID                                             NUMBER
+ PADDR                                              RAW(4)
+ USER#                                              NUMBER
+ USERNAME                                           VARCHAR2(30)
+ COMMAND                                            NUMBER
+ OWNERID                                            NUMBER
+ TADDR                                              VARCHAR2(8)
+ LOCKWAIT                                           VARCHAR2(8)
+ STATUS                                             VARCHAR2(8)
+ SERVER                                             VARCHAR2(9)
+ SCHEMA#                                            NUMBER
+ SCHEMANAME                                         VARCHAR2(30)
+ OSUSER                                             VARCHAR2(30)
+ PROCESS                                            VARCHAR2(12)
+ MACHINE                                            VARCHAR2(64)
+ TERMINAL                                           VARCHAR2(16)
+ PROGRAM                                            VARCHAR2(64)
+ TYPE                                               VARCHAR2(10)
+ SQL_ADDRESS                                        RAW(4)
+ SQL_HASH_VALUE                                     NUMBER
+ SQL_ID                                             VARCHAR2(13)
+ SQL_CHILD_NUMBER                                   NUMBER
+ PREV_SQL_ADDR                                      RAW(4)
+ PREV_HASH_VALUE                                    NUMBER
+ PREV_SQL_ID                                        VARCHAR2(13)
+ PREV_CHILD_NUMBER                                  NUMBER
+ MODULE                                             VARCHAR2(48)
+ MODULE_HASH                                        NUMBER
+ ACTION                                             VARCHAR2(32)
+ ACTION_HASH                                        NUMBER
+ CLIENT_INFO                                        VARCHAR2(64)
+ FIXED_TABLE_SEQUENCE                               NUMBER
+ ROW_WAIT_OBJ#                                      NUMBER
+ ROW_WAIT_FILE#                                     NUMBER
+ ROW_WAIT_BLOCK#                                    NUMBER
+ ROW_WAIT_ROW#                                      NUMBER
+ LOGON_TIME                                         DATE
+ LAST_CALL_ET                                       NUMBER
+ PDML_ENABLED                                       VARCHAR2(3)
+ FAILOVER_TYPE                                      VARCHAR2(13)
+ FAILOVER_METHOD                                    VARCHAR2(10)
+ FAILED_OVER                                        VARCHAR2(3)
+ RESOURCE_CONSUMER_GROUP                            VARCHAR2(32)
+ PDML_STATUS                                        VARCHAR2(8)
+ PDDL_STATUS                                        VARCHAR2(8)
+ PQ_STATUS                                          VARCHAR2(8)
+ CURRENT_QUEUE_DURATION                             NUMBER
+ CLIENT_IDENTIFIER                                  VARCHAR2(64)
+ BLOCKING_SESSION_STATUS                            VARCHAR2(11)
+ BLOCKING_INSTANCE                                  NUMBER
+ BLOCKING_SESSION                                   NUMBER
+ SEQ#                                               NUMBER
+ EVENT#                                             NUMBER
+ EVENT                                              VARCHAR2(64)
+ P1TEXT                                             VARCHAR2(64)
+ P1                                                 NUMBER
+ P1RAW                                              RAW(4)
+ P2TEXT                                             VARCHAR2(64)
+ P2                                                 NUMBER
+ P2RAW                                              RAW(4)
+ P3TEXT                                             VARCHAR2(64)
+ P3                                                 NUMBER
+ P3RAW                                              RAW(4)
+ WAIT_CLASS_ID                                      NUMBER
+ WAIT_CLASS#                                        NUMBER
+ WAIT_CLASS                                         VARCHAR2(64)
+ WAIT_TIME                                          NUMBER
+ SECONDS_IN_WAIT                                    NUMBER
+ STATE                                              VARCHAR2(19)
+ SERVICE_NAME                                       VARCHAR2(64)
+ SQL_TRACE                                          VARCHAR2(8)
+ SQL_TRACE_WAITS                                    VARCHAR2(5)
+ SQL_TRACE_BINDS                                    VARCHAR2(5)
+
+03:20:10 orcl SQL &gt;
+03:20:11 orcl SQL &gt;
+03:20:11 orcl SQL &gt;
+
+v$session Documentation:
+  <a href='http://download.oracle.com/docs/cd/B19306_01/server.102/b14237/dynviews_2088.htm#i1414383' target='t'>http://download.oracle.com/docs/cd/B19306_01/server.102/b14237/dynviews_2088.htm#i1414383</a>
+
+
+Each Oracle session has a row in v$session.
+
+The columns we are interested in are listed below:
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ USERNAME                                           VARCHAR2(30)
+ MODULE                                             VARCHAR2(48)
+ ACTION                                             VARCHAR2(32)
+ CLIENT_INFO                                        VARCHAR2(64)
+ CLIENT_IDENTIFIER                                  VARCHAR2(64)
+
+The USERNAME column corresponds to the username field in the RoR database.yml file.
+
+When RoR connects to Oracle it depends on database.yml and when the
+connection is made, the USERNAME column is filled for us (by the Oracle kernel).
+
+RoR Database Connection Information:
+  <a href='http://api.rubyonrails.com/classes/ActiveRecord/Base.html#M001467' target='t'>http://api.rubyonrails.com/classes/ActiveRecord/Base.html#M001467</a>
+  <a href='http://www.google.com/search?q=rails+database.yml' target='t'>http://www.google.com/search?q=rails+database.yml</a>
+
+
+This means that if you have several RoR sites connecting to one Oracle
+database, then you can group the Oracle sessions for each RoR site via USERNAME.
+
+The demo SQL query below illustrates this point by giving us a count
+of active connections to the database active ROR sites:
+
+  SELECT COUNT(USERNAME), USERNAME FROM v$session GROUP BY USERNAME;
+
+The MODULE column is also useful.  It is well suited for holding the
+name of the RoR-controller associated with this session.
+
+The ACTION column is well suited for holding the name of the current
+method inside the RoR-controller associated with this session.
+
+The CLIENT_INFO is well suited for holding any piece of information from the RoR-session.
+For example the number of books in the shopping cart might be useful.
+
+The CLIENT_IDENTIFIER is well suited for holding information about the
+end-user such as login-name.  If you collect login information into
+CLIENT_IDENTIFIER, then you will be able to identify all the SQL for
+that end user (since we can easily query information about all SQL
+statements generated by a given Oracle session).
+
+For example if that user is complaining that the site is slow, you
+should be able to quickly identify the SQL statements consuming most
+of the resources for that user.  This is a powerful technique.
+
+Most webmasters of PHP or JDBC connected sites lack the ability to do
+this.  Often they need to load log files into a table and then run SQL
+against that table.
+
+Another sub-optimal approach webmasters use is correlation based.
+
+Consider this line of thinking based on correlation logic, "Last night
+we deployed a new release of the site, today the site is slow.
+Therefore we must have a performance bug in the new code resident
+within the new release."
+
+An optimal approach to performance tuning is based on end-to-end
+tracing.  This is possible if the webmaster knows which
+controller-methods are tied to which Oracle sessions (which can then
+lead to specific resource intensive SQL statements).
+
+<b>A Sqlplus Demonstration</b>
+
+Using sqlplus to create a session and then add data values to that session is easily demonstrated:
+
+
+502 bash-03:48:38-dbiklelt:~ $ sqlplus app10/a
+
+SQL*Plus: Release 10.2.0.1.0 - Production on Sun Apr 27 03:48:53 2008
+
+Copyright (c) 1982, 2005, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 10g Enterprise Edition Release 10.2.0.1.0 - Production
+With the Partitioning, OLAP and Data Mining options
+
+03:49:34 orcl SQL &gt; SELECT username , module from v$session WHERE username='APP10';
+
+USERNAME                       MODULE
+------------------------------ ------------------------------------------------
+APP10                          ruby.exe
+APP10                          SQL*Plus
+
+03:51:26 orcl SQL &gt; EXEC dbms_session.set_identifier(client_id => 'bikle@bikle.com')
+
+PL/SQL procedure successfully completed.
+
+03:51:37 orcl SQL &gt; SET lines 222 pages 33
+03:52:27 orcl SQL &gt; SELECT username, module, client_identifier FROM v$session WHERE username='APP10';
+
+USERNAME                       MODULE                                           CLIENT_IDENTIFIER
+------------------------------ ------------------------------------------------ ----------------------
+APP10                          ruby.exe
+APP10                          SQL*Plus                                         bikle@bikle.com
+
+03:52:52 orcl SQL &gt; EXEC dbms_application_info.set_module(module_name => 'sqlplus!!!', action_name => 'fake action')
+
+PL/SQL procedure successfully completed.
+
+03:55:21 orcl SQL &gt; SELECT username, module, action, client_identifier FROM v$session WHERE username='APP10';
+
+USERNAME                       MODULE                                           ACTION                           CLIENT_IDENTIFIER
+------------------------------ ------------------------------------------------ -------------------------------- ----------------------
+APP10                          ruby.exe
+APP10                          sqlplus!!!                                       fake action                      bikle@bikle.com
+
+03:56:16 orcl SQL &gt;
+03:56:39 orcl SQL &gt;
+03:56:55 orcl SQL &gt;
+
+So, the above demonstration shows how to create a session, set
+attributes in it and then get the attribute values via a simple SELECT
+statement against v$session.
+
+Notice that sqlplus has the useful ability to call PL/SQL procedures using the 'EXEC' command.
+
+RoR also has the ability to call PL/SQL procedures but it's less graceful.
+
+The way it's done is to obtain the raw_connection object from
+ActiveRecord::Base and then make use of its .parse() and .exec() methods:
+
+
+class C10Controller < ApplicationController
+  def m10
+    conn = ActiveRecord::Base.connection.raw_connection
+    proc = conn.parse("BEGIN dbms_session.set_identifier(client_id => 'bikle@bikle.com'); END;")
+    proc.exec
+    @m10 = "hello world"
+  end
+end
+
+proc.exec Documentation:
+  <a href='http://ruby-oci8.rubyforge.org/en/api_OCI8.html#l4' target='t'>http://ruby-oci8.rubyforge.org/en/api_OCI8.html#l4</a>
+
+
+Some developers want to leave this type of syntax in the RoR site's code
+base where it can be managed by source control like SVN or CVS.
+
+I, however, prefer move as much of this type of syntax out of RoR into
+Oracle.  I see it as being more DRY; it is easier to share.  Also, if
+the syntax resides in Oracle, I can rely on
+ActiveRecord::Base.find_by_sql() to call it which seems more generic
+and less likely to fall-over after a Rails or OCI8 upgrade.
+
+
+We can do this by wrapping multiple PL/SQL calls into an SQL function.
+
+SQL Function Documentation:
+  <a href='http://download.oracle.com/docs/cd/B19306_01/appdev.102/b14261/overview.htm#sthref196' target='t'>http://download.oracle.com/docs/cd/B19306_01/appdev.102/b14261/overview.htm#sthref196</a>
+
+Once the function is built, we can call it from an SQL statement.
+
+And calling an SQL statement from RoR is easy:
+
+  xyz = ActiveRecord::Base.find_by_sql ["SELECT my_function(?) FROM dual", some_variable]
+
+
+ActiveRecord::Base.find_by_sql Documentation:
+  <a href='http://api.rubyonrails.com/classes/ActiveRecord/Base.html#M001377' target='t'>http://api.rubyonrails.com/classes/ActiveRecord/Base.html#M001377</a>
+
+The next section describes how to build a function which wraps  multiple PL/SQL calls.
+
+
+<b>Wrapping procedure calls with a function</b>
+
+To create a function we place the function creation syntax in a .sql file and then call that file from sqlplus.
+
+Here is the syntax:
+
+-- session_setter12.sql
+-- Run via sqlplus user/pass @session_setter12.sql
+CREATE OR REPLACE FUNCTION session_setter12(
+  client_id_in    VARCHAR2
+  ,client_info_in VARCHAR2
+  ,module_name_in VARCHAR2
+  ,action_name_in VARCHAR2
+) RETURN NUMBER IS
+BEGIN
+  dbms_session.set_identifier(client_id =&gt; client_id_in);
+  dbms_application_info.set_client_info(client_info =&gt; client_info_in);
+  dbms_application_info.set_module(module_name =&gt; module_name_in, action_name =&gt; action_name_in);
+  RETURN 1;
+END;
+/
+SHOW ERRORS
+
+dbms_session.set_identifier Documentation:
+  <a href='http://download.oracle.com/docs/cd/B19306_01/appdev.102/b14258/d_sessio.htm#i996935' target='t'>http://download.oracle.com/docs/cd/B19306_01/appdev.102/b14258/d_sessio.htm#i996935</a>
+
+dbms_application_info Documentation:
+  <a href='http://download.oracle.com/docs/cd/B19306_01/appdev.102/b14258/d_appinf.htm#CHECEIEB' target='t'>http://download.oracle.com/docs/cd/B19306_01/appdev.102/b14258/d_appinf.htm#CHECEIEB</a>
+
+
+After you create the above function in Oracle, you use this syntax to call the function to set the session values:
+
+SELECT session_setter12 ('sqlplus@bikle.com', 'sqlplus cart', 'sqlplus', 'nada') FROM dual;
+
+
+Here is a demo screen dump showing how to get the values out of v$session:
+
+  1* SELECT username, module, action, client_info, client_identifier FROM v$session WHERE username='APP10'
+04:22:39 orcl SQL &gt; /
+
+USERNAME    MODULE        ACTION                           CLIENT_INFO            CLIENT_IDENTIFIER
+----------- ------------- -------------------------------- ---------------------- ----------------------------------------------------------------
+APP10       sqlplus       nada                             sqlplus cart           sqlplus@bikle.com
+
+04:22:40 orcl SQL &gt;
+04:22:55 orcl SQL &gt;
+
+So, calling the function from sqlplus is easy; how about an RoR-controller?
+
+Some demonstration controller syntax is displayed below (notice the use of the handy "self" object):
+
+class C10Controller < ApplicationController
+
+  # Trigger login via this URL: http://bikle.com/c10/login
+  def login
+    # Put some data in the session
+    session[:login_name] = 'bikle@bikle.com'
+    session[:cart_state] = 'cart empty'
+    @login = "You are now logged in."
+  end
+
+  # Trigger m11 via this URL: http://bikle.com/c10/m11
+  def m11
+    themodule = self.class.to_s
+    theaction = self.action_name
+    theclient_info = session[:cart_state]
+    the_client_id = session[:login_name]
+    # Copy RoR session data to the corresponding Oracle session
+    xyz = ActiveRecord::Base.find_by_sql ["SELECT session_setter12(?,?,?,?) FROM dual" , the_client_id, theclient_info,themodule, theaction]
+    @m11 = "hello world"
+  end
+end
+
+
+And we look in v$session for data from RoR variables: session[:login_name] and session[:cart_state]:
+
+
+04:58:16 orcl SQL &gt; l
+  1* select username, module, action, client_info, client_identifier from v$session where username='APP10'
+05:03:30 orcl SQL &gt; /
+
+USERNAME    MODULE        ACTION                           CLIENT_INFO CLIENT_IDENTIFIER
+----------- ------------- -------------------------------- ----------- ------------------------------------
+APP10       C10Controller m11                              cart empty  bikle@bikle.com
+
+05:03:31 orcl SQL &gt;
+
+
+RoR provides a feature which allows us to centralize RoR code which we want called from all or many controller methods.
+This feature is called "Filters".
+
+Filters Documentation:
+  <a href='http://api.rubyonrails.com/classes/ActionController/Filters/ClassMethods.html' target='t'>http://api.rubyonrails.com/classes/ActionController/Filters/ClassMethods.html</a>
+
+Demonstration RoR-controller syntax with an "after_filter" is displayed below:
+
+class C10Controller < ApplicationController
+  after_filter :copy_data2oracle_session
+
+  # Trigger login via this URL: http://bikle.com/c10/login
+  def login
+    session[:login_name] = 'bikle@bikle.com'
+    session[:cart_state] = 'cart empty'
+    @login = "You are now logged in."
+  end
+
+  # Trigger m11 via this URL: http://bikle.com/c10/m11
+  def m11
+    @m11 = "hello world"
+  end
+
+  private
+  # Send some data about the RoR session to the corresponding Oracle session
+  def copy_data2oracle_session
+    themodule = self.class.to_s
+    theaction = self.action_name
+    theclient_info = session[:cart_state]
+    the_client_id = session[:login_name]
+    xyz = ActiveRecord::Base.find_by_sql ["SELECT session_setter12(?,?,?,?) FROM dual" , the_client_id, theclient_info,themodule, theaction]
+  end
+end
+
+
+So when m11 (or any other public method in the controller) is called, copy_data2oracle_session is also called (afterwards).
+
+Filters are an embodiment of the DRY principal.  DRY is an acronym for "Don't Repeat Yourself":
+  <a href='http://www.google.com/search?q=rails+dry' target='t'>http://www.google.com/search?q=rails+dry</a>
+
+<b>Summary</b>
+
+This paper discussed implementation of the simple idea of copying data
+from an RoR session into the corresponding Oracle session.
+
+The core of the technique is making calls to these Oracle supplied
+packaged procedures from an RoR-controller:
+
+  dbms_session.set_identifier
+  dbms_application_info.set_client_info
+  dbms_application_info.set_module
+
+We may call the Oracle supplied packaged procedures directly via the
+OCI8 API or we may call them using a custom built Oracle function
+which is accessed by ActiveRecord::Base.find_by_sql
+
+</pre>
+
