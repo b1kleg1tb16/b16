@@ -1,219 +1,293 @@
-<h3>
+<h5>
 Installation of Oracle 10g R2 [ 10.2.0.2 ]  on Solaris10x86
-</h3>
-<pre>
+</h5>
+<span class="date">2006-09-22</span>
 
-2006-09-22 Bikle
-------------------------
-
-This file contains some notes from my efforts to install 10gR2 [ 10.2.0.2 ] on Solaris10x86.
-
-Frys
-----
+<p />
+<p />
+<p />
+<b>Frys</b>
+<p />
 I went to Frys and bought a PC they call an open-box special.
 It's a PC which is discounted because it has been returned
 by another customer.
-
-For about $500, I bought this:
-
+<p />
+For about $500, I bought this type of PC:
+<p />
 HP Pavilion a1340n
+<p />
+It has:
+<ul>
+<li />1G RAM
+<li />250G HD
+<li />1 R-W DVD drive
+<li />and 1 R-O DVD drive.
+<li />CPU: Intel(R) Pentium(R) 4 CPU 2.66GHz
+<li /><a target ="h" href="http://h10025.www1.hp.com/ewfrf/wc/document?lc=en&cc=us&product=1818054&dlc=&docname=c00575715">http://h10025.www1.hp.com/ewfrf/wc/document?lc=en&cc=us&product=1818054&dlc=&docname=c00575715</a>
+</ul>
 
-It has 1G RAM,
-250G HD,
-1 R-W DVD drive
-and 1 R-O DVD drive.
-CPU: Intel(R) Pentium(R) 4 CPU 2.66GHz
-
-</pre>
-<a href="http://h10025.www1.hp.com/ewfrf/wc/document?lc=en&cc=us&product=1818054&dlc=&docname=c00575715">http://h10025.www1.hp.com/ewfrf/wc/document?lc=en&cc=us&product=1818054&dlc=&docname=c00575715</a>
-<pre>
-
+<p />
 Warranty-wise, the PC was brand new and I was the original owner.
-I considered it a good deal.
-
+At the time (2006) I considered it a good deal.
+<p />
 Also I bought a small Hyundai flat screen monitor for $179.
 
-Windows
--------
+<p />
+<p />
+<b>Windows</b>
+<p />
+
 The PC came with XP factory-installed.
 Instead of supplying a DVD, HP put a backup of XP on the first partition.
 Then, XP was layed out on the rest of my 250G hard-drive.
-I figured out how to interact with the restore mechanism in case I 
+I figured out how to interact with the restore mechanism in case I
 clobbered XP.
+<p />
+Here is how it is supposed to work.
+<p />
 
 The PC comes with a utility to backup the XP-backup to DVD.
+<p />
 
-The utility does not work.
+I discovered that the utility does not work.
+<p />
+In reality,
+it does work if you choose to backup the XP-backup to CDR.
+<p />
 
-It does work though if you choose to backup the XP-backup to CDR.
+So, I backed up the XP-backup to 16 (sixteen!) CDRs.
+<p />
 
-So, I backed up the XP-backup to 16 CDRs.
+<b>Linux</b>
+<p />
 
-Linux
-------
-My HP PC does not like linux.
+My HP PC does not like Linux:
+<ul>
+<li />Fedora Core 5 installed but kernel panicked after I loaded a CDR into either of the DVD trays.
 
-Fedora Core 5 installed but kernel panicked after I loaded
-a CDR into either of the DVD trays.
+<li />Centos 4.4 kernel panicked during initial boot-off-cd.
 
-Centos 4.4 kernel panicked during initial boot-off-cd.
+<li />Suse 10.1 died at different random places inside of Yast2.
 
-Suse 10.1 died at different random places inside of Yast2.
+<li />I gave up on Linux.
+</ul>
 
-I gave up on Linux.
-
-During my Linux activities, I clobbered the 2nd disk partition
+<p />
+Oh, during my Linux activities, I clobbered the 2nd disk partition
 containing XP.
+<p />
+So,
+I recreated it to a much smaller size and walked through the
+XP restore gizmo found in the land-of-F10.
+<p />
 
-I recreated it to a much smaller size and walked through the 
-XP restore gizmo found in the land of F10.
+It worked great.  Which is good; I did not want to feed it 16 CDRs to restore windows-XP.
+<p />
 
-It worked great.
+Now, if I want to run some native windows software (testing IE6 against one of my sites for example),
+I can boot the much smaller XP-partition and run XP.
+<p />
 
-Now if I want to surf the information highway without a helmet,
-I can boot XP and do it.
 
 
-FreeBSD
--------
+<b>FreeBSD</b>
+
+<p />
+
 I installed FreeBSD 6.1 on the 3rd partition.
 My HP PC likes FreeBSD and now, so do I.
+<p />
 
 The install was painless and unencumbered by
 any documentation.  All I did was feed it 2 CDRs
 and answer simple networking questions.
-
+<p />
+I encountered one small problem with FreeBSD on this HP-PC.
+<p />
 X-windows does not work on my FreeBSD console.
+<p />
+I suspect the problem is related to the lack of a proper video card in the PC.
+The
+<a target='a' href='http://h10025.www1.hp.com/ewfrf/wc/document?lc=en&cc=us&product=1818054&dlc=&docname=c00575715#N414'>
+  hardware specs
+</a>
+state this:
+<hr />
+<div style="margin: 0pt 0pt 0pt 40px;">
+<div style="margin: 1em 0pt; font-size: 1.4em;">
+<strong>Video Graphics</strong>
+</div>
+<div style="margin: 1em 0pt;">Integrated with up to 256 MB of allocated video memory</div>
+</div>
+<hr />
+<p />
+
+I think that the verb "Integrated" means cheap, and that the PC does not have a proper video card which FreeBSD would have drivers for.
+
+<p />
 
 If however, I want to run X-windows on my FreeBSD
 box and display it on my Mac, I can do that.
+<p />
 
 This is fine; I don't want a console cluttering my desk.
-
-Unfortunately, Oracle does not run natively on FreeBSD.
+<p />
+The next problem with this FreeBSD install is that
+unfortunately, Oracle does not run natively on FreeBSD.
+<p />
 
 ( If you are clever enough it can be done by fooling
 Oracle into thinking that it is running on Linux ).
+<p />
 
+<b>Solaris 10 x86</b>
+<p />
 
-
-Solaris 10 x86
----------------
-While poking around on 
-
-</pre>
+While poking around on
+<p />
 <a href="http://www.oracle.com/technology/software/index.html">http://www.oracle.com/technology/software/index.html</a>
-<pre>
+<p />
 
 I saw that on Sep 18 2006, 10gR2 had been released
 for Solaris 10 X86.
+<p />
 
 So I went to sun.com and started a download.
+<p />
 
-It was just too big and my browser could not 
+It was just too big and my browser could not
 eat the whole thing.
+<p />
 
 So, I tried Sun Download Manager (SDM) on my Mac.
+<p />
 
 SDM is a Java app which means that I can't paste
 a URL into its URL window.
+<p />
 
 My work-around was to use an editor to copy the
 download URL into the SDM log file.
+<p />
 
 Then I used SDM to open the log file and then
 grabbed the URL with a ^c of the mouse and
 pasted it into the URL window with a ^v.
+<p />
 
 Eventually I pulled down 5 .iso files and
 burned them to CDR using my Mac.
+<p />
 
 The installation was easy; feed CDRs; answer
 simple networking questions.
+<p />
 
 Actually, the interface they provide to customize
 the disk-layout was a little confusing.
+<p />
 
 I like the FreeBSD interface.
+<p />
 
 Anyway, I got it so it was like this:
+<p />
 
-root        10gb
-export/home 80gb
-swap        1gb
+<br />root        10gb
+<br />export/home 80gb
+<br />swap        1gb
+<p />
 
 I should have made swap 2gb so that the Oracle
 installer would not whine later.
+<p />
 
 During the install, Solaris seemed to recognize
 my console enough to run X-windows on it.
+<p />
 
 It showed me some colored ellipses and recognized
 that I clicked in the correct location during
 X-window configuration time.
+<p />
 
 Eventually installation finished.
+<p />
 
 After the first multi-user boot, Solaris tried to
 display an X login page on my console.
+<p />
 
 All I saw was a scramble of random color bits.
+<p />
 
 I tried to login using a terminal window on my mac.
+<p />
 
 I could not get into the root account.
+<p />
 
-So, I powercycled the PC.
+So, I power-cycled the PC.
+<p />
 
 Eventually, I got a login prompt at the console and I logged in
 as root and added a UNIX user.
+<p />
 
 This allowed me to login and then su from my Mac
 if I needed to get in later.
+<p />
 
 Next, I removed this file so my console would always
 display a text login:
+<p />
 
 /etc/rc2.d/S99dtlogin
+<p />
 
 The only editor available was vi.
+<p />
 
-So, I added a couple of lines to 
+So, I added a couple of lines to
 /etd/dfs/dfstab
+<br />
+<br />        share  -F nfs  /export/home
+<br />        share  -F nfs  /
+<br />
 
-	share  -F nfs  /export/home
-	share  -F nfs  /
-
+<p />
 Then I ran the above lines as shell commands.
-
+<p />
 I then had NFS access to my Solaris box.
-
+<p />
 This allowed me to use my favorite editor on my Mac
 to edit files on my Solaris box.
-
+<p />
 
 Next, I edited the Grub menu so I could boot FreeBSD on the PC.
-
+<p />
 I edited this:
-
+<p />
 /boot/grub/menu.lst
-
+<p />
 I added this:
-
+<pre>
 title FreeBSD 6.1
   root (hd0,2,a)
   kernel /boot/loader
+</pre>
 
 The above entry corresponds to this disk layout:
-
-0 -XP backup
-1 -XP
-2 -FreeBSD 6.1
-3 -Solaris 10
+<ul>
+<li />0 -XP backup
+<li />1 -XP
+<li />2 -FreeBSD 6.1
+<li />3 -Solaris 10
+</ul>
 
 Here is what I have now in /boot/grub/menu.lst :
 
-
+<pre>
 title FreeBSD 6.1
   root (hd0,2,a)
   kernel /boot/loader
@@ -232,50 +306,64 @@ module /boot/x86.miniroot-safe
 #---------------------END BOOTADM--------------------
 
 title Windows
-	rootnoverify (hd0,0)
-	chainloader +1
+        rootnoverify (hd0,0)
+        chainloader +1
 
 title Windows
-	rootnoverify (hd0,1)
-	chainloader +1
+        rootnoverify (hd0,1)
+        chainloader +1
+</pre>
 
 This Grub layout will affect my PC so that FreeBSD 6.1
 will boot by default since it is the first OS in the list.
+<p />
 
-At this point I had a good feeling about Solaris 10.
+At this point I feel good about Solaris 10.
 Linux will not install on my PC and Solaris 10 will install.
 The Solaris x86 people at Sun.com should be proud.
+<p />
 
 
 To complete the install of Solaris 10 I ran this shell command:
 
+<pre>
 ln -s /export/home /h
+</pre>
 
 Which should save me some typing in the future.
+<p />
+<p />
+<p />
 
 
 
-Oracle 10gR2 [ 10.2.0.2 ] installation on Solaris 10 x86
-----------------------------------------------------------
+<b>Oracle 10gR2 [ 10.2.0.2 ] installation on Solaris 10 x86</b>
+<p />
 
 I downloaded the big .zip file from here:
+<p />
 
-</pre>
+
 <a href="http://www.oracle.com/technology/software/products/database/oracle10g/index.html">http://www.oracle.com/technology/software/products/database/oracle10g/index.html</a>
-<pre>
+<p />
+
 
 I unzipped it.
+<p />
 
 I created 2 groups:
-
-dba
-oinstall
-
+<p />
+<ul>
+<li />dba
+<li />oinstall
+</ul>
+<p />
 I created the oracle user and listed it in the oinstall group entry.
+<p />
 
 I created a .bashrc for oracle:
-
-
+<p />
+<pre>
 # .bashrc
 
 umask 022
@@ -313,12 +401,14 @@ alias ltr='ls -latr'
 alias psor='/bin/ps -ef |sort'
 alias psorg='psor|grp'
 alias dspmac='export DISPLAY=mac:0'
-
+</pre>
+<p />
 I looked at the installation guide.
+<p />
 
 I did this:
-
-
+<p />
+<pre>
 bash sol oracle ~ $
 bash sol oracle ~ $
 bash sol oracle ~ $  /usr/sbin/prtconf|grp mem
@@ -326,8 +416,6 @@ Memory size: 960 Megabytes
 bash sol oracle ~ $
 bash sol oracle ~ $
 bash sol oracle ~ $
-
-
 
 bash sol oracle ~ $
 bash sol oracle ~ $
@@ -337,9 +425,6 @@ bash sol oracle ~ $
 bash sol oracle ~ $
 bash sol oracle ~ $
 
-
-
-
 bash sol oracle ~ $
 bash sol oracle ~ $
 bash sol oracle ~ $  df -k /tmp
@@ -348,11 +433,14 @@ swap                 1642216      36 1642180     1%    /tmp
 bash sol oracle ~ $
 bash sol oracle ~ $
 bash sol oracle ~ $
+</pre>
 
+<p />
 
 Next, I bumped into something:
+<p />
 
-
+<pre>
 
 bash sol oracle ~ $
 bash sol oracle ~ $
@@ -361,37 +449,51 @@ bash sol oracle ~ $ /bin/isainfo -kv
 bash sol oracle ~ $
 bash sol oracle ~ $
 bash sol oracle ~ $
-
+</pre>
 
 
 I want this:
 
-      32-bit i386 kernel modules
+<b>32-bit i386 kernel modules</b>
 
+<p />
 The oracle doc says,
 
+<p />
 "If you do not see the expected output, then you cannot install the software on this system."
+<p />
 
 Not good; I decided to press on and ignore this problem.
+<p />
 
 
 Next...
+<p />
+<pre>
   /usr/sbin/patchadd -p | grep 118345
   /usr/sbin/patchadd -p | grep 119961
-
+</pre>
+<p />
 Passed.
+<p />
 
 Next,
+<p />
 
 As root, run this:
-
+<p />
+<pre>
 projmod -sK "project.max-shm-memory=(privileged, 2G,deny)" group.dba
-
+</pre>
+<p />
 That is WRONG!
+<p />
 It is an Oracle doc bug.
+<p />
 
 Google gave me this:
-
+<p />
+<pre>
 bash sol root / 6 # projmod -s -K "project.max-shm-memory=(priv,2gb,deny)" group.dba
 bash sol root / 7 # cat /etc/project
 system:0::::
@@ -400,42 +502,52 @@ noproject:2::::
 default:3::::
 group.staff:10::::
 group.dba:100:Oracle default:::project.max-shm-memory=(priv,2147483648,deny)
-bash sol root / 8 # 
+bash sol root / 8 #
+</pre>
 
 then
-
+<pre>
 shutdown -y -g0 -i6
-
+</pre>
 to reboot.
-
+<p />
 Then,
-
+<p />
+<pre>
 bash sol oracle ~ 1 $ id -p
 uid=1000(oracle) gid=100(dba) projid=100(group.dba)
-
-
+</pre>
+<p />
 Next, on the mac, start X windows.
+<p />
 
 Then,
-
+<p />
+<pre>
 ssh -X oracle@sol
 
 cd cdrom/database
 ./runInstaller
+</pre>
 
 It complains a lot then quits.
+<p />
 
-
+I tried this:
+<pre>
 ./runInstaller -ignoresysprereqs
-
+</pre>
+<p />
 Installer appears on my Mac but seems injured; it can't display stuff it
 needs to and does not know where my mouse is.
+<p />
 
 
 
 
 I tried the silent install...
-
+<p />
+<pre>
 
 bash sol oracle ~/cdrom/database 21 $ ./runInstaller -force -ignoresysprereqs -silent -responseFile /h/oracle/cdrom/database/response/enterprise.rsp ORACLE_HOME=$ORACLE_HOME ORACLE_HOME_NAME=OH1
 Starting Oracle Universal Installer...
@@ -462,7 +574,7 @@ Loading Product Information
 ................................................................................................................... 100% Done.
 
 
-Analyzing dependencies 
+Analyzing dependencies
 ........................................................................
 Starting execution of Prerequisites...
 Total No of checks: 9
@@ -486,13 +598,13 @@ Checking for SUNWlibms; found Math & Microtasking Libraries (Usr)(SUNWlibms).   
 Checking for SUNWsprot; found Solaris Bundled tools(SUNWsprot).   Passed
 Checking for SUNWtoo; found Programming Tools(SUNWtoo).   Passed
 Checking for SUNWi1of; found ISO-8859-1 (Latin-1) Optional Fonts(SUNWi1of).       Passed
-Checking for SUNWi1cs; found Not found.   Failed <<<<
-Checking for SUNWi15cs; found Not found.     Failed <<<<
+Checking for SUNWi1cs; found Not found.   Failed &lt;&lt;&lt;&lt;
+Checking for SUNWi15cs; found Not found.     Failed &lt;&lt;&lt;&lt;
 Checking for SUNWxwfnt; found X Window System platform required fonts(SUNWxwfnt).    Passed
-Check complete. The overall result of this check is: Failed <<<<
+Check complete. The overall result of this check is: Failed &lt;&lt;&lt;&lt;
 
 
-Check complete: Failed <<<<
+Check complete: Failed &lt;&lt;&lt;&lt;
 Problem: Some packages required for the Oracle Database 10g to function properly are missing (see above).
 Recommendation: Install the required packages before continuing with the installation.
 
@@ -500,14 +612,13 @@ Recommendation: Install the required packages before continuing with the install
 Performing check for Kernel
 Checking kernel parameters
 Checking for BIT_SIZE=32; found BIT_SIZE=64.        Passed
-Checking for shmsys:shminfo_shmmax=4294967295; found no entry.    Failed <<<<
-Checking for shmsys:shminfo_shmmni=100; found no entry.      Failed <<<<
-Checking for semsys:seminfo_semmni=100; found no entry.      Failed <<<<
-Checking for semsys:seminfo_semmsl=256; found no entry.      Failed <<<<
-Check complete. The overall result of this check is: Failed <<<<
+Checking for shmsys:shminfo_shmmax=4294967295; found no entry.    Failed &lt;&lt;&lt;&lt;
+Checking for shmsys:shminfo_shmmni=100; found no entry.      Failed &lt;&lt;&lt;&lt;
+Checking for semsys:seminfo_semmni=100; found no entry.      Failed &lt;&lt;&lt;&lt;
+Checking for semsys:seminfo_semmsl=256; found no entry.      Failed &lt;&lt;&lt;&lt;
+Check complete. The overall result of this check is: Failed &lt;&lt;&lt;&lt;
 
-
-Check complete: Failed <<<<
+Check complete: Failed &lt;&lt;&lt;&lt;
 Problem: The kernel parameters do not meet the minimum requirements (see above).
 Recommendation: Perform operating system specific instructions to update the kernel parameters.
 
@@ -525,10 +636,10 @@ Performing check for SwapSpace
 Checking available swap space requirements ...
 Expected result: 1434MB
 Actual Result: 1231MB
-Check complete. The overall result of this check is: Failed <<<<
+Check complete. The overall result of this check is: Failed &lt;&lt;&lt;&lt;
 
 
-Check complete: Failed <<<<
+Check complete: Failed &lt;&lt;&lt;&lt;
 Problem: The system does not have the required swap space.
 Recommendation: Make more swap space available to perform the install.
 
@@ -579,112 +690,112 @@ Space Requirements
    /export/home/ Required 1.39GB : Available 80.44GB
    /tmp/ Required 108MB (only as temporary space) : Available 1.19GB
 New Installations (106 products)
-   Oracle Database 10g 10.2.0.2.0 
-   Enterprise Edition Options 10.2.0.1.0 
-   Oracle Partitioning 10.2.0.2.0 
-   Oracle Spatial 10.2.0.1.0 
-   Oracle OLAP 10.2.0.2.0 
-   Oracle Enterprise Manager Console DB 10.2.0.2.0 
-   Oracle Net Services 10.2.0.1.0 
-   Oracle Database 10g 10.2.0.2.0 
-   Oracle Net Listener 10.2.0.2.0 
-   HAS Files for DB 10.2.0.2.0 
-   Oracle Internet Directory Client 10.2.0.2.0 
-   Oracle Call Interface (OCI) 10.2.0.2.0 
-   Oracle Programmer 10.2.0.1.0 
-   Oracle interMedia 10.2.0.2.0 
-   Enterprise Manager Agent Core 10.2.0.1.0 
-   Oracle JVM 10.2.0.2.0 
-   Database Configuration and Upgrade Assistants 10.2.0.2.0 
-   Oracle interMedia Locator 10.2.0.2.0 
-   Oracle XML Development Kit 10.2.0.2.0 
-   Oracle Text 10.2.0.2.0 
-   Oracle Database Utilities 10.2.0.2.0 
-   Generic Connectivity Common Files 10.2.0.2.0 
-   Oracle Advanced Security 10.2.0.2.0 
-   Enterprise Manager Repository Core 10.2.0.1.0 
-   PL/SQL 10.2.0.2.0 
-   Oracle Net 10.2.0.2.0 
-   Assistant Common Files 10.2.0.2.0 
-   Buildtools Common Files 10.2.0.1.0 
-   Installation Common Files 10.2.0.2.0 
-   Oracle LDAP administration 10.2.0.1.0 
-   Oracle Java Client 10.2.0.2.0 
-   Precompiler Common Files 10.2.0.2.0 
-   HAS Common Files 10.2.0.2.0 
-   Oracle Recovery Manager 10.2.0.2.0 
-   iSQL*Plus 10.2.0.2.0 
+   Oracle Database 10g 10.2.0.2.0
+   Enterprise Edition Options 10.2.0.1.0
+   Oracle Partitioning 10.2.0.2.0
+   Oracle Spatial 10.2.0.1.0
+   Oracle OLAP 10.2.0.2.0
+   Oracle Enterprise Manager Console DB 10.2.0.2.0
+   Oracle Net Services 10.2.0.1.0
+   Oracle Database 10g 10.2.0.2.0
+   Oracle Net Listener 10.2.0.2.0
+   HAS Files for DB 10.2.0.2.0
+   Oracle Internet Directory Client 10.2.0.2.0
+   Oracle Call Interface (OCI) 10.2.0.2.0
+   Oracle Programmer 10.2.0.1.0
+   Oracle interMedia 10.2.0.2.0
+   Enterprise Manager Agent Core 10.2.0.1.0
+   Oracle JVM 10.2.0.2.0
+   Database Configuration and Upgrade Assistants 10.2.0.2.0
+   Oracle interMedia Locator 10.2.0.2.0
+   Oracle XML Development Kit 10.2.0.2.0
+   Oracle Text 10.2.0.2.0
+   Oracle Database Utilities 10.2.0.2.0
+   Generic Connectivity Common Files 10.2.0.2.0
+   Oracle Advanced Security 10.2.0.2.0
+   Enterprise Manager Repository Core 10.2.0.1.0
+   PL/SQL 10.2.0.2.0
+   Oracle Net 10.2.0.2.0
+   Assistant Common Files 10.2.0.2.0
+   Buildtools Common Files 10.2.0.1.0
+   Installation Common Files 10.2.0.2.0
+   Oracle LDAP administration 10.2.0.1.0
+   Oracle Java Client 10.2.0.2.0
+   Precompiler Common Files 10.2.0.2.0
+   HAS Common Files 10.2.0.2.0
+   Oracle Recovery Manager 10.2.0.2.0
+   iSQL*Plus 10.2.0.2.0
    Enterprise Manager plugin Common Files 10.2.0.2.0 Beta
-   SQL*Plus 10.2.0.2.0 
-   Oracle RAC Required Support Files-HAS 10.2.0.2.0 
-   Oracle Clusterware RDBMS Files 10.2.0.2.0 
-   Oracle Wallet Manager 10.2.0.2.0 
-   Enterprise Manager Minimal Integration 10.2.0.1.0 
-   Oracle Database User Interface 2.2.13.0.0 
-   Secure Socket Layer 10.2.0.2.0 
-   Required Support Files 10.2.0.1.0 
-   Oracle Globalization Support 10.2.0.2.0 
-   Database SQL Scripts 10.2.0.2.0 
-   OLAP SQL Scripts 10.2.0.2.0 
-   PL/SQL Embedded Gateway 10.2.0.2.0 
-   Oracle Locale Builder 10.2.0.1.0 
-   Character Set Migration Utility 10.2.0.2.0 
-   LDAP Required Support Files 10.2.0.2.0 
-   Enterprise Manager plugin Common Files 10.2.0.1.0 
-   Oracle JDBC Thin Driver for JDK 1.4 10.2.0.2.0 
-   Oracle JDBC Thin Driver for JDK 1.2 10.2.0.2.0 
-   Oracle interMedia Client Option 10.2.0.2.0 
-   Oracle Notification Service 10.1.0.3.0 
-   Oracle Code Editor 1.2.1.0.0I 
-   Perl Interpreter 5.8.3.0.2 
-   JDBC Common Files 10.2.0.1.0 
-   Oracle Help For Java 4.2.6.1.0 
-   Oracle Containers for Java 10.2.0.1.0 
-   Database Workspace Manager 10.2.0.1.0 
-   Oracle Core Required Support Files 10.2.0.2.0 
-   Platform Required Support Files 10.2.0.1.0 
-   Oracle interMedia Locator RDBMS Files 10.2.0.2.0 
-   Oracle JDBC/OCI Instant Client 10.2.0.2.0 
-   Oracle interMedia Annotator 10.2.0.1.0 
-   SQLJ Runtime 10.2.0.2.0 
-   Oracle interMedia Java Advanced Imaging 10.2.0.2.0 
-   Oracle Database 10g interMedia Files 10.2.0.2.0 
-   Oracle Data Mining RDBMS Files 10.2.0.2.0 
-   Enterprise Manager Baseline 10.2.0.2.0 
-   Oracle Ice Browser 5.2.3.6.0 
-   Oracle Help for the  Web 1.1.10.0.0 
-   XML Parser for Java 10.2.0.2.0 
-   Precompiler Required Support Files 10.2.0.2.0 
-   XML Parser for Oracle JVM 10.2.0.2.0 
-   Oracle Message Gateway Common Files 10.2.0.1.0 
-   Oracle Starter Database 10.2.0.2.0 
-   Sample Schema Data 10.2.0.2.0 
-   Parser Generator Required Support Files 10.2.0.1.0 
-   Agent Required Support Files 10.2.0.2.0 
-   Oracle JFC Extended Windowing Toolkit 4.2.33.0.0 
-   RDBMS Required Support Files 10.2.0.2.0 
-   RDBMS Required Support Files for Instant Client 10.2.0.2.0 
-   XDK Required Support Files 10.2.0.2.0 
-   Oracle OLAP API 10.2.0.2.0 
-   Oracle OLAP RDBMS Files 10.2.0.2.0 
-   DBJAVA Required Support Files 10.2.0.2.0 
-   SQL*Plus Required Support Files 10.2.0.2.0 
-   Oracle UIX 2.1.22.0.0 
-   Oracle Extended Windowing Toolkit 3.4.38.0.0 
-   Oracle Display Fonts 9.0.2.0.0 
-   Enterprise Manager Common Files 10.2.0.1.0 
-   Enterprise Manager Agent DB 10.2.0.2.0 
-   Oracle Net Required Support Files 10.2.0.2.0 
-   Enterprise Manager Repository DB 10.2.0.2.0 
-   regexp 2.1.9.0.0 
-   SSL Required Support Files for InstantClient 10.2.0.2.0 
-   Bali Share 1.1.18.0.0 
-   Oracle Universal Installer 10.2.0.2.0 
-   Oracle One-Off Patch Installer 10.2.0.2.0 
-   Installer SDK Component 10.2.0.2.0 
-   Java Runtime Environment 1.4.2.0.0 
-   Sun JDK 1.4.2.0.8 
-   Sun JDK extensions 10.1.2.0.0 
+   SQL*Plus 10.2.0.2.0
+   Oracle RAC Required Support Files-HAS 10.2.0.2.0
+   Oracle Clusterware RDBMS Files 10.2.0.2.0
+   Oracle Wallet Manager 10.2.0.2.0
+   Enterprise Manager Minimal Integration 10.2.0.1.0
+   Oracle Database User Interface 2.2.13.0.0
+   Secure Socket Layer 10.2.0.2.0
+   Required Support Files 10.2.0.1.0
+   Oracle Globalization Support 10.2.0.2.0
+   Database SQL Scripts 10.2.0.2.0
+   OLAP SQL Scripts 10.2.0.2.0
+   PL/SQL Embedded Gateway 10.2.0.2.0
+   Oracle Locale Builder 10.2.0.1.0
+   Character Set Migration Utility 10.2.0.2.0
+   LDAP Required Support Files 10.2.0.2.0
+   Enterprise Manager plugin Common Files 10.2.0.1.0
+   Oracle JDBC Thin Driver for JDK 1.4 10.2.0.2.0
+   Oracle JDBC Thin Driver for JDK 1.2 10.2.0.2.0
+   Oracle interMedia Client Option 10.2.0.2.0
+   Oracle Notification Service 10.1.0.3.0
+   Oracle Code Editor 1.2.1.0.0I
+   Perl Interpreter 5.8.3.0.2
+   JDBC Common Files 10.2.0.1.0
+   Oracle Help For Java 4.2.6.1.0
+   Oracle Containers for Java 10.2.0.1.0
+   Database Workspace Manager 10.2.0.1.0
+   Oracle Core Required Support Files 10.2.0.2.0
+   Platform Required Support Files 10.2.0.1.0
+   Oracle interMedia Locator RDBMS Files 10.2.0.2.0
+   Oracle JDBC/OCI Instant Client 10.2.0.2.0
+   Oracle interMedia Annotator 10.2.0.1.0
+   SQLJ Runtime 10.2.0.2.0
+   Oracle interMedia Java Advanced Imaging 10.2.0.2.0
+   Oracle Database 10g interMedia Files 10.2.0.2.0
+   Oracle Data Mining RDBMS Files 10.2.0.2.0
+   Enterprise Manager Baseline 10.2.0.2.0
+   Oracle Ice Browser 5.2.3.6.0
+   Oracle Help for the  Web 1.1.10.0.0
+   XML Parser for Java 10.2.0.2.0
+   Precompiler Required Support Files 10.2.0.2.0
+   XML Parser for Oracle JVM 10.2.0.2.0
+   Oracle Message Gateway Common Files 10.2.0.1.0
+   Oracle Starter Database 10.2.0.2.0
+   Sample Schema Data 10.2.0.2.0
+   Parser Generator Required Support Files 10.2.0.1.0
+   Agent Required Support Files 10.2.0.2.0
+   Oracle JFC Extended Windowing Toolkit 4.2.33.0.0
+   RDBMS Required Support Files 10.2.0.2.0
+   RDBMS Required Support Files for Instant Client 10.2.0.2.0
+   XDK Required Support Files 10.2.0.2.0
+   Oracle OLAP API 10.2.0.2.0
+   Oracle OLAP RDBMS Files 10.2.0.2.0
+   DBJAVA Required Support Files 10.2.0.2.0
+   SQL*Plus Required Support Files 10.2.0.2.0
+   Oracle UIX 2.1.22.0.0
+   Oracle Extended Windowing Toolkit 3.4.38.0.0
+   Oracle Display Fonts 9.0.2.0.0
+   Enterprise Manager Common Files 10.2.0.1.0
+   Enterprise Manager Agent DB 10.2.0.2.0
+   Oracle Net Required Support Files 10.2.0.2.0
+   Enterprise Manager Repository DB 10.2.0.2.0
+   regexp 2.1.9.0.0
+   SSL Required Support Files for InstantClient 10.2.0.2.0
+   Bali Share 1.1.18.0.0
+   Oracle Universal Installer 10.2.0.2.0
+   Oracle One-Off Patch Installer 10.2.0.2.0
+   Installer SDK Component 10.2.0.2.0
+   Java Runtime Environment 1.4.2.0.0
+   Sun JDK 1.4.2.0.8
+   Sun JDK extensions 10.1.2.0.0
 -----------------------------------------------------------------------------
 
 
@@ -707,11 +818,11 @@ Setup successful
 
 End of install phases.(Thu Sep 21 21:43:29 PDT 2006)
 Starting to execute configuration assistants
-Configuration assistant "Oracle Net Configuration Assistant" succeeded 
-Configuration assistant "Oracle Database Configuration Assistant" succeeded 
-Configuration assistant "iSQL*Plus Configuration Assistant" succeeded 
+Configuration assistant "Oracle Net Configuration Assistant" succeeded
+Configuration assistant "Oracle Database Configuration Assistant" succeeded
+Configuration assistant "iSQL*Plus Configuration Assistant" succeeded
 WARNING:A new inventory has been created in this session. However, it has not yet been registered as the central inventory of this system.
-To register the new inventory please run the script '/h/oracle/oraInventory/orainstRoot.sh' with root privileges. 
+To register the new inventory please run the script '/h/oracle/oraInventory/orainstRoot.sh' with root privileges.
 If you do not register the inventory, you may not be able to update or patch the products you installed.
 The following configuration scripts need to be executed as the "root" user.
 #!/bin/sh
@@ -726,14 +837,17 @@ To execute the configuration scripts:
 The installation of Oracle Database 10g was successful.
 Please check '/h/oracle/oraInventory/logs/silentInstall2006-09-21_09-38-10PM.log' for more details.
 
-bash sol oracle ~/cdrom/database 22 $ 
-
+bash sol oracle ~/cdrom/database 22 $
+</pre>
+<p />
 
 So, I went to a root window and ran the shell scripts.
+<p />
 
 
 Then, I returned...
-
+<p />
+<pre>
 bash sol oracle ~/cdrom/database 22 $ psorg orac
   oracle  1879  1867   0 20:57:40 ?           0:00 /usr/lib/ssh/sshd
   oracle  1881  1879   0 20:57:40 pts/2       0:00 -bash
@@ -766,7 +880,7 @@ bash sol oracle ~/cdrom/database 22 $ psorg orac
   oracle  5690  1888   0 22:18:21 pts/2       0:00 /bin/ps -ef
   oracle  5691  1888   0 22:18:21 pts/2       0:00 sort
   oracle  5692  1888   0 22:18:21 pts/2       0:00 grep -i orac
-bash sol oracle ~/cdrom/database 23 $ 
+bash sol oracle ~/cdrom/database 23 $
 
 
 bash sol oracle ~ 1 $ envg orac
@@ -791,74 +905,83 @@ Connected to:
 Oracle Database 10g Enterprise Edition Release 10.2.0.2.0 - Production
 With the Partitioning, OLAP and Data Mining options
 
-SQL> 
-SQL> 
+SQL>
+SQL>
+
+</pre>
 
 
 
-
+<p />
 The SQL prompt does not lie.
+<p />
 It appears that I have just installed Oracle 10gR2 [ 10.2.0.2 ] on Solaris 10 x86.
+<p />
 
 I'm worried though.
+<p />
 
 During installation, the complaint about the kernel parameters is
 worrisome; maybe it's an Oracle bug; maybe I need to investigate the
 projmod command and Solaris 10 kernel parameters.
+<p />
 
 Next, I wanted to try out OEM dbconsole.
+<p />
 
 I tried the magic URL:
+<p />
 
 http://sol:1158/em/
+<p />
 
 I found nothing there.
+<p />
 
 I tried starting it with:
-
+<pre>
 emctl start dbconsole
+</pre>
 
 This time the URL sent an ugly
 500 error to my browser.
 
 I shutdown OEM:
-
+<pre>
 emctl stop dbconsole
-
+</pre>
 I checked the logfile:
-
+<pre>
 bash sol oracle ~/product/10r2/sol_orcl/sysman/log 46 $ tail -44 emagent.trc
-
+</pre>
 I see:
-
-2006-09-22 22:06:41 Thread-63 ERROR engine: [oracle_database,orcl,Response] : 
+<pre>
+2006-09-22 22:06:41 Thread-63 ERROR engine: [oracle_database,orcl,Response] :
 nmeegd_GetMetricData failed : ORA-01017: invalid username/password; logon denied (DBD ERROR: OCISessionBegin)
-
+</pre>
 I tried sqlplus sysman/sysman
 
 It gave me a ORA-01017
 
 I did:
-
-ALTER USER SYSMAN IDENTIFIED BY SYSMAN;
-
-I did this:
-
-cd  $ORACLE_HOME/host_sid/sysman/config
-Backup the file emoms.properties
-vi the file emoms.properties
-Find the line beginning with:
+<ul>
+<li />ALTER USER SYSMAN IDENTIFIED BY SYSMAN;
+<li />cd  $ORACLE_HOME/host_sid/sysman/config
+<li />Backup the file emoms.properties
+<li />vi the file emoms.properties
+<li />Find the line beginning with:
 oracle.sysman.eml.mntr.emdRepPwd=
-Enter the un-encrypted password which is SYSMAN
+<li />Enter the un-encrypted password which is SYSMAN
 
-Find this line
+<li />Find this line
 oracle.sysman.eml.mntr.emdRepPwdEncrypted=TRUE
-Change TRUE by FALSE
-
+<li />Change TRUE by FALSE
+</ul>
+<p />
 Then,
-
+<pre>
 bash sol oracle ~/product/10r2/sol_orcl/sysman/config 7 $ emctl start dbconsole
-Oracle Enterprise Manager 10g Database Control Release 10.2.0.2.0  
+Oracle Enterprise Manager 10g Database Control Release 10.2.0.2.0
 Copyright (c) 1996, 2005 Oracle Corporation.  All rights reserved.
 http://sol:1158/em/console/aboutApplication
 Agent Version     : 10.1.0.4.1
@@ -878,56 +1001,67 @@ Total Megabytes of XML files uploaded so far :     0.00
 Number of XML files pending upload           :       50
 Size of XML files pending upload(MB)         :     4.31
 Available disk space on upload filesystem    :    94.45%
-Agent is already started. Will restart the agent 
+Agent is already started. Will restart the agent
 Stopping agent ... stopped.
-Starting Oracle Enterprise Manager 10g Database Control ......................... started. 
+Starting Oracle Enterprise Manager 10g Database Control ......................... started.
 ------------------------------------------------------------------
-Logs are generated in directory /h/oracle/product/10r2/sol_orcl/sysman/log 
-bash sol oracle ~/product/10r2/sol_orcl/sysman/config 8 $ 
-
-
+Logs are generated in directory /h/oracle/product/10r2/sol_orcl/sysman/log
+bash sol oracle ~/product/10r2/sol_orcl/sysman/config 8 $
+</pre>
+<p />
 
 Then,
+<p />
 
 http://sol:1158/em/
+<p />
 
 It gave me a login screen.
+<p />
 
 I ran to a terminal and did this:
-
+<pre>
 ALTER USER SYSTEM IDENTIFIED BY MGR;
-
+</pre>
+<p />
 I entered SYSTEM/MGR in the web page.
-
+<p />
 I logged in.
+<p />
 
 Next, I navigated to the 'Monitoring Configuration' link
 at the bottom of the 'Database' page.
 There, I specified the new password of the DBSNMP user
 ( which I had just changed with sqlplus ).
+<p />
 
 OEM now works as I expect.
+<p />
 
 
 Next, I started isqlplus:
-
-
-bash sol oracle ~ 46 $ 
-bash sol oracle ~ 46 $ 
-bash sol oracle ~ 46 $ $ORACLE_HOME/bin/isqlplusctl start 
+<p />
+<pre>
+bash sol oracle ~ 46 $
+bash sol oracle ~ 46 $
+bash sol oracle ~ 46 $ $ORACLE_HOME/bin/isqlplusctl start
 
 iSQL*Plus 10.2.0.2.0
 Copyright (c) 2003, 2005, Oracle.  All Rights Reserved.
 iSQL*Plus instance on port 5560 is already running ...
-bash sol oracle ~ 47 $ 
-bash sol oracle ~ 47 $ 
-
-I tried the URL 
+bash sol oracle ~ 47 $
+bash sol oracle ~ 47 $
+</pre>
+<p />
+I tried the URL
+<p />
 
   http//sol:5560/isqlplus
+<p />
 
 It worked great.
+<p />
 
-</pre>
+
 
 
