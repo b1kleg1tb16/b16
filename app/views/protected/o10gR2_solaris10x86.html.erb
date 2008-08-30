@@ -286,6 +286,7 @@ The above entry corresponds to this disk layout:
 </ul>
 
 Here is what I have now in /boot/grub/menu.lst :
+<div class="overflowauto" style="width:100%; height:90%; overflow:auto;">
 
 <pre>
 title FreeBSD 6.1
@@ -313,6 +314,7 @@ title Windows
         rootnoverify (hd0,1)
         chainloader +1
 </pre>
+</div>
 
 This Grub layout will affect my PC so that FreeBSD 6.1
 will boot by default since it is the first OS in the list.
@@ -363,6 +365,9 @@ I created the oracle user and listed it in the oinstall group entry.
 
 I created a .bashrc for oracle:
 <p />
+
+<div class="overflowauto" style="width:100%; height:90%; overflow:auto;">
+
 <pre>
 # .bashrc
 
@@ -402,12 +407,15 @@ alias psor='/bin/ps -ef |sort'
 alias psorg='psor|grp'
 alias dspmac='export DISPLAY=mac:0'
 </pre>
+</div>
+
 <p />
 I looked at the installation guide.
 <p />
 
 I did this:
 <p />
+<div class="overflowauto" style="width:100%; height:90%; overflow:auto;">
 <pre>
 bash sol oracle ~ $
 bash sol oracle ~ $
@@ -434,6 +442,7 @@ bash sol oracle ~ $
 bash sol oracle ~ $
 bash sol oracle ~ $
 </pre>
+</div>
 
 <p />
 
@@ -493,6 +502,7 @@ It is an Oracle doc bug.
 
 Google gave me this:
 <p />
+<div class="overflowauto" style="width:100%; height:90%; overflow:auto;">
 <pre>
 bash sol root / 6 # projmod -s -K "project.max-shm-memory=(priv,2gb,deny)" group.dba
 bash sol root / 7 # cat /etc/project
@@ -504,6 +514,7 @@ group.staff:10::::
 group.dba:100:Oracle default:::project.max-shm-memory=(priv,2147483648,deny)
 bash sol root / 8 #
 </pre>
+</div>
 
 then
 <pre>
@@ -547,6 +558,7 @@ needs to and does not know where my mouse is.
 
 I tried the silent install...
 <p />
+<div class="overflowauto" style="width:100%; height:90%; overflow:auto;">
 <pre>
 
 bash sol oracle ~/cdrom/database 21 $ ./runInstaller -force -ignoresysprereqs -silent -responseFile /h/oracle/cdrom/database/response/enterprise.rsp ORACLE_HOME=$ORACLE_HOME ORACLE_HOME_NAME=OH1
@@ -839,6 +851,8 @@ Please check '/h/oracle/oraInventory/logs/silentInstall2006-09-21_09-38-10PM.log
 
 bash sol oracle ~/cdrom/database 22 $
 </pre>
+</div>
+
 <p />
 
 So, I went to a root window and ran the shell scripts.
@@ -847,6 +861,8 @@ So, I went to a root window and ran the shell scripts.
 
 Then, I returned...
 <p />
+
+<div class="overflowauto" style="width:100%; height:90%; overflow:auto;">
 <pre>
 bash sol oracle ~/cdrom/database 22 $ psorg orac
   oracle  1879  1867   0 20:57:40 ?           0:00 /usr/lib/ssh/sshd
@@ -909,6 +925,7 @@ SQL>
 SQL>
 
 </pre>
+</div>
 
 
 
@@ -955,10 +972,13 @@ I checked the logfile:
 bash sol oracle ~/product/10r2/sol_orcl/sysman/log 46 $ tail -44 emagent.trc
 </pre>
 I see:
+<div class="overflowauto" style="width:100%; height:90%; overflow:auto;">
 <pre>
 2006-09-22 22:06:41 Thread-63 ERROR engine: [oracle_database,orcl,Response] :
 nmeegd_GetMetricData failed : ORA-01017: invalid username/password; logon denied (DBD ERROR: OCISessionBegin)
 </pre>
+</div>
+<p />
 I tried sqlplus sysman/sysman
 
 It gave me a ORA-01017
@@ -979,6 +999,8 @@ oracle.sysman.eml.mntr.emdRepPwdEncrypted=TRUE
 </ul>
 <p />
 Then,
+
+<div class="overflowauto" style="width:100%; height:90%; overflow:auto;">
 <pre>
 bash sol oracle ~/product/10r2/sol_orcl/sysman/config 7 $ emctl start dbconsole
 Oracle Enterprise Manager 10g Database Control Release 10.2.0.2.0
@@ -1008,6 +1030,8 @@ Starting Oracle Enterprise Manager 10g Database Control ........................
 Logs are generated in directory /h/oracle/product/10r2/sol_orcl/sysman/log
 bash sol oracle ~/product/10r2/sol_orcl/sysman/config 8 $
 </pre>
+</div>
+
 <p />
 
 Then,
