@@ -29,4 +29,7 @@ class ProtectedController < ApplicationController
   def  roracle_session
   end
 
+  def  sitecode
+  end
+
 end

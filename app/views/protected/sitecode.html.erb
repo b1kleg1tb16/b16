@@ -1,0 +1,406 @@
+<h5>The Code Behind This Site</h5>
+
+<p /><b>Hosting</b><p />
+
+Every site needs hosting.
+
+I picked:
+
+<a target='a' href='http://www.joyent.com/'>http://www.joyent.com/</a>
+
+<p /><b>FreeBSD 5.4</b><p />
+
+The shared hosting account I use runs on FreeBSD.
+
+Here is some information about the specific version:
+
+FreeBSD burnaby.textdrive.com 5.4-STABLE FreeBSD 5.4-STABLE #0: Sun Oct 23 20:24:16 GMT 2005 root@mother.textdrive.com:/usr/obj/usr/src/sys/TEXTOVERDRIVE  i386
+
+<p /><b>MySQL</b><p />
+
+Most Rails sites need a database.
+
+The database available to me on this shared hosting account is MySQL.
+
+Here is some information about the specific version:
+
+[bikle10@burnaby ~]$ mysql --version
+mysql  Ver 14.7 Distrib 4.1.18, for portbld-freebsd5.4 (i386) using  4.3
+[bikle10@burnaby ~]$
+
+
+<p /><b>Install Ruby </b><p />
+
+I installed ruby in my home directory.
+
+The source code looks like this:
+
+-rw-r--r--  1 bikle10  bikle10  3956902 Aug 28 21:04 ruby-1.8.6-p287.tar.bz2
+
+I obtained it from here:
+
+ftp://ftp.ruby-lang.org/pub/ruby/1.8/ruby-1.8.6-p287.tar.gz
+
+While looking for it, I found these pages to be useful:
+
+ftp://ftp.ruby-lang.org/pub/ruby/1.8/
+http://www.google.com/search?q=ruby+1.8.6+download
+
+To install ruby I ran these shell commands:
+
+mkdir ~/r/
+mkdir ~/tmp/
+cd    ~/tmp/
+wget ftp://ftp.ruby-lang.org/pub/ruby/1.8/ruby-1.8.6-p287.tar.gz
+tar jxf ruby-1.8.6-p287.tar.gz
+cd ruby-1.8.6-p287
+./configure --prefix=/users/home/bikle10/r
+make
+make install
+
+Next, I prepended ~/r/bin to the beginning of my PATH-env-variable in my .bashrc file.
+
+Then I typed in bash and then checked the version:
+
+
+[bikle10@burnaby ~/software/tmp/ruby-1.8.6-p287]$
+[bikle10@burnaby ~/software/tmp/ruby-1.8.6-p287]$ which ruby
+/users/home/bikle10/r/bin/ruby
+[bikle10@burnaby ~/software/tmp/ruby-1.8.6-p287]$
+[bikle10@burnaby ~/software/tmp/ruby-1.8.6-p287]$ ruby --version
+ruby 1.8.6 (2008-08-11 patchlevel 287) [i386-freebsd5.4]
+[bikle10@burnaby ~/software/tmp/ruby-1.8.6-p287]$
+[bikle10@burnaby ~/software/tmp/ruby-1.8.6-p287]$
+
+
+
+<p /><b>Install RubyGems  </b><p />
+RubyGems is a utility to help us carry around modular sections of software called gems.
+
+Once you install RubyGems, you access its functionality via the "gem" shell command.
+
+I obtained RubyGems from here:
+
+http://rubyforge.org/frs/?group_id=126
+
+The source code looks like this:
+
+-rw-r--r--   1 bikle10  bikle10   246920 Aug 28 21:43 rubygems-1.2.0.tgz
+
+To install RubyGems I ran these shell commands:
+
+cd    ~/tmp/
+wget http://rubyforge.org/frs/download.php/38646/rubygems-1.2.0.tgz
+tar zxf rubygems-1.2.0.tgz
+cd rubygems-1.2.0
+ruby setup.rb
+
+<p /><b>Install Gems Needed By My Site And By Rails 2.1</b><p />
+
+I have two ways to access gems I need:
+
+Use the gem command to download the gems I need.
+Copy the gems from an existing ruby install.
+
+I studied which gems I would need to run this site.
+
+I decided that I needed these gems:
+
+-rw-r--r--  1 bikle10  bikle10  107520 Aug 28 23:10 actionmailer-2.1.0.gem
+-rw-r--r--  1 bikle10  bikle10  740864 Aug 28 23:10 actionpack-2.1.0.gem
+-rw-r--r--  1 bikle10  bikle10  452096 Aug 28 23:10 activerecord-2.1.0.gem
+-rw-r--r--  1 bikle10  bikle10   39424 Aug 28 23:10 activeresource-2.1.0.gem
+-rw-r--r--  1 bikle10  bikle10  358912 Aug 28 23:10 activesupport-2.1.0.gem
+-rw-r--r--  1 bikle10  bikle10   11776 Aug 28 23:10 cgi_multipart_eof_fix-2.5.0.gem
+-rw-r--r--  1 bikle10  bikle10   47616 Aug 28 23:10 coderay-0.7.4.215.gem
+-rw-r--r--  1 bikle10  bikle10   31232 Aug 28 23:10 daemons-1.0.10.gem
+-rw-r--r--  1 bikle10  bikle10   24064 Aug 28 23:10 fastthread-1.0.1.gem
+-rw-r--r--  1 bikle10  bikle10   13312 Aug 30 09:46 fcgi-0.8.7.gem
+-rw-r--r--  1 bikle10  bikle10   33280 Aug 28 23:10 gem_plugin-0.2.3.gem
+-rw-r--r--  1 bikle10  bikle10  217088 Aug 28 23:10 hpricot-0.6.gem
+-rw-r--r--  1 bikle10  bikle10   29184 Aug 28 23:10 linecache-0.43.gem
+-rw-r--r--  1 bikle10  bikle10  105472 Aug 28 23:04 mongrel-1.1.5.gem
+-rw-r--r--  1 bikle10  bikle10   24064 Aug 28 23:10 mongrel_cluster-1.0.5.gem
+-rw-r--r--  1 bikle10  bikle10   33280 Aug 28 23:10 mysql-2.7.gem
+-rw-r--r--  1 bikle10  bikle10  204288 Aug 28 23:10 rails-2.1.0.gem
+-rw-r--r--  1 bikle10  bikle10   90112 Aug 28 23:10 rake-0.8.1.gem
+-rw-r--r--  1 bikle10  bikle10   31744 Aug 28 23:10 ruby-debug-base-0.10.1.gem
+-rw-r--r--  1 bikle10  bikle10   15360 Aug 28 23:10 syntax-1.0.0.gem
+-rw-r--r--  1 bikle10  bikle10   34816 Aug 28 23:10 will_paginate-2.2.2.gem
+
+I copied the above gems to ~/tmp/ from another host which had the gems cached here:
+
+/r2/lib/ruby/gems/1.8/cache/
+
+I ran these shell commands:
+
+cd ~/tmp/
+
+gem install actionmailer             --no-ri --no-rdoc
+gem install actionpack               --no-ri --no-rdoc
+gem install activerecord             --no-ri --no-rdoc
+gem install activeresource           --no-ri --no-rdoc
+gem install activesupport            --no-ri --no-rdoc
+gem install cgi_multipart_eof_fix    --no-ri --no-rdoc
+gem install coderay                  --no-ri --no-rdoc
+gem install daemons                  --no-ri --no-rdoc
+gem install fastthread               --no-ri --no-rdoc
+gem install fcgi                     --no-ri --no-rdoc
+gem install gem_plugin               --no-ri --no-rdoc
+gem install hpricot                  --no-ri --no-rdoc
+gem install linecache                --no-ri --no-rdoc
+gem install mongrel                  --no-ri --no-rdoc
+gem install mongrel_cluster          --no-ri --no-rdoc
+gem install mysql                    --no-ri --no-rdoc
+gem install rails                    --no-ri --no-rdoc
+gem install rake                     --no-ri --no-rdoc
+gem install ruby-debug-base          --no-ri --no-rdoc
+gem install syntax                   --no-ri --no-rdoc
+gem install will_paginate            --no-ri --no-rdoc
+
+<p /><b>Run The "rails" Command  </b><p />
+
+I decided to run my site from this location in the file system:
+
+~/pt/w/b/b16/
+
+I used the "rails" command to create it:
+
+cd ~/pt/w/b/
+rails b16
+
+<p /><b>Edit config/database.yml </b><p />
+
+The database.yml helps a Rails site connect to a database.
+
+For this site I created a MySQL database with these commands:
+
+shell command:
+  mysql -u root -p
+
+mysql command:
+  create database b16;
+
+
+Next, I edited this file:
+
+~/pt/w/b/b16/config/database.yml
+
+It looks like this:
+
+production:
+  adapter: mysql
+  database: b16
+  username: root
+  password: pass1234xyz
+  host: localhost
+  # useful syntax to remember but not used here:
+  # socket: /bn/mysql/tmp/mysql.sock
+
+
+<p /><b>Design/Write Layout</b><p />
+
+I searched around on the web for pages I consider "nice".
+
+I found this:
+
+http://quotedprintable.com/archives/2007/11
+
+I copied it to this location:
+
+~/pt/w/b/b16/app/views/layouts/application.html.erb
+
+I worked with it until I ended up with this:
+
+<pre><code class="html">
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"&gt;
+
+&lt;head&gt;
+    &lt;title&gt;http://bikle.com&lt;/title&gt;
+    &lt;meta http-equiv="content-type" content="text/html; charset=UTF-8" /&gt;
+    &lt;link href="/stylesheets/layout.css" rel="stylesheet" type="text/css" /&gt;
+    &lt;link href="/stylesheets/content.css" rel="stylesheet" type="text/css" /&gt;
+    &lt;link href="/stylesheets/syntax.css" rel="stylesheet" type="text/css" /&gt;
+    &lt;link href="/stylesheets/local.css" rel="stylesheet" type="text/css" /&gt;
+    &lt;link href="/stylesheets/application.css" rel="stylesheet" type="text/css" /&gt;
+    &lt;!-- Used to highlight code --&gt;
+    &lt;script src="/javascripts/code_highlighter.js" type="text/javascript"&gt;&lt;/script&gt;
+    &lt;script src="/javascripts/ruby.js" type="text/javascript"&gt;&lt;/script&gt;
+    &lt;script src="/javascripts/sql.js" type="text/javascript"&gt;&lt;/script&gt;
+    &lt;!-- Used to highlight code --&gt;
+    &lt;!-- Used by Active Scaffold --&gt;
+    &lt;%= javascript_include_tag :defaults %&gt;
+    &lt;%= active_scaffold_includes %&gt;
+    &lt;%= stylesheet_link_tag 'active_scaffold_overrides' %&gt;
+    &lt;!-- Used by Active Scaffold --&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div id="container"&gt;
+      &lt;div id="header"&gt;
+        &lt;h1&gt;&lt;span&gt;&lt;a href="http://bikle.com/"&gt;http://bikle.com&lt;/a&gt;&lt;/span&gt;&lt;/h1&gt;
+        &lt;h2&gt;contact: bikle@bikle.com&lt;/h2&gt;
+      &lt;/div&gt; &lt;!-- id header --&gt;
+      &lt;div id="page"&gt;
+        &lt;div id="content" &gt;
+          &lt;div id="div4yield" style="width:100%; height:90%; overflow:auto;"&gt;
+            &lt;%= yield %&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;  &lt;!-- id content --&gt;
+        &lt;div id="sidebar"&gt;
+
+          &lt;div class="sidebar-node"&gt;
+            &lt;!-- SiteSearch Google --&gt;
+            &lt;form method="get" action="http://www.google.com/custom" target="google_window"&gt;
+            &lt;table border="0" &gt;
+            &lt;!--
+            &lt;tr&gt;&lt;td nowrap="nowrap" valign="top" align="left" height="32"&gt;
+            &lt;a href="http://www.google.com/"&gt;
+            &lt;img id="googlelogo" src="http://www.google.com/logos/Logo_25wht.gif" border="0" alt="Google" align="middle"&gt;&lt;/img&gt;&lt;/a&gt;
+            &lt;/td&gt;&lt;/tr&gt;
+            --&gt;
+            &lt;tr&gt;&lt;td nowrap="nowrap"&gt;
+            &lt;input type="hidden" name="domains" value="bikle.com"&gt;&lt;/input&gt;
+
+            &lt;input type="text" name="q" size="22" maxlength="155" value="oracle"&gt;&lt;/input&gt;
+            &lt;/td&gt;&lt;/tr&gt;
+
+            &lt;tr&gt;&lt;td&gt;
+            &lt;input type="radio" name="sitesearch" value=""  checked="checked"&gt;&lt;/input&gt;
+            &lt;font size="-1" color="#000000"&gt;the universe&lt;/font&gt;
+
+            &lt;input type="radio" name="sitesearch" value="bikle.com"&gt;&lt;/input&gt;
+            &lt;font size="-1" color="#000000"&gt;bikle.com&lt;/font&gt;
+            &lt;br /&gt;
+            &lt;input type="submit" name="sa" value="Google Generic Search"&gt;&lt;/input&gt;
+            &lt;input type="hidden" name="client" value="pub-8965802770706416"&gt;&lt;/input&gt;
+            &lt;input type="hidden" name="forid" value="1"&gt;&lt;/input&gt;
+            &lt;input type="hidden" name="ie" value="UTF-8"&gt;&lt;/input&gt;
+            &lt;input type="hidden" name="oe" value="UTF-8"&gt;&lt;/input&gt;
+
+            &lt;input type="hidden" name="cof" value="GALT:#008000;GL:1;DIV:#336699;VLC:663399;AH:center;BGC:FFFFFF;LBGC:336699;ALC:0000FF;LC:0000FF;T:000000;GFNT:0000FF;GIMP:0000FF;FORID:1"&gt;&lt;/input&gt;
+            &lt;input type="hidden" name="hl" value="en"&gt;&lt;/input&gt;
+            &lt;/td&gt;&lt;/tr&gt;
+
+            &lt;/table&gt;
+            &lt;/form&gt;
+            &lt;hr /&gt;
+            &lt;!-- SiteSearch Google --&gt;
+          &lt;/div&gt; &lt;!-- class sidebar-node --&gt;
+
+          &lt;div class="sidebar-node"&gt;
+            &lt;h3&gt;Dan&lt;/h3&gt;
+            Dan Bikle is an Oracle DBA and Rails Developer.
+          &lt;/div&gt;  &lt;!-- class sidebar-node --&gt;
+          &lt;br /&gt;
+
+          &lt;div class="sidebar-node"&gt;
+            &lt;h3&gt;Links&lt;/h3&gt;
+              &lt;a href="/protected/about/"&gt;About&lt;/a&gt;
+              &lt;br /&gt;&lt;a href="/protected/services/"&gt;Services&lt;/a&gt;
+              &lt;br /&gt;&lt;a href="/protected/contact/"&gt;Contact&lt;/a&gt;
+              &lt;br /&gt;&lt;a href="/protected/tech_tips/"&gt;Tech Tips&lt;/a&gt;
+              &lt;br /&gt;&lt;a href="/protected/tech_tips/"&gt;The Code Behind This Site&lt;/a&gt;
+              &lt;br /&gt;&lt;a href="/old_site.html" target="j"&gt;Old Bikle.com Site&lt;/a&gt;
+              &lt;br /&gt;
+              &lt;br /&gt;
+            &lt;h3&gt;Many2Many&lt;/h3&gt;
+            &lt;a href="/asls/categs/"&gt;A Category&lt;br /&gt;has-and-belongs-to-many&lt;br /&gt;URLs&lt;/a&gt;
+            &lt;p /&gt;
+            &lt;a href="/asls/urlls/"&gt;A URL&lt;br /&gt;has-and-belongs-to-many&lt;br /&gt;Categories&lt;/a&gt;
+          &lt;/div&gt;  &lt;!-- class sidebar-node --&gt;
+          &lt;br /&gt;
+
+          &lt;div class="sidebar-node"&gt;
+            &lt;h3&gt;Translate&lt;/h3&gt;
+            &lt;a target="x" href="http://translate.google.com/translate?u=http%3A%2F%2Fbikle.com&amp;langpair=en%7Ces&amp;hl=en&amp;ie=UTF-8&amp;oe=UTF-8"&gt;Español&lt;/a&gt;
+            &lt;br /&gt;&lt;a target="x" href="http://translate.google.com/translate?u=http%3A%2F%2Fbikle.com&amp;langpair=en%7Czh-CN&amp;hl=en&amp;ie=UTF-8&amp;oe=UTF-8"&gt;中国版&lt;/a&gt;
+            &lt;br /&gt;&lt;a target="x" href="http://translate.google.com/translate?u=http%3A%2F%2Fbikle.com&amp;langpair=en%7Cru&amp;hl=en&amp;ie=UTF-8&amp;oe=UTF-8"&gt;Россия&lt;/a&gt;
+            &lt;br /&gt;&lt;a target="x" href="http://translate.google.com/translate?u=http%3A%2F%2Fbikle.com&amp;langpair=en%7Cpt&amp;hl=en&amp;ie=UTF-8&amp;oe=UTF-8"&gt;Português&lt;/a&gt;
+            &lt;br /&gt;&lt;a target="x" href="http://translate.google.com/translate?u=http%3A%2F%2Fbikle.com&amp;langpair=en%7Cde&amp;hl=en&amp;ie=UTF-8&amp;oe=UTF-8"&gt;Deutsche&lt;/a&gt;
+            &lt;br /&gt;&lt;a target="x" href="http://translate.google.com/translate?u=http%3A%2F%2Fbikle.com&amp;langpair=en%7Cfr&amp;hl=en&amp;ie=UTF-8&amp;oe=UTF-8"&gt;Française&lt;/a&gt;
+            &lt;br /&gt;&lt;a target="x" href="http://translate.google.com/translate?u=http%3A%2F%2Fbikle.com&amp;langpair=en%7Cko&amp;hl=en&amp;ie=UTF-8&amp;oe=UTF-8"&gt;한국말&lt;/a&gt;
+            &lt;br /&gt;&lt;a target="x" href="http://translate.google.com/translate?u=http%3A%2F%2Fbikle.com&amp;langpair=en%7Cja&amp;hl=en&amp;ie=UTF-8&amp;oe=UTF-8"&gt;日本人&lt;/a&gt;
+            &lt;br /&gt;&lt;a target="x" href="http://translate.google.com/translate?u=http%3A%2F%2Fbikle.com&amp;langpair=en%7Car&amp;hl=en&amp;ie=UTF-8&amp;oe=UTF-8"&gt;اللغة العربية&lt;/a&gt;
+            &lt;br /&gt;
+            &lt;br /&gt;&lt;a target="x" href="http://translate.google.com/translate_s?hl=en&clss=&q=oracle+database+administrator&tq=&sl=en&tl=pt"&gt;1. Translate Your Search &lt;br /&gt;2. Translate Results Back&lt;/a&gt;
+
+          &lt;/div&gt;  &lt;!-- class sidebar-node --&gt;
+
+          &lt;hr /&gt;
+          &lt;div class="sidebar-node"&gt;
+            &lt;a target="colorw" href="http://www.ficml.org/jemimap/style/color/wheel.html"&gt;
+              &lt;img src="/images/hsvwheel.png" alt="4096 color wheel" border="1" height="63" width="142" /&gt;
+            &lt;/a&gt;
+          &lt;/div&gt;  &lt;!-- class sidebar-node --&gt;
+
+          &lt;hr /&gt;
+          &lt;hr /&gt;
+          &lt;div class="sidebar-node"&gt;
+
+&lt;!-- google 160 wide sky scraper 2008_08_30 channel bikle.com --&gt;
+&lt;script type="text/javascript"&gt;&lt;!--
+google_ad_client = "pub-8965802770706416";
+/* 160x600 skyscraper 2008-08-30 */
+google_ad_slot = "2209738515";
+google_ad_width = 160;
+google_ad_height = 600;
+//--&gt;
+&lt;/script&gt;
+&lt;script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js"&gt;
+&lt;/script&gt;
+&lt;!-- google 160 wide sky scraper 2008_08_30 channel bikle.com --&gt;
+
+          &lt;/div&gt;  &lt;!-- class sidebar-node --&gt;
+
+
+        &lt;/div&gt; &lt;!-- class sidebar --&gt;
+      &lt;/div&gt; &lt;!-- id page --&gt;
+
+      &lt;div id="footer"&gt;
+        &lt;a href="http://bikle.com/"&gt;http://bikle.com&lt;/a&gt;
+        is powered by &lt;a href="http://api.rubyonrails.com/"&gt;Rails&lt;/a&gt;,
+        &lt;a target='a' href='http://activescaffold.com/'&gt;http://activescaffold.com/&lt;/a&gt;
+        and styled with &lt;a href="http://quotedprintable.com/pages/scribbish"&gt;scribbish&lt;/a&gt;.
+
+        &lt;a href="http://validator.w3.org/check?uri=referer" target="v"&gt;
+          &lt;img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0 Strict" height="15" width="44" /&gt;
+        &lt;/a&gt;
+
+        &lt;a href="http://jigsaw.w3.org/css-validator/" target="v2"&gt;
+          &lt;img style="border:0;width:44px;height:15px" src="http://jigsaw.w3.org/css-validator/images/vcss-blue" alt="Valid CSS!" /&gt;
+        &lt;/a&gt;
+
+      &lt;/div&gt; &lt;!-- id footer --&gt;
+    &lt;/div&gt; &lt;!-- id container --&gt;
+
+&lt;!-- google analytics --&gt;
+&lt;script src="http://www.google-analytics.com/urchin.js" type="text/javascript"&gt;
+&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+_uacct = "UA-1163628-1";
+urchinTracker();
+&lt;/script&gt;
+&lt;!-- google analytics --&gt;
+
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+
+<p /><b>script/generate controller protected</b><p />
+
+<p /><b>Many2Many</b><p />
+
+<p /><b>git ActiveScaffold</b><p />
+
+<p /><b>Generate Models For ActiveScaffold</b><p />
+
+<p /><b>rake db:migrate</b><p />
+
+<p /><b>Generate Controller For ActiveScaffold</b><p />
+
+<p />
+
