@@ -1,0 +1,133 @@
+#  Configuration file for the lighttpd web server
+
+server.bind = "burnaby.textdrive.com"
+server.port = 8148
+
+server.modules           = ( "mod_rewrite", "mod_accesslog", "mod_fastcgi", "mod_compress", "mod_expire" )
+
+server.error-handler-404 = "/dispatch.fcgi"
+# hchome = "/users/home/bikle10/pt/w/hc/hc11"
+# hchome = "/users/home/bikle10/pt/w/vj/vj11"
+# hchome = "/users/home/bikle10/pt/w/ve/ve12"
+bhome="/users/home/bikle10/pt/w/b/b16"
+
+server.document-root     = bhome + "/public/"
+
+server.errorlog          = bhome + "/log/lighttpd.error.log"
+accesslog.filename       = bhome + "/log/lighttpd.access.log"
+
+url.rewrite              = ( "^/$" => "index.html", "^([^.]+)$" => "$1.html" )
+
+compress.filetype        = ( "text/plain", "text/html", "text/css", "text/javascript" )
+compress.cache-dir       = bhome + "/tmp/cache"
+
+expire.url               = ( "/favicon.ico"  => "access 3 days", 
+                             "/images/"      => "access 3 days", 
+                             "/stylesheets/" => "access 3 days",
+                             "/javascripts/" => "access 3 days" )
+
+
+# Change *-procs to 2 if you need to use Upload Progress or other tasks that
+# *need* to execute a second request while the first is still pending.
+fastcgi.server      = ( ".fcgi" => ( "localhost" => (
+  "min-procs"       => 1, 
+  "max-procs"       => 1,
+  "socket"          => bhome + "/tmp/sockets/fcgi.socket",
+  "bin-path"        => bhome + "/public/dispatch.fcgi",
+  "bin-environment" => ( "RAILS_ENV" => "production" )
+) ) )
+
+mimetype.assign = (  
+  ".css"        =>  "text/css",
+  ".gif"        =>  "image/gif",
+  ".htm"        =>  "text/html",
+  ".html"       =>  "text/html",
+  ".jpeg"       =>  "image/jpeg",
+  ".jpg"        =>  "image/jpeg",
+  ".js"         =>  "text/javascript",
+  ".png"        =>  "image/png",
+  ".swf"        =>  "application/x-shockwave-flash",
+  ".txt"        =>  "text/plain"
+)
+
+# Making sure file uploads above 64k always work when using IE or Safari
+# For more information, see http://trac.lighttpd.net/trac/ticket/360
+$HTTP["useragent"] =~ "^(.*MSIE.*)|(.*AppleWebKit.*)$" {
+  server.max-keep-alive-requests = 0
+}
+
+$HTTP["host"] =~ "xemviet" {
+
+   xvhome="/users/home/bikle10/pt/w/xv/xv10"
+
+   server.document-root = xvhome + "/public"
+   server.errorlog      = xvhome + "/log/lighttpd.error.log"
+   accesslog.filename   = xvhome + "/log/lighttpd.access.log"
+
+
+fastcgi.server      = ( ".fcgi" => ( "localhost" => (
+  "min-procs"       => 1,
+  "max-procs"       => 1,
+  "socket"          => xvhome + "/tmp/sockets/fcgi.socket",
+  "bin-path"        => xvhome + "/public/dispatch.fcgi",
+  "bin-environment" => ( "RAILS_ENV" => "production" )
+) ) )
+
+}
+
+$HTTP["host"] =~ "vietenglish" {
+
+   vehome="/users/home/bikle10/pt/w/ve/ve12"
+
+   server.document-root = vehome + "/public"
+   server.errorlog      = vehome + "/log/lighttpd.error.log"
+   accesslog.filename   = vehome + "/log/lighttpd.access.log"
+
+
+fastcgi.server      = ( ".fcgi" => ( "localhost" => (
+  "min-procs"       => 1,
+  "max-procs"       => 1,
+  "socket"          => vehome + "/tmp/sockets/fcgi.socket",
+  "bin-path"        => vehome + "/public/dispatch.fcgi",
+  "bin-environment" => ( "RAILS_ENV" => "production" )
+) ) )
+
+}
+
+$HTTP["host"] =~ "vietnamtourjason" {
+
+   vjhome="/users/home/bikle10/pt/w/vj/vj11"
+
+   server.document-root = vjhome + "/public"
+   server.errorlog      = vjhome + "/log/lighttpd.error.log"
+   accesslog.filename   = vjhome + "/log/lighttpd.access.log"
+
+
+fastcgi.server      = ( ".fcgi" => ( "localhost" => (
+  "min-procs"       => 1,
+  "max-procs"       => 1,
+  "socket"          => vjhome + "/tmp/sockets/fcgi.socket",
+  "bin-path"        => vjhome + "/public/dispatch.fcgi",
+  "bin-environment" => ( "RAILS_ENV" => "production" )
+) ) )
+
+}
+
+$HTTP["host"] =~ "trinhguide" {
+
+   tghome="/users/home/bikle10/pt/w/tg/tg10"
+
+   server.document-root = tghome + "/public"
+   server.errorlog      = tghome + "/log/lighttpd.error.log"
+   accesslog.filename   = tghome + "/log/lighttpd.access.log"
+
+
+fastcgi.server      = ( ".fcgi" => ( "localhost" => (
+  "min-procs"       => 1,
+  "max-procs"       => 1,
+  "socket"          => tghome + "/tmp/sockets/fcgi.socket",
+  "bin-path"        => tghome + "/public/dispatch.fcgi",
+  "bin-environment" => ( "RAILS_ENV" => "production" )
+) ) )
+
+}

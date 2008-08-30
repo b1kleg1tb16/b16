@@ -6,3 +6,11 @@ development:
   password: m
   host: localhost
   socket: /bn/mysql/tmp/mysql.sock
+
+## production:
+##   adapter: mysql
+##   database: huycook
+##   host: 127.0.0.1
+##   username: tg
+##   password: oomymy88
+
