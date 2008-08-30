@@ -1,5 +1,13 @@
 class ProtectedController < ApplicationController
 
+  caches_page :index
+  caches_page :about
+  caches_page :services
+  caches_page :contact
+  caches_page :tech_tips
+  caches_page :o10gR2_solaris10x86
+  caches_page :roracle_session
+
   def index
   end
 
@@ -13,6 +21,12 @@ class ProtectedController < ApplicationController
   end
 
   def tech_tips
+  end
+
+  def  o10gR2_solaris10x86
+  end
+
+  def  roracle_session
   end
 
 end
