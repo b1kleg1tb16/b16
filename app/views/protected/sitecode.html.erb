@@ -392,15 +392,463 @@ urchinTracker();
 
 <p /><b>script/generate controller protected</b><p />
 
+Next I added a controller to the site named: "protected".
+
+I did this via the Rails shell command listed below:
+
+<pre><code>script/generate controller protected</code></pre>
+
+<p />
+This controller allows access to these links:
+<p />
+
+<ul>
+<li /><a target='a' href='/protected/about'>about</a>
+<li /><a target='a' href='/protected/services'>services</a>
+<li /><a target='a' href='/protected/contact'>contact</a>
+<li /><a target='a' href='/protected/tech_tips'>tech_tips</a>
+<li /><a target='a' href='/protected/sitecode'>sitecode</a>
+<li /><a target='a' href='/protected/o10gR2_solaris10x86'>o10gR2_solaris10x86</a>
+<li /><a target='a' href='/protected/roracle_session'>roracle_session</a>
+</ul>
+
+I used emacs to add a small amount of syntax to the controller:
+
+<pre><code class="ruby">
+class ProtectedController < ApplicationController
+
+  caches_page :index
+  caches_page :about
+  caches_page :services
+  caches_page :contact
+  caches_page :tech_tips
+  caches_page :o10gR2_solaris10x86
+  caches_page :roracle_session
+
+  def index
+  end
+
+  def about
+  end
+
+  def services
+  end
+
+  def contact
+  end
+
+  def tech_tips
+  end
+
+  def  o10gR2_solaris10x86
+  end
+
+  def  roracle_session
+  end
+
+  def  sitecode
+  end
+
+end
+</code></pre>
+
+After I finished the controller, I authored the documents which correspond to the controller actions.
+
+The file system view of the documents is listed below:
+
+<pre><code class="html">
+[bikle10@burnaby ~/pt/w/b/b16/app/views/protected]$
+[bikle10@burnaby ~/pt/w/b/b16/app/views/protected]$
+[bikle10@burnaby ~/pt/w/b/b16/app/views/protected]$ pwd
+/users/home/bikle10/pt/w/b/b16/app/views/protected
+[bikle10@burnaby ~/pt/w/b/b16/app/views/protected]$ ls -la
+total 80
+drwxr-xr-x  2 bikle10  bikle10    512 Aug 29 23:08 .
+drwxr-xr-x  7 bikle10  bikle10    512 Aug 25 09:27 ..
+-rw-r--r--  1 bikle10  bikle10   4606 Aug 24 06:57 about.html.erb
+-rw-r--r--  1 bikle10  bikle10   1725 Aug 26 22:29 contact.html.erb
+-rw-r--r--  1 bikle10  bikle10     78 Aug 24 02:16 index.html.erb
+-rw-r--r--  1 bikle10  bikle10  31226 Aug 30 20:04 o10gR2_solaris10x86.html.erb
+-rwxr-xr-x  1 bikle10  bikle10  27602 Aug 30 20:05 roracle_session.html.erb
+-rw-r--r--  1 bikle10  bikle10   1155 Aug 26 22:20 services.html.erb
+-rw-r--r--  1 bikle10  bikle10    714 Aug 26 22:37 tech_tips.html.erb
+[bikle10@burnaby ~/pt/w/b/b16/app/views/protected]$
+[bikle10@burnaby ~/pt/w/b/b16/app/views/protected]$
+[bikle10@burnaby ~/pt/w/b/b16/app/views/protected]$ cat tech_tips.html.erb
+&lt;h5&gt;Tech Tips&lt;/h5&gt;
+&lt;p /&gt;
+&lt;%= link_to 'Oracle 10g R2 [10.2.0.2] Install on Solaris 10 x86', :action =&gt; "o10gR2_solaris10x86" %&gt; &lt;br /&gt; &lt;p /&gt;
+&lt;p /&gt;
+&lt;%= link_to 'Copying Data From A Ruby On Rails Session Into An Oracle Session', :action =&gt; "roracle_session" %&gt; &lt;br /&gt; &lt;p /&gt;
+&lt;p /&gt;
+&lt;a href="http://www.google.com/custom?domains=bikle.com&q=burrito+recipes&sitesearch=&sa=Google+Generic+Search&client=pub-8965802770706416&forid=1&ie=UTF-8&oe=UTF-8&cof=GALT%3A%23008000%3BGL%3A1%3BDIV%3A%23336699%3BVLC%3A663399%3BAH%3Acenter%3BBGC%3AFFFFFF%3BLBGC%3A336699%3BALC%3A0000FF%3BLC%3A0000FF%3BT%3A000000%3BGFNT%3A0000FF%3BGIMP%3A0000FF%3BFORID%3A1&hl=en" target="b"&gt;&lt;img alt="tech_tips" src="/images/tech_tips.jpg" /&gt; &lt;/a&gt;
+[bikle10@burnaby ~/pt/w/b/b16/app/views/protected]$
+[bikle10@burnaby ~/pt/w/b/b16/app/views/protected]$
+[bikle10@burnaby ~/pt/w/b/b16/app/views/protected]$
+</code></pre>
+
+
 <p /><b>Many2Many</b><p />
+
+Next, I started work on the site to expose a data-store of URLs.
+
+A URL can belong to several categories.
+
+The database jargon I use to describe the relationship between URLs and Categories is this:
+
+"Many to Many"
+
+The Rails jargon is more verbose:
+
+"A URL has and belongs to many Categories."
+
+"A Categroy has and belongs to many URLs."
 
 <p /><b>git ActiveScaffold</b><p />
 
+I depend on a Rails-plugin named ActiveScaffold to implement this functionality.
+
+I used a utility named "git" to get the ActiveScaffold software to my Mac.
+
+
+Screen dump of git:
+
+<pre><code>
+mac2:/software/tmp maco$
+mac2:/software/tmp maco$
+mac2:/software/tmp maco$ git clone git://github.com/activescaffold/active_scaffold.git
+Initialize active_scaffold/.git
+Initialized empty Git repository in /software/tmp/active_scaffold/.git/
+remote: Counting objects: 4397, done.
+remote: Compressing objects: 100% (969/969), done.
+remote: Total 4397 (delta 3215), reused 4393 (delta 3211)
+Receiving objects: 100% (4397/4397), 586.36 KiB | 302 KiB/s, done.
+Resolving deltas: 100% (3215/3215), done.
+mac2:/software/tmp maco$
+mac2:/software/tmp maco$
+mac2:/software/tmp maco$ ls -la active_scaffold/
+total 88
+drwxr-xr-x   16 maco  admin   544 Aug 30 15:31 ./
+drwxr-xr-x    8 maco  admin   272 Aug 30 15:31 ../
+drwxr-xr-x   12 maco  admin   408 Aug 30 15:31 .git/
+-rw-r--r--    1 maco  admin  9675 Aug 30 15:31 CHANGELOG
+-rw-r--r--    1 maco  admin  1057 Aug 30 15:31 MIT-LICENSE
+-rw-r--r--    1 maco  admin   757 Aug 30 15:31 README
+-rw-r--r--    1 maco  admin   582 Aug 30 15:31 Rakefile
+-rw-r--r--    1 maco  admin  2416 Aug 30 15:31 environment.rb
+drwxr-xr-x    3 maco  admin   102 Aug 30 15:31 frontends/
+-rw-r--r--    1 maco  admin   476 Aug 30 15:31 init.rb
+-rw-r--r--    1 maco  admin  1012 Aug 30 15:31 install.rb
+-rw-r--r--    1 maco  admin  1325 Aug 30 15:31 install_assets.rb
+drwxr-xr-x   18 maco  admin   612 Aug 30 15:31 lib/
+drwxr-xr-x    3 maco  admin   102 Aug 30 15:31 public/
+drwxr-xr-x   11 maco  admin   374 Aug 30 15:31 test/
+-rw-r--r--    1 maco  admin   258 Aug 30 15:31 uninstall.rb
+mac2:/software/tmp maco$
+mac2:/software/tmp maco$
+mac2:/software/tmp maco$
+</code></pre>
+
+Then I copied the ActiveScaffold software to this location on the FreeBSD box:
+
+/users/home/bikle10/pt/w/b/b16/vendor/plugins/active_scaffold
+
+
 <p /><b>Generate Models For ActiveScaffold</b><p />
+
+I used two shell commands to generate models for ActiveScaffold:
+
+script/generate model categ
+script/generate model urll
+
+The file system view of the models:
+
+[bikle10@burnaby ~/pt/w/b/b16/app/models]$
+[bikle10@burnaby ~/pt/w/b/b16/app/models]$ pwd
+/users/home/bikle10/pt/w/b/b16/app/models
+[bikle10@burnaby ~/pt/w/b/b16/app/models]$
+[bikle10@burnaby ~/pt/w/b/b16/app/models]$
+[bikle10@burnaby ~/pt/w/b/b16/app/models]$ ls -la
+total 8
+drwxr-xr-x  2 bikle10  bikle10  512 Aug 25 03:09 .
+drwxr-xr-x  6 bikle10  bikle10  512 Aug 24 02:04 ..
+-rw-r--r--  1 bikle10  bikle10   70 Aug 25 03:09 categ.rb
+-rw-r--r--  1 bikle10  bikle10   70 Aug 25 03:08 urll.rb
+[bikle10@burnaby ~/pt/w/b/b16/app/models]$
+[bikle10@burnaby ~/pt/w/b/b16/app/models]$
+
+I used emacs to enhance the model files:
+
+class Categ < ActiveRecord::Base
+  has_and_belongs_to_many :urlls
+end
+
+class Urll < ActiveRecord::Base
+  has_and_belongs_to_many :categs
+end
+
 
 <p /><b>rake db:migrate</b><p />
 
+Rails provides a utility to help me manage tables in my database.
+
+Here is the flow:
+
+Generate models  (which I just did)
+Edit corresponding "migration" files
+Run the utility via shell command: "rake db:migrate"
+
+So, I edited my migration files and then ran shell command: "rake db:migrate".
+
+The migration files are listed below:
+
+<pre><code class="ruby">
+[bikle10@burnaby ~/pt/w/b/b16/db/migrate]$
+[bikle10@burnaby ~/pt/w/b/b16/db/migrate]$
+[bikle10@burnaby ~/pt/w/b/b16/db/migrate]$ pwd
+/users/home/bikle10/pt/w/b/b16/db/migrate
+[bikle10@burnaby ~/pt/w/b/b16/db/migrate]$
+[bikle10@burnaby ~/pt/w/b/b16/db/migrate]$
+[bikle10@burnaby ~/pt/w/b/b16/db/migrate]$ ls -la
+total 10
+drwxr-xr-x  2 bikle10  bikle10  512 Aug 25 06: 59 .
+drwxr-xr-x  3 bikle10  bikle10  512 Aug 30 08: 31 ..
+-rw-r--r--  1 bikle10  bikle10  204 Aug 25 03: 10 20080825030744_create_categs.rb
+-rw-r--r--  1 bikle10  bikle10  262 Aug 25 03: 11 20080825030802_create_urlls.rb
+-rw-r--r--  1 bikle10  bikle10  274 Aug 25 03: 13 20080825030804_create_categs_urlls.rb
+[bikle10@burnaby ~/pt/w/b/b16/db/migrate]$
+[bikle10@burnaby ~/pt/w/b/b16/db/migrate]$
+[bikle10@burnaby ~/pt/w/b/b16/db/migrate]$ cat 20080825030744_create_categs.rb
+class CreateCategs &lt; ActiveRecord::Migration
+  def self.up
+    create_table :categs do |t|
+      t.column :name, :string
+      t.timestamps
+    end
+  end
+
+  def self.down
+    drop_table :categs
+  end
+end
+[bikle10@burnaby ~/pt/w/b/b16/db/migrate]$
+[bikle10@burnaby ~/pt/w/b/b16/db/migrate]$
+[bikle10@burnaby ~/pt/w/b/b16/db/migrate]$ cat 20080825030802_create_urlls.rb
+class CreateUrlls &lt; ActiveRecord::Migration
+  def self.up
+    create_table :urlls do |t|
+      t.column :name, :string
+      t.column :uurl, :string
+      t.column :ddesc, :string
+      t.timestamps
+    end
+  end
+
+  def self.down
+    drop_table :urlls
+  end
+end
+[bikle10@burnaby ~/pt/w/b/b16/db/migrate]$
+[bikle10@burnaby ~/pt/w/b/b16/db/migrate]$
+[bikle10@burnaby ~/pt/w/b/b16/db/migrate]$ cat 20080825030804_create_categs_urlls.rb
+class CreateCategsUrlls &lt; ActiveRecord::Migration
+  def self.up
+    create_table :categs_urlls, :id =&gt; false do |t|
+      t.column :categ_id, :integer
+      t.column :urll_id, :integer
+      t.timestamps
+    end
+  end
+
+  def self.down
+    drop_table :categs_urlls
+  end
+end
+[bikle10@burnaby ~/pt/w/b/b16/db/migrate]$
+[bikle10@burnaby ~/pt/w/b/b16/db/migrate]$
+[bikle10@burnaby ~/pt/w/b/b16/db/migrate]$
+</code></pre>
+
+
+Next, I used a series of SQL commands to fill the tables with data.
+
+
 <p /><b>Generate Controller For ActiveScaffold</b><p />
 
-<p />
+One of the main ideas behind ActiveScaffold is that each model needs its own controller.
+
+I used these shell commands to create two controllers for my two ActiveScaffold models:
+
+script/generate controller asls/categs
+script/generate controller asls/urlls
+
+A file system view of the controllers is displayed below:
+
+<pre><code class="ruby">
+[bikle10@burnaby ~/pt/w/b/b16/app/controllers/asls]$
+[bikle10@burnaby ~/pt/w/b/b16/app/controllers/asls]$ pwd
+/users/home/bikle10/pt/w/b/b16/app/controllers/asls
+[bikle10@burnaby ~/pt/w/b/b16/app/controllers/asls]$
+[bikle10@burnaby ~/pt/w/b/b16/app/controllers/asls]$
+[bikle10@burnaby ~/pt/w/b/b16/app/controllers/asls]$ cat categs_controller.rb
+class Asls::CategsController < ApplicationController
+  # active_scaffold creates powerful JS based forms.  See http://activescaffold.com
+  active_scaffold do |config|
+    config.label = "A Category has-and-belongs-to-many URLs"
+    config.actions = [:list, :show, :search]
+    config.columns[:name].label = "This Category"
+    config.columns[:urlls].label = "Has These URLs"
+    config.list.columns = [:name, :urlls]
+    config.list.per_page = 99
+    # config.list.sorting = [{ :name => :asc}]
+  end
+end
+[bikle10@burnaby ~/pt/w/b/b16/app/controllers/asls]$
+[bikle10@burnaby ~/pt/w/b/b16/app/controllers/asls]$
+[bikle10@burnaby ~/pt/w/b/b16/app/controllers/asls]$ cat urlls_controller.rb
+class Asls::UrllsController < ApplicationController
+  # active_scaffold creates powerful JS based forms.  See http://activescaffold.com
+  active_scaffold do |config|
+    config.label = "A URL has-and-belongs-to-many Categories"
+    config.columns[:uurl].label = "This URL"
+    config.columns[:name].label = "Has This Name"
+    config.columns[:ddesc].label = "And This Description"
+    config.columns[:categs].label = "And These Categories"
+    config.list.columns = [:uurl, :name, :ddesc, :categs]
+    config.actions = [:list, :show, :search]
+    config.list.per_page = 99
+    # config.list.sorting = [{ :categs => :desc}, {:uurl => :desc}]
+  end
+end
+[bikle10@burnaby ~/pt/w/b/b16/app/controllers/asls]$
+[bikle10@burnaby ~/pt/w/b/b16/app/controllers/asls]$
+</code></pre>
+
+
+After I confirmed that ActiveScaffold was functional, I enhanced the display of various data values inside ActiveScaffold.
+
+I did this by editing a file named application_helper.rb
+
+A file system view of application_helper.rb is displayed below:
+
+<pre><code class="ruby">
+[bikle10@burnaby ~/pt/w/b/b16/app/helpers]$
+[bikle10@burnaby ~/pt/w/b/b16/app/helpers]$ pwd
+/users/home/bikle10/pt/w/b/b16/app/helpers
+[bikle10@burnaby ~/pt/w/b/b16/app/helpers]$
+[bikle10@burnaby ~/pt/w/b/b16/app/helpers]$ cat application_helper.rb
+# Methods added to this helper will be available to all templates in the application.
+module ApplicationHelper
+
+  # Builds a Google CSE URL from a string
+  def googlethis(s)
+    # Use url_for() to help prep params for the google &lt;a&gt; tag
+    p1 = url_for( {'q' =&gt; s, 'cx' =&gt; '010334745099783175565:49dkyo8ytbk', 'cof' =&gt; 'FORID:1', :controller =&gt; "jjnnkk", :trailing_slash =&gt; false} )
+    # But wait, url_for() puts tokens in there I dont want.
+    # So, I use a jjnnkk controller to help me corral them.  I will then clobber them with a .sub()
+    p2 = p1.sub(/^.*jjnnkk/,'')
+    s3 = "&lt;a class='googlethis' target='git' href='http://google.com/cse#{p2}'&gt;"
+    s5 = "Google-This: &lt;/a&gt;"
+    return "#{s3}#{s5}"
+  end
+
+#  # Builds a simple a-tag from a string.  String assumed to be like http://ibm.com
+#  def uurl_column(record)
+#    "&lt;a target='uurl'  href='#{record.uurl}'&gt;#{record.uurl}&lt;/a&gt;"
+#  end
+
+  # Builds a simple a-tag from a string.  String assumed to be like http://ibm.com
+  def uurl_column(record)
+    s1 = "&lt;a target='uurl'  href='#{record.uurl}'&gt;#{record.uurl}&lt;/a&gt;"
+    return "#{googlethis(record.uurl)} #{s1}"
+  end
+
+  # Prepends a googlethis to values in name column.
+  def name_column(record)
+    n = record.name
+    return "#{googlethis(n)} #{n}"
+  end
+
+  # Builds a ul-element from a collection of record.categs
+  def categs_column(record)
+    strng = ""
+    record.categs.each {|e| strng &lt;&lt; "&lt;li /&gt; #{link_to(h(e.name), :action =&gt; :show, :controller =&gt; 'categs', :id =&gt; e)}" }
+    return "&lt;ul&gt; #{strng} &lt;/ul&gt;"
+  end
+
+  # Builds a ul-element from a collection of record.names and record.urlls
+  def urlls_column(record)
+    # Start with empty array which I will use to ease sorting
+    sa = []
+    # Fill the array
+    record.urlls.each {|e| sa &lt;&lt; [e.name, e.uurl, e.id] }
+    # Sort the array and use it.
+    strng = ""
+    sa.sort.each do |e|
+#    record.urlls.each do |e|
+      e_name = e[0]
+      e_uurl = e[1]
+      e_id   = e[2]
+      strng &lt;&lt; "&lt;p /&gt; &nbsp;  &lt;li /&gt;name: #{link_to(h(e_name), :action =&gt; :show, :controller =&gt; 'urlls', :id =&gt; e_id)}"
+      strng &lt;&lt; "&lt;br /&gt;#{h('URL -&gt;')}&lt;a target='uurl' href='#{e_uurl}'&gt;#{e_uurl}&lt;/a&gt;"
+    end
+    return "&lt;ul&gt; #{strng} &lt;/ul&gt;"
+  end
+
+end
+
+[bikle10@burnaby ~/pt/w/b/b16/app/helpers]$
+[bikle10@burnaby ~/pt/w/b/b16/app/helpers]$
+[bikle10@burnaby ~/pt/w/b/b16/app/helpers]$
+</code></pre>
+
+
+The main idea behind the above file is that ActiveScaffold allows me to overwrite some methods.
+
+Each column in the database has a method which I can overwrite.
+
+For example, if I have a table named cats which has a column named cat_name then,
+ActiveScaffold will allow me to overwrite a method called "cat_name_column()".
+
+
+Example1 is displayed below:
+<pre><code class="ruby">
+# Methods added to this helper will be available to all templates in the application.
+module ApplicationHelper
+  def cat_name_column(record)
+    # Every cat is now named "Rascal!"
+    return "Rascal!"
+  end
+end
+</code></pre>
+
+
+Example2 is displayed below:
+<pre><code class="ruby">
+# Methods added to this helper will be available to all templates in the application.
+module ApplicationHelper
+  def cat_name_column(record)
+    # Append "Kitty" to the end of every cat name
+    return record + " Kitty"
+  end
+end
+</code></pre>
+
+
+
+Example3 is displayed below:
+<pre><code class="ruby">
+# Methods added to this helper will be available to all templates in the application.
+module ApplicationHelper
+  def cat_owners_column(record)
+    # A cat may have several owners. So, display them in html-ul-element
+    strng = ""
+    record.cat_owners.each {|e| strng &lt;&lt; "&lt;li /&gt; #{e.cat_owner}"}
+    return "&lt;ul&gt; #{strng} &lt;/ul&gt;"
+  end
+end
+</code></pre>
+
+
+
 
