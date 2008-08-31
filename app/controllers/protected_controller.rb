@@ -7,6 +7,7 @@ class ProtectedController < ApplicationController
   caches_page :tech_tips
   caches_page :o10gR2_solaris10x86
   caches_page :roracle_session
+  caches_page :sitecode
 
   def index
   end
