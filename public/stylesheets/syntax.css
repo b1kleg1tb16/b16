@@ -16,11 +16,12 @@
 #content code span.defname  { color: #9966ff;     }
 #content code span.erb      { background: #66ffff;}
 #content code span.tag      { color: #ff3333;     }
-#content code span.selectors  { color: #3333ff;   }
-#content code span.properties { color: #ffcc00; }
+#content code span.selectors  { color: #cc9900;   }
+#content code span.properties { color: #006699; }
 #content code span.units    { color: #ffff99;     }
 #content code span.urls     { color: #3300ff;    }
 #content code span.doctype  { color: #99ffff;    }
+#content code span.global  { color: #ff33cc;    }
 
 /*--------------------------------------------------------------
  For CodeRay
