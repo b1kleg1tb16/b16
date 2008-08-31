@@ -63,9 +63,11 @@ I obtained it from here:
 While looking for it, I found these pages to be useful:
 <p />
 <ul>
-  <li /><a target='a' href='ftp://ftp.ruby-lang.org/pub/ruby/1.8/'>ftp://ftp.ruby-lang.org/pub/ruby/1.8/</a>
-  <li /><a target='a' href='http://www.google.com/search?q=ruby+1.8.6+download'>http://www.google.com/search?q=ruby+1.8.6+download</a>
+<li><a target='a' href='ftp://ftp.ruby-lang.org/pub/ruby/1.8/'>ftp://ftp.ruby-lang.org/pub/ruby/1.8/</a></li>
+<li><a target='a' href='http://www.google.com/search?q=ruby+1.8.6+download'>http://www.google.com/search?q=ruby+1.8.6+download</a></li>
 </ul>
+
+
 
 <p />
 
@@ -137,8 +139,8 @@ ruby setup.rb
 I have two ways to access gems I need:
 <p />
 <ul>
-<li />Use the gem command to download the gems I need
-<li />Copy the gems from an existing ruby install
+  <li>Use the gem command to download the gems I need</li>
+<li>Copy the gems from an existing ruby install</li>
 </ul>
 
 I studied which gems I would need to run this site.
@@ -408,7 +410,7 @@ I worked with it until I ended up with this:
             &lt;br /&gt;&lt;a target="x" href="http://translate.google.com/translate?u=http%3A%2F%2Fbikle.com&amp;langpair=en%7Cja&amp;hl=en&amp;ie=UTF-8&amp;oe=UTF-8"&gt;日本人&lt;/a&gt;
             &lt;br /&gt;&lt;a target="x" href="http://translate.google.com/translate?u=http%3A%2F%2Fbikle.com&amp;langpair=en%7Car&amp;hl=en&amp;ie=UTF-8&amp;oe=UTF-8"&gt;اللغة العربية&lt;/a&gt;
             &lt;br /&gt;
-            &lt;br /&gt;&lt;a target="x" href="http://translate.google.com/translate_s?hl=en&clss=&q=oracle+database+administrator&tq=&sl=en&tl=pt"&gt;1. Translate Your Search &lt;br /&gt;2. Translate Results Back&lt;/a&gt;
+            &lt;br /&gt;&lt;a target="x" href="http://translate.google.com/translate_s?hl=en&amp;clss=&amp;q=oracle+database+administrator&amp;tq=&amp;sl=en&amp;tl=pt"&gt;1. Translate Your Search &lt;br /&gt;2. Translate Results Back&lt;/a&gt;
 
           &lt;/div&gt;  &lt;!-- class sidebar-node --&gt;
 
@@ -492,13 +494,13 @@ This controller allows access to these links:
 <p />
 
 <ul>
-<li /><a target='a' href='/protected/about'>about</a>
-<li /><a target='a' href='/protected/services'>services</a>
-<li /><a target='a' href='/protected/contact'>contact</a>
-<li /><a target='a' href='/protected/tech_tips'>tech_tips</a>
-<li /><a target='a' href='/protected/sitecode'>sitecode</a> ( The page you are currently looking at )
-<li /><a target='a' href='/protected/o10gR2_solaris10x86'>o10gR2_solaris10x86</a>
-<li /><a target='a' href='/protected/roracle_session'>roracle_session</a>
+  <li><a target='a' href='/protected/about'>about</a></li>
+<li><a target='a' href='/protected/services'>services</a></li>
+<li><a target='a' href='/protected/contact'>contact</a></li>
+<li><a target='a' href='/protected/tech_tips'>tech_tips</a></li>
+<li><a target='a' href='/protected/sitecode'>sitecode</a> ( The page you are currently looking at )</li>
+<li><a target='a' href='/protected/o10gR2_solaris10x86'>o10gR2_solaris10x86</a></li>
+<li><a target='a' href='/protected/roracle_session'>roracle_session</a></li>
 </ul>
 <p />
 
@@ -506,7 +508,7 @@ I used emacs to add a small amount of syntax to the controller:
 <p />
 
 <pre><code class="ruby">
-class ProtectedController < ApplicationController
+class ProtectedController &lt; ApplicationController
 
   caches_page :index
   caches_page :about
@@ -578,7 +580,7 @@ drwxr-xr-x  7 bikle  bikle    512 Aug 25 09:27 ..
 &lt;p /&gt;
 &lt;%= link_to 'Copying Data From A Ruby On Rails Session Into An Oracle Session', :action =&gt; "roracle_session" %&gt; &lt;br /&gt; &lt;p /&gt;
 &lt;p /&gt;
-&lt;a href="http://www.google.com/custom?domains=bikle.com&q=burrito+recipes&sitesearch=&sa=Google+Generic+Search&client=pub-8965802770706416&forid=1&ie=UTF-8&oe=UTF-8&cof=GALT%3A%23008000%3BGL%3A1%3BDIV%3A%23336699%3BVLC%3A663399%3BAH%3Acenter%3BBGC%3AFFFFFF%3BLBGC%3A336699%3BALC%3A0000FF%3BLC%3A0000FF%3BT%3A000000%3BGFNT%3A0000FF%3BGIMP%3A0000FF%3BFORID%3A1&hl=en" target="b"&gt;&lt;img alt="tech_tips" src="/images/tech_tips.jpg" /&gt; &lt;/a&gt;
+&lt;a href="http://www.google.com/custom?domains=bikle.com&amp;q=burrito+recipes&amp;sitesearch=&amp;sa=Google+Generic+Search&amp;client=pub-8965802770706416&amp;forid=1&amp;ie=UTF-8&amp;oe=UTF-8&amp;cof=GALT%3A%23008000%3BGL%3A1%3BDIV%3A%23336699%3BVLC%3A663399%3BAH%3Acenter%3BBGC%3AFFFFFF%3BLBGC%3A336699%3BALC%3A0000FF%3BLC%3A0000FF%3BT%3A000000%3BGFNT%3A0000FF%3BGIMP%3A0000FF%3BFORID%3A1&amp;hl=en" target="b"&gt;&lt;img alt="tech_tips" src="/images/tech_tips.jpg" /&gt; &lt;/a&gt;
 [bikle@bsdbox ~/pt/w/b/b16/app/views/protected]$
 [bikle@bsdbox ~/pt/w/b/b16/app/views/protected]$
 [bikle@bsdbox ~/pt/w/b/b16/app/views/protected]$
@@ -658,11 +660,11 @@ browser detects the added span tags and applies CSS from
 <p />
 This site serves Dan Webb's software to you via these links which reside in the head-element of the <a href='#constructlayout'>layout</a>:
 <ul>
-<li /><a target='a' href='/javascripts/code_highlighter.js'>/javascripts/code_highlighter.js</a>
-<li /><a target='a' href='/javascripts/html.js'>/javascripts/html.js</a>
-<li /><a target='a' href='/javascripts/css.js'>/javascripts/css.js</a>
-<li /><a target='a' href='/javascripts/ruby.js'>/javascripts/ruby.js</a>
-<li /><a target='a' href='/javascripts/javascript.js'>/javascripts/javascript.js</a>
+  <li><a target='a' href='/javascripts/code_highlighter.js'>/javascripts/code_highlighter.js</a></li>
+<li><a target='a' href='/javascripts/html.js'>/javascripts/html.js</a></li>
+<li><a target='a' href='/javascripts/css.js'>/javascripts/css.js</a></li>
+<li><a target='a' href='/javascripts/ruby.js'>/javascripts/ruby.js</a></li>
+<li><a target='a' href='/javascripts/javascript.js'>/javascripts/javascript.js</a></li>
 </ul>
 
 I wrote this JavaScript to highlight SQL:
@@ -822,9 +824,9 @@ Rails provides a utility to help me manage tables in my database.
 Here is the flow:
 <p />
 <ul>
-<li />Generate models  (which I just did)
-<li />Edit corresponding "migration" files
-<li />Run the utility via shell command: "rake db:migrate"
+  <li>Generate models  (which I just did)</li>
+<li>Edit corresponding "migration" files</li>
+<li>Run the utility via shell command: "rake db:migrate"</li>
 </ul>
 <p />
 
@@ -907,8 +909,8 @@ Next, I used a series of SQL commands to fill the tables with data.
 
 You may see the data here:
 <ul>
-<li /><a target='a' href='/asls/categs/'>/asls/categs/</a>
-<li /><a target='a' href='/asls/urlls/'>/asls/urlls/</a>
+  <li><a target='a' href='/asls/categs/'>/asls/categs/</a></li>
+<li><a target='a' href='/asls/urlls/'>/asls/urlls/</a></li>
 </ul>
 
 <p id="gencon4as" /><b>Generate Controllers For ActiveScaffold</b><p />
