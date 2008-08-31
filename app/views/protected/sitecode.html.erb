@@ -57,7 +57,7 @@ The source code looks like this:
 I obtained it from here:
 <p />
 
-<a target='a' href='ftp://ftp.ruby-lang.org/pub/ruby/1.8/ruby-1.8.6-p287.tar.gz'>ftp://ftp.ruby-lang.org/pub/ruby/1.8/ruby-1.8.6-p287.tar.gz</a>
+<a target='a' href='ftp://ftp.ruby-lang.org/pub/ruby/1.8/ruby-1.8.6-p287.tar.bz2'>ftp://ftp.ruby-lang.org/pub/ruby/1.8/ruby-1.8.6-p287.tar.bz2</a>
 <p />
 
 While looking for it, I found these pages to be useful:
@@ -75,8 +75,8 @@ To install Ruby 1.8.6 under my home directory, I ran these shell commands:
 mkdir ~/r/
 mkdir ~/tmp/
 cd    ~/tmp/
-wget ftp://ftp.ruby-lang.org/pub/ruby/1.8/ruby-1.8.6-p287.tar.gz
-tar jxf ruby-1.8.6-p287.tar.gz
+wget ftp://ftp.ruby-lang.org/pub/ruby/1.8/ruby-1.8.6-p287.tar.bz2
+tar jxf ruby-1.8.6-p287.tar.bz2
 cd ruby-1.8.6-p287
 ./configure --prefix=/home/bikle/r
 make
@@ -136,11 +136,10 @@ ruby setup.rb
 
 I have two ways to access gems I need:
 <p />
-
-Use the gem command to download the gems I need.
-<p />
-Copy the gems from an existing ruby install.
-<p />
+<ul>
+<li />Use the gem command to download the gems I need
+<li />Copy the gems from an existing ruby install
+</ul>
 
 I studied which gems I would need to run this site.
 <p />
@@ -172,10 +171,13 @@ I decided that I needed these gems:
 </code></pre>
 <p />
 
-I copied the above gems to ~/tmp/ from another host which had the gems cached here:
+I found the gems I needed on another host.
 <p />
-
-/r2/lib/ruby/gems/1.8/cache/
+On that host I found them in this directory:
+<p />
+/usr/local/lib/ruby/gems/1.8/cache/
+<p />
+I copied them to ~/tmp/ of bsdbox.
 <p />
 
 I ran these shell commands:
@@ -207,6 +209,20 @@ gem install will_paginate            --no-ri --no-rdoc
 </code></pre>
 
 <p id="RunRails" /><b>Run The "rails" Command  </b><p />
+
+<p />
+I then verified that I had Rails 2.1 installed in my home directory:
+<p />
+
+<pre><code>
+[bikle@bsdbox ~/tmp]$
+[bikle@bsdbox ~/tmp]$ which rails
+/home/bikle/r/bin/rails
+[bikle@bsdbox ~/tmp]$
+[bikle@bsdbox ~/tmp]$ rails --version
+Rails 2.1.0
+[bikle@bsdbox ~/tmp]$
+</code></pre>
 
 I decided to run my site from this location in the file system:
 <p />
@@ -294,6 +310,8 @@ I worked with it until I ended up with this:
     &lt;script src="/javascripts/code_highlighter.js" type="text/javascript"&gt;&lt;/script&gt;
     &lt;script src="/javascripts/ruby.js" type="text/javascript"&gt;&lt;/script&gt;
     &lt;script src="/javascripts/sql.js" type="text/javascript"&gt;&lt;/script&gt;
+    &lt;script src="/javascripts/html.js" type="text/javascript"&gt;&lt;/script&gt;
+    &lt;script src="/javascripts/css.js" type="text/javascript"&gt;&lt;/script&gt;
     &lt;!-- Used to highlight code --&gt;
     &lt;!-- Used by Active Scaffold --&gt;
     &lt;%= javascript_include_tag :defaults %&gt;
@@ -309,7 +327,7 @@ I worked with it until I ended up with this:
       &lt;/div&gt; &lt;!-- id header --&gt;
       &lt;div id="page"&gt;
         &lt;div id="content" &gt;
-          &lt;div id="div4yield" style="width:100%; height:90%; overflow:auto;"&gt;
+          &lt;div style="width:100%; height:90%; overflow:auto;"&gt;
             &lt;%= yield %&gt;
           &lt;/div&gt;
         &lt;/div&gt;  &lt;!-- id content --&gt;
@@ -366,7 +384,7 @@ I worked with it until I ended up with this:
               &lt;br /&gt;&lt;a href="/protected/services/"&gt;Services&lt;/a&gt;
               &lt;br /&gt;&lt;a href="/protected/contact/"&gt;Contact&lt;/a&gt;
               &lt;br /&gt;&lt;a href="/protected/tech_tips/"&gt;Tech Tips&lt;/a&gt;
-              &lt;br /&gt;&lt;a href="/protected/tech_tips/"&gt;The Code Behind This Site&lt;/a&gt;
+              &lt;br /&gt;&lt;a href="/protected/sitecode/"&gt;The Code Behind This Site&lt;/a&gt;
               &lt;br /&gt;&lt;a href="/old_site.html" target="j"&gt;Old Bikle.com Site&lt;/a&gt;
               &lt;br /&gt;
               &lt;br /&gt;
@@ -463,7 +481,10 @@ Next I added a controller to the site.  I named the controller "protected".
 I did this via the Rails shell command listed below:
 <p />
 
-<pre><code>script/generate controller protected</code></pre>
+<pre><code>
+cd ~/pt/w/b/b16/
+script/generate controller protected
+</code></pre>
 
 <p />
 This controller allows access to these links:
@@ -474,7 +495,7 @@ This controller allows access to these links:
 <li /><a target='a' href='/protected/services'>services</a>
 <li /><a target='a' href='/protected/contact'>contact</a>
 <li /><a target='a' href='/protected/tech_tips'>tech_tips</a>
-<li /><a target='a' href='/protected/sitecode'>sitecode</a>
+<li /><a target='a' href='/protected/sitecode'>sitecode</a> ( The page you are currently looking at )
 <li /><a target='a' href='/protected/o10gR2_solaris10x86'>o10gR2_solaris10x86</a>
 <li /><a target='a' href='/protected/roracle_session'>roracle_session</a>
 </ul>
@@ -561,6 +582,70 @@ drwxr-xr-x  7 bikle  bikle    512 Aug 25 09:27 ..
 [bikle@bsdbox ~/pt/w/b/b16/app/views/protected]$
 [bikle@bsdbox ~/pt/w/b/b16/app/views/protected]$
 </code></pre>
+<p />
+Color highlighting of syntax is done with the help of JavaScript software written by Dan Webb:
+<p />
+
+<a target='a' href='http://svn.danwebb.net/external/CodeHighlighter/trunk/'>http://svn.danwebb.net/external/CodeHighlighter/trunk/</a>
+<p />
+
+The above software depends on this CSS syntax:
+<p />
+
+<pre><code class="css">
+/*--------------------------------------------------------------
+ For Dan Webb's unobtrusive code highlighter
+ --------------------------------------------------------------*/
+
+#content pre  code { color: white; }
+#content code span.comment  { color: #555;     }
+#content code span.string   { color: #66cc33;  }
+#content code span.brackets { color: #fff;     }
+#content code span.keywords { color: #cc7833;  }
+#content code span.symbol   { color: #3387cc;  }
+#content code span.defname  { color: #9966ff;     }
+#content code span.erb      { background: #66ffff;}
+#content code span.tag      { color: #ff3333;     }
+#content code span.selectors  { color: #3333ff;   }
+#content code span.properties { color: #ffcc00; }
+#content code span.units    { color: #ffff99;     }
+#content code span.urls     { color: #3300ff;    }
+#content code span.doctype  { color: #99ffff;    }
+</code></pre>
+<p />
+
+The above CSS syntax is served to you from this file:
+<p />
+<a target='a' href='/stylesheets/syntax.css'>/stylesheets/syntax.css</a>
+<p />
+Which you will see listed in the head-tag of the <a href='#constructlayout'>layout</a>.
+<p />
+The above syntax depends on me, the author, to make use of pre-tags, code-tags, and a class inside the code tag.
+<p />
+
+On this site I make use of the classes: html, ruby, sql, and css.
+<p />
+
+I display an example of syntax highlighting some ruby code below:
+<p />
+
+<pre>
+&lt;pre&gt;&lt;code class="ruby"&gt;
+class Categ &amp;lt; ActiveRecord::Base
+  has_and_belongs_to_many :urlls
+end
+&lt;/code&gt;&lt;/pre&gt;
+</pre>
+<p />
+The result:
+<p />
+<pre><code class="ruby">
+class Categ &lt; ActiveRecord::Base
+  has_and_belongs_to_many :urlls
+end
+</code></pre>
+<p />
+
 
 
 <p id="Many2Many" /><b>Many2Many</b><p />
@@ -646,6 +731,7 @@ Then I copied the ActiveScaffold software to this location on the FreeBSD box:
 I used two shell commands to generate models for ActiveScaffold:
 <p />
 <pre><code>
+cd ~/pt/w/b/b16/
 script/generate model categ
 script/generate model urll
 </code></pre>
@@ -789,6 +875,7 @@ One of the main ideas behind ActiveScaffold is that each model needs its own con
 I used these shell commands to create two controllers for my two ActiveScaffold models:
 <p />
 <pre><code>
+cd ~/pt/w/b/b16/
 script/generate controller asls/categs
 script/generate controller asls/urlls
 </code></pre>
@@ -804,7 +891,7 @@ A file system view of the controllers is displayed below:
 [bikle@bsdbox ~/pt/w/b/b16/app/controllers/asls]$
 [bikle@bsdbox ~/pt/w/b/b16/app/controllers/asls]$
 [bikle@bsdbox ~/pt/w/b/b16/app/controllers/asls]$ cat categs_controller.rb
-class Asls::CategsController < ApplicationController
+class Asls::CategsController &lt; ApplicationController
   # active_scaffold creates powerful JS based forms.  See http://activescaffold.com
   active_scaffold do |config|
     config.label = "A Category has-and-belongs-to-many URLs"
@@ -819,7 +906,7 @@ end
 [bikle@bsdbox ~/pt/w/b/b16/app/controllers/asls]$
 [bikle@bsdbox ~/pt/w/b/b16/app/controllers/asls]$
 [bikle@bsdbox ~/pt/w/b/b16/app/controllers/asls]$ cat urlls_controller.rb
-class Asls::UrllsController < ApplicationController
+class Asls::UrllsController &lt; ApplicationController
   # active_scaffold creates powerful JS based forms.  See http://activescaffold.com
   active_scaffold do |config|
     config.label = "A URL has-and-belongs-to-many Categories"
@@ -914,8 +1001,8 @@ end
 [bikle@bsdbox ~/pt/w/b/b16/app/helpers]$
 [bikle@bsdbox ~/pt/w/b/b16/app/helpers]$
 </code></pre>
-<p />
 
+<p />
 
 The main idea behind the above file is that ActiveScaffold allows me to overwrite some methods.
 <p />

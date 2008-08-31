@@ -13,10 +13,14 @@
 #content code span.brackets { color: #fff;     }
 #content code span.keywords { color: #cc7833;  }
 #content code span.symbol   { color: #3387cc;  }
-#content code span.defname  { color: #fff;     }
-#content code span.erb      { background: #333;}
-#content code span.tag  { color: red;     }
-#content code span.doctype  { color: blue;     }
+#content code span.defname  { color: #9966ff;     }
+#content code span.erb      { background: #66ffff;}
+#content code span.tag      { color: #ff3333;     }
+#content code span.selectors  { color: #3333ff;   }
+#content code span.properties { color: #ffcc00; }
+#content code span.units    { color: #ffff99;     }
+#content code span.urls     { color: #3300ff;    }
+#content code span.doctype  { color: #99ffff;    }
 
 /*--------------------------------------------------------------
  For CodeRay
