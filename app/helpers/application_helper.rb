@@ -33,7 +33,7 @@ module ApplicationHelper
   # Builds a ul-element from a collection of record.categs
   def categs_column(record)
     strng = ""
-    record.categs.each {|e| strng << "<li /> #{link_to(h(e.name), :action => :show, :controller => 'categs', :id => e)}" }
+    record.categs.each {|e| strng << "<li> #{link_to(h(e.name), :action => :show, :controller => 'categs', :id => e)}</li>" }
     return "<ul> #{strng} </ul>"
   end
 
@@ -50,8 +50,8 @@ module ApplicationHelper
       e_name = e[0]
       e_uurl = e[1]
       e_id   = e[2]
-      strng << "<p /> &nbsp;  <li />name: #{link_to(h(e_name), :action => :show, :controller => 'urlls', :id => e_id)}"
-      strng << "<br />#{h('URL ->')}<a target='uurl' href='#{e_uurl}'>#{e_uurl}</a>"
+      strng << "<li><p />name: #{link_to(h(e_name), :action => :show, :controller => 'urlls', :id => e_id)}"
+      strng << "<br />URL is: <a href='#{e_uurl}' target='uurl' > #{e_uurl} </a></li>"
     end
     return "<ul> #{strng} </ul>"
   end
