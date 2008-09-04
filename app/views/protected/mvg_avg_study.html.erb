@@ -1,0 +1,185 @@
+<h5>Simple Study of Stock Market Data With Oracle Analytic Functions</h5>
+<p />
+<span class="date">2008-09-06 Dan Bikle</span>
+<p />
+
+<b>Motivation</b>
+<p />
+We start with a simple question:
+<p />
+
+<br />  - Given:
+<br />    - A random stock in the energy services sector
+<br />    - Today the stock has a 20-day moving avg price slope of -1.0% / day
+<br />  - What is the probability distribution for its price to be 5% lower (or more) 10 days from today?
+<br />  - Is it highly probable the stock will be 5% lower?
+
+<p />
+<b>Obtaining Stock Price Data</b>
+<p />
+
+Stock Price Data may be found here:
+<p />
+<a target='a' href='http://finance.yahoo.com/q/hp?s=ORCL&a=0&b=2&c=1962&d=7&e=16&f=2008&g=d&z=66&y=2450'>http://finance.yahoo.com/q/hp?s=ORCL&a=0&b=2&c=1962&d=7&e=16&f=2008&g=d&z=66&y=2450</a>
+
+<p />
+Using the above URL as a pattern, we may collect data for most of the significant stocks in the US.
+
+<p />
+One problem embedded in the data is survivorship bias.  A failed or acquired company will not appear in the dataset:
+
+<p />
+<a target='a' href='http://en.wikipedia.org/wiki/Survivorship_bias'>http://en.wikipedia.org/wiki/Survivorship_bias</a>
+
+<p />
+I use the Ruby language to obtain data.  Ruby offers two modules named "OpenURI" and "hpricot" which I use to obtain data:
+
+<ul>
+  <li><a target='a' href='http://www.ruby-doc.org/core/classes/OpenURI.html'>http://www.ruby-doc.org/core/classes/OpenURI.html</a></li>
+  <li><a target='a' href='http://code.whytheluckystiff.net/hpricot/'>http://code.whytheluckystiff.net/hpricot/</a></li>
+  <li><a target='a' href='http://code.whytheluckystiff.net/doc/hpricot/'>http://code.whytheluckystiff.net/doc/hpricot/</a></li>
+</ul>
+
+<p />
+I created a site to help me craft hpricot expressions:
+<p />
+<a target='a' href='http://hpricot.com'>http://hpricot.com</a>
+
+<p />
+Generally when I build an hpricot expression I start with the "body" Hpricot Search Expression:
+
+<form target="h" action="http://hpricot.com/demos/aboutout" id="aboutform" name="aboutform">
+  <p />
+  <label for="aboutformhpexpr">Hpricot Search Expression:</label>
+  <p />
+  <input id="aboutformhpexpr" name="hpexpr" size="55" value="body" />
+  <p />
+  <label for="aboutformuurl">URL:</label>
+  <p />
+  <input id="aboutformuurl" name="uurl" size="66" value="http://finance.yahoo.com/q/hp?s=ORCL&a=0&b=2&c=1962&d=7&e=16&f=2008&g=d&z=66&y=2450" />
+  <p />
+  <input size="22" value="Try Hpricot" type="submit" />
+</form>
+<hr />
+
+If you know CSS, then hpricot will come naturally to you.  Hpricot responds to CSS selectors when they are passed in the search expression.
+<p />
+
+If we inspect the CSS connected to the pricing data we want, we see this CSS syntax:
+<p />
+td.yfnc_tabledata1
+
+<p />
+
+We can try the above CSS selector:
+
+<form action="http://hpricot.com/demos/search_map" id="searchform" name="searchform" target="demoout">
+  <label for="searchformsearchexpr">Hpricot Search Expression:</label>
+  <p />
+  <input id="searchformsearchexpr" name="searchexpr" size="55" value="td.yfnc_tabledata1">
+  <p />
+  <label for="searchformuurl">URL:</label>
+  <p />
+  <input id="searchformuurl" name="uurl" size="66" value="http://finance.yahoo.com/q/hp?s=ORCL&a=0&b=2&c=1962&d=7&e=16&f=2008&g=d&z=66&y=2450" />
+  <p />
+  <input value="hpricot_object.search().map {|e| &quot;&lt;hr /&gt;#{e.to_html}&quot; }.sort.to_s" type="submit">
+</form>
+<hr />
+
+<p />
+In addition to CSS, hpricot will respond to XPath syntax.  The parent
+of a td-element is a tr-element.  We can use the XPath expression, "/..", to see the parents of the td-elements:
+<p />
+
+<form action="http://hpricot.com/demos/search_map" id="searchform2" name="searchform2" target="demoout">
+  <label for="searchform2searchexpr">Hpricot Search Expression:</label>
+  <p />
+  <input id="searchform2searchexpr" name="searchexpr" size="55" value="td.yfnc_tabledata1/..">
+  <p />
+  <label for="searchform2uurl">URL:</label>
+  <p />
+  <input id="searchform2uurl" name="uurl" size="66" value="http://finance.yahoo.com/q/hp?s=ORCL&a=0&b=2&c=1962&d=7&e=16&f=2008&g=d&z=66&y=2450" />
+  <p />
+  <input value="hpricot_object.search().map {|e| &quot;&lt;hr /&gt;#{e.to_html}&quot; }.sort.to_s" type="submit">
+</form>
+<hr />
+
+<p />
+
+With the URL pattern of:
+<p />
+<a target='a' href='http://finance.yahoo.com/q/hp?s=ORCL&a=0&b=2&c=1962&d=7&e=16&f=2008&g=d&z=66&y=2450'>http://finance.yahoo.com/q/hp?s=ORCL&a=0&b=2&c=1962&d=7&e=16&f=2008&g=d&z=66&y=2450</a>
+<p />
+And the Hpricot search expression:
+<p />
+"td.yfnc_tabledata1/.."
+<p />
+I built a generic method to extract pricing data:
+<p />
+
+<pre><code class="ruby">
+  # Gets mkt data for a tkr from finance.yahoo.com.
+  # Higher values of n send us further back in time.
+  # tdlf is a string with a file name in it.
+  def append_dates_prices_vol(atkr,n,tdlf)
+    # Build something like this:
+    # http://finance.yahoo.com/q/hp?s=IBM&a=0&b=2&c=1962&d=7&e=16&f=2008&g=d&z=66&y=0
+    sa_url = "http://finance.yahoo.com/q/hp?s="
+    sa_url_suffix = "&a=0&b=2&c=1962&d=7&e=16&f=2008&g=d&z=66&y="
+
+    sa11_url = "#{sa_url}#{atkr}#{sa_url_suffix}#{n}"
+
+    p "sa11_url is"
+    p sa11_url
+    begin
+      my_doc = Hpricot(open(sa11_url)).search("td.yfnc_tabledata1").search("..") # gets me array of tr-elements
+      # From each tr-element, get the 0th and 6th td-element. Load the td-element-pairs into an array.
+      my_06_tr_slice = my_doc.map{ |e| [e.children[0], e.children[6],  e.children[5]] unless (e.children.size &lt; 6) }
+      my_06_tr_slice.each do |e|
+        (
+         tkr_day_line = "#{atkr},"
+         tkr_day_line &lt;&lt; "#{e[0].children.first.to_s},"
+         tkr_day_line &lt;&lt; "#{e[1].children.first.to_s.gsub(/,/,'')},"
+         tkr_day_line &lt;&lt; "#{e[2].children.first.to_s.gsub(/,/,'')}\n" # dont want the commas, just numbers
+         as2f(tkr_day_line,tdlf)
+        ) unless e.nil?
+      end # do
+      return "#{atkr}: #{n}: #{my_06_tr_slice.size.inspect}"
+    rescue
+      p "in rescue"
+      return "#{atkr}: #{n}: nada"
+    end # begin
+
+  end # append_dates_prices_vol
+</code></pre>
+
+<p />
+The above method is used by other Ruby software to build a flat-file of pricing data.  An extract of a flat-file is displayed below:
+<p />
+
+<pre>
+bash sol oracle ~/dan/vlsql/mkt_data/csv/ytpv 3 $
+bash sol oracle ~/dan/vlsql/mkt_data/csv/ytpv 3 $
+bash sol oracle ~/dan/vlsql/mkt_data/csv/ytpv 3 $
+bash sol oracle ~/dan/vlsql/mkt_data/csv/ytpv 3 $ tail yahoo_load_ytpv_stage.csv
+BMC,2-Feb-93,9.59,2825600
+BMC,1-Feb-93,9.66,2568800
+BMC,29-Jan-93,9.56,5411200
+BMC,28-Jan-93,9.25,3289600
+BMC,27-Jan-93,9.22,4685600
+BMC,26-Jan-93,9.33,4628800
+BMC,25-Jan-93,9.56,3997600
+BMC,22-Jan-93,9.62,3244000
+BMC,21-Jan-93,9.91,4501600
+BMC,20-Jan-93,9.84,4994400
+bash sol oracle ~/dan/vlsql/mkt_data/csv/ytpv 4 $
+bash sol oracle ~/dan/vlsql/mkt_data/csv/ytpv 4 $
+bash sol oracle ~/dan/vlsql/mkt_data/csv/ytpv 4 $
+bash sol oracle ~/dan/vlsql/mkt_data/csv/ytpv 4 $
+</pre>
+
+It's easy to see that the format of the above flat-file is this:
+<p />
+Ticker-symbol, price-date, Ticker-price, Ticker-volume
+<p />
+

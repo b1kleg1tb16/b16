@@ -8,7 +8,7 @@
  --------------------------------------------------------------*/
 
 #content pre  code { color: white; }
-#content code span.comment  { color: #555;     }
+#content code span.comment  { color: #ffff66;     }
 #content code span.string   { color: #66cc33;  }
 #content code span.brackets { color: #fff;     }
 #content code span.keywords { color: #cc7833;  }
