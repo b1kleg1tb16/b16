@@ -48,19 +48,17 @@ I created a site to help me craft hpricot expressions:
 <p />
 Generally when I build an hpricot expression I start with the "body" Hpricot Search Expression:
 
-<form target="h" action="http://hpricot.com/demos/aboutout" id="aboutform" name="aboutform">
-  <p />
-  Hpricot Search Expression:
-  <input id="aboutformhpexpr" name="hpexpr" size="11" value="body" />
-  <p />
-  <label for="aboutformuurl">URL:</label>
-  <p />
-  <input id="aboutformuurl" name="uurl" size="66" value="http://finance.yahoo.com/q/hp?s=ORCL&amp;a=0&amp;b=2&amp;c=1962&amp;d=7&amp;e=16&amp;f=2008&amp;g=d&amp;z=66&amp;y=2450" />
-  <p />
-  <input size="22" value="Try Hpricot" type="submit" />
+<form target="h" action="http://hpricot.com/demos/aboutout">
+  <fieldset>
+    <span>Hpricot Search Expression:</span>
+    <input name="hpexpr" size="11" value="body" />
+    <p>URL:</p>
+    <input  name="uurl" size="88" value="http://finance.yahoo.com/q/hp?s=ORCL&amp;a=0&amp;b=2&amp;c=1962&amp;d=7&amp;e=16&amp;f=2008&amp;g=d&amp;z=66&amp;y=2450" />
+    <p />
+    <input size="22" value="Try Hpricot" type="submit" />
+  </fieldset>
 </form>
-<hr />
-
+<p />
 <p />
 If you know CSS, then hpricot will come naturally to you.  Hpricot responds to CSS selectors when they are passed in the search expression.
 A good site for learning CSS is displayed below:
@@ -68,27 +66,29 @@ A good site for learning CSS is displayed below:
 <a target='a' href='http://w3schools.com/css/default.asp'>http://w3schools.com/css/default.asp</a>
 <p />
 <p />
-
-If we inspect the CSS connected to the pricing data we want, we see this CSS selector:
+Using view-page-source in our Firefox browser,
+if we inspect the CSS connected to the pricing data we want, we see this CSS selector:
 <p />
-td.yfnc_tabledata1
+<pre>td.yfnc_tabledata1</pre>
 
 <p />
 
-We can try the above CSS selector:
+We can try the above CSS selector as an Hpricot search expression:
+<p />
 
-<form action="http://hpricot.com/demos/search_map" id="searchform" name="searchform" target="demoout">
-  Hpricot Search Expression:
-  <input id="searchformsearchexpr" name="searchexpr" size="17" value="td.yfnc_tabledata1" />
-  <p />
-  <label for="searchformuurl">URL:</label>
-  <p />
-  <input id="searchformuurl" name="uurl" size="66" value="http://finance.yahoo.com/q/hp?s=ORCL&amp;a=0&amp;b=2&amp;c=1962&amp;d=7&amp;e=16&amp;f=2008&amp;g=d&amp;z=66&amp;y=2450" />
-  <p />
-  <input value="hpricot_object.search().map {|e| &quot;&lt;hr /&gt;#{e.to_html}&quot; }.sort.to_s" type="submit">
+<form action="http://hpricot.com/demos/search_map" target="demoout">
+  <fieldset>
+    <span>Hpricot Search Expression:</span>
+    <input name="searchexpr" size="17" value="td.yfnc_tabledata1" />
+    <p>URL:</p>
+    <p />
+    <input name="uurl" size="88" value="http://finance.yahoo.com/q/hp?s=ORCL&amp;a=0&amp;b=2&amp;c=1962&amp;d=7&amp;e=16&amp;f=2008&amp;g=d&amp;z=66&amp;y=2450" />
+    <p />
+    <input value="hpricot_object.search().map {|e| &quot;&lt;hr /&gt;#{e.to_html}&quot; }.sort.to_s" type="submit" />
+  </fieldset>
 </form>
-<hr />
 
+<p />
 <p />
 In addition to CSS, hpricot will respond to XPath syntax.
 
@@ -99,18 +99,19 @@ A good site for learning CSS is displayed below:
 In the HTML language, the parent of a td-element is a tr-element.  We can use the XPath expression, "/..", to see the tr-element of any td-element:
 <p />
 
-<form action="http://hpricot.com/demos/search_map" id="searchform2" name="searchform2" target="demoout">
-  Hpricot Search Expression:
-  <input id="searchform2searchexpr" name="searchexpr" size="18" value="td.yfnc_tabledata1/.." />
-  <p />
-  <label for="searchform2uurl">URL:</label>
-  <p />
-  <input id="searchform2uurl" name="uurl" size="66" value="http://finance.yahoo.com/q/hp?s=ORCL&amp;a=0&amp;b=2&amp;c=1962&amp;d=7&amp;e=16&amp;f=2008&amp;g=d&amp;z=66&amp;y=2450" />
-  <p />
-  <input value="hpricot_object.search().map {|e| &quot;&lt;hr /&gt;#{e.to_html}&quot; }.sort.to_s" type="submit">
+<form action="http://hpricot.com/demos/search_map" target="demoout">
+  <fieldset>
+    <span>Hpricot Search Expression:</span>
+    <input name="searchexpr" size="17" value="td.yfnc_tabledata1/.." />
+    <p>URL:</p>
+    <p />
+    <input name="uurl" size="88" value="http://finance.yahoo.com/q/hp?s=ORCL&amp;a=0&amp;b=2&amp;c=1962&amp;d=7&amp;e=16&amp;f=2008&amp;g=d&amp;z=66&amp;y=2450" />
+    <p />
+    <input value="hpricot_object.search().map {|e| &quot;&lt;hr /&gt;#{e.to_html}&quot; }.sort.to_s" type="submit" />
+  </fieldset>
 </form>
-<hr />
 
+<p />
 <p />
 
 With the URL pattern of:
@@ -372,13 +373,13 @@ FROM ytpv ORDER BY tkr,ydate;
 <p />
 The above syntax would be daunting for anyone unfamiliar with Oracle Analytic Functions.
 <p />
-Some of the ideas behind Oracle Analytic Functions, however, are simple to anyone who has authored a spreadsheet:
+Some of the <em>IDEAS</em> behind Oracle Analytic Functions, however, are simple to anyone who has authored a spreadsheet:
 <p />
 <ul>
   <li>Order all of the data first by tkr and then by ydate.</li>
   <li>Pick any arbitrary row.</li>
-  <li>Pick a row which 9 rows behind the arbitrary row.</li>
-  <li>I now have a window full of 10 rows.</li>
+  <li>Pick a row which is 9 rows behind the arbitrary row.</li>
+  <li>I now have a <em>window</em> full of 10 rows.</li>
   <li>Calculate the Average value of yprice for that window of 10 rows.</li>
 </ul>
 
@@ -412,16 +413,19 @@ The above syntax creates a table with this description:
 <p />
 I named the columns so their content is obvious:
 <p />
-TKR:          Stock Ticker
-YDATE:        The date of the price
-YPRICE:       Closing price of TKR on YDATE
-MVG_AVG10DAY: 10 Day Moving Avg of YPRICE of TKR on YDATE
-MVG_AVG20DAY: 20 Day Moving Avg of YPRICE of TKR on YDATE
-MVG_AVG30DAY: 30 Day Moving Avg of YPRICE of TKR on YDATE
-MVG_AVG40DAY: 40 Day Moving Avg of YPRICE of TKR on YDATE
-PCT_GAIN5DAY: Percent Gain of Ticker 5 Days after YDATE
+
+<pre><code>
+TKR:           Stock Ticker
+YDATE:         The date of the price
+YPRICE:        Closing price of TKR on YDATE
+MVG_AVG10DAY:  10 Day Moving Avg of YPRICE of TKR on YDATE
+MVG_AVG20DAY:  20 Day Moving Avg of YPRICE of TKR on YDATE
+MVG_AVG30DAY:  30 Day Moving Avg of YPRICE of TKR on YDATE
+MVG_AVG40DAY:  40 Day Moving Avg of YPRICE of TKR on YDATE
+PCT_GAIN5DAY:  Percent Gain of Ticker 5 Days after YDATE
 PCT_GAIN10DAY: Percent Gain of Ticker 10 Days after YDATE
 PCT_GAIN15DAY: Percent Gain of Ticker 15 Days after YDATE
+</code></pre>
 
 <p />
 <p />

@@ -6,3 +6,7 @@ padding: 1px;
 vertical-align: top;
 color: #999;
 }
+
+#asls__urlls-active-scaffold, #asls__categs-active-scaffold {
+    overflow: auto;
+}
