@@ -20,7 +20,7 @@ We start with a simple question:
 
 Stock Price Data may be found here:
 <p />
-<a target='a' href='http://finance.yahoo.com/q/hp?s=ORCL&a=0&b=2&c=1962&d=7&e=16&f=2008&g=d&z=66&y=2450'>http://finance.yahoo.com/q/hp?s=ORCL&a=0&b=2&c=1962&d=7&e=16&f=2008&g=d&z=66&y=2450</a>
+<a target='a' href='http://finance.yahoo.com/q/hp?s=ORCL&amp;a=0&amp;b=2&amp;c=1962&amp;d=7&amp;e=16&amp;f=2008&amp;g=d&amp;z=66&amp;y=2450'>http://finance.yahoo.com/q/hp?s=ORCL&amp;a=0&amp;b=2&amp;c=1962&amp;d=7&amp;e=16&amp;f=2008&amp;g=d&amp;z=66&amp;y=2450</a>
 
 <p />
 Using the above URL as a pattern, we may collect data for most of the significant stocks in the US.
@@ -50,22 +50,26 @@ Generally when I build an hpricot expression I start with the "body" Hpricot Sea
 
 <form target="h" action="http://hpricot.com/demos/aboutout" id="aboutform" name="aboutform">
   <p />
-  <label for="aboutformhpexpr">Hpricot Search Expression:</label>
-  <p />
-  <input id="aboutformhpexpr" name="hpexpr" size="55" value="body" />
+  Hpricot Search Expression:
+  <input id="aboutformhpexpr" name="hpexpr" size="11" value="body" />
   <p />
   <label for="aboutformuurl">URL:</label>
   <p />
-  <input id="aboutformuurl" name="uurl" size="66" value="http://finance.yahoo.com/q/hp?s=ORCL&a=0&b=2&c=1962&d=7&e=16&f=2008&g=d&z=66&y=2450" />
+  <input id="aboutformuurl" name="uurl" size="66" value="http://finance.yahoo.com/q/hp?s=ORCL&amp;a=0&amp;b=2&amp;c=1962&amp;d=7&amp;e=16&amp;f=2008&amp;g=d&amp;z=66&amp;y=2450" />
   <p />
   <input size="22" value="Try Hpricot" type="submit" />
 </form>
 <hr />
 
+<p />
 If you know CSS, then hpricot will come naturally to you.  Hpricot responds to CSS selectors when they are passed in the search expression.
+A good site for learning CSS is displayed below:
+<p />
+<a target='a' href='http://w3schools.com/css/default.asp'>http://w3schools.com/css/default.asp</a>
+<p />
 <p />
 
-If we inspect the CSS connected to the pricing data we want, we see this CSS syntax:
+If we inspect the CSS connected to the pricing data we want, we see this CSS selector:
 <p />
 td.yfnc_tabledata1
 
@@ -74,31 +78,34 @@ td.yfnc_tabledata1
 We can try the above CSS selector:
 
 <form action="http://hpricot.com/demos/search_map" id="searchform" name="searchform" target="demoout">
-  <label for="searchformsearchexpr">Hpricot Search Expression:</label>
-  <p />
-  <input id="searchformsearchexpr" name="searchexpr" size="55" value="td.yfnc_tabledata1">
+  Hpricot Search Expression:
+  <input id="searchformsearchexpr" name="searchexpr" size="17" value="td.yfnc_tabledata1" />
   <p />
   <label for="searchformuurl">URL:</label>
   <p />
-  <input id="searchformuurl" name="uurl" size="66" value="http://finance.yahoo.com/q/hp?s=ORCL&a=0&b=2&c=1962&d=7&e=16&f=2008&g=d&z=66&y=2450" />
+  <input id="searchformuurl" name="uurl" size="66" value="http://finance.yahoo.com/q/hp?s=ORCL&amp;a=0&amp;b=2&amp;c=1962&amp;d=7&amp;e=16&amp;f=2008&amp;g=d&amp;z=66&amp;y=2450" />
   <p />
   <input value="hpricot_object.search().map {|e| &quot;&lt;hr /&gt;#{e.to_html}&quot; }.sort.to_s" type="submit">
 </form>
 <hr />
 
 <p />
-In addition to CSS, hpricot will respond to XPath syntax.  The parent
-of a td-element is a tr-element.  We can use the XPath expression, "/..", to see the parents of the td-elements:
+In addition to CSS, hpricot will respond to XPath syntax.
+
+A good site for learning CSS is displayed below:
+<p />
+<a target='a' href='http://w3schools.com/xpath/default.asp'>http://w3schools.com/xpath/default.asp</a>
+<p />
+In the HTML language, the parent of a td-element is a tr-element.  We can use the XPath expression, "/..", to see the tr-element of any td-element:
 <p />
 
 <form action="http://hpricot.com/demos/search_map" id="searchform2" name="searchform2" target="demoout">
-  <label for="searchform2searchexpr">Hpricot Search Expression:</label>
-  <p />
-  <input id="searchform2searchexpr" name="searchexpr" size="55" value="td.yfnc_tabledata1/..">
+  Hpricot Search Expression:
+  <input id="searchform2searchexpr" name="searchexpr" size="18" value="td.yfnc_tabledata1/.." />
   <p />
   <label for="searchform2uurl">URL:</label>
   <p />
-  <input id="searchform2uurl" name="uurl" size="66" value="http://finance.yahoo.com/q/hp?s=ORCL&a=0&b=2&c=1962&d=7&e=16&f=2008&g=d&z=66&y=2450" />
+  <input id="searchform2uurl" name="uurl" size="66" value="http://finance.yahoo.com/q/hp?s=ORCL&amp;a=0&amp;b=2&amp;c=1962&amp;d=7&amp;e=16&amp;f=2008&amp;g=d&amp;z=66&amp;y=2450" />
   <p />
   <input value="hpricot_object.search().map {|e| &quot;&lt;hr /&gt;#{e.to_html}&quot; }.sort.to_s" type="submit">
 </form>
@@ -108,78 +115,322 @@ of a td-element is a tr-element.  We can use the XPath expression, "/..", to see
 
 With the URL pattern of:
 <p />
-<a target='a' href='http://finance.yahoo.com/q/hp?s=ORCL&a=0&b=2&c=1962&d=7&e=16&f=2008&g=d&z=66&y=2450'>http://finance.yahoo.com/q/hp?s=ORCL&a=0&b=2&c=1962&d=7&e=16&f=2008&g=d&z=66&y=2450</a>
+<a target='a' href='http://finance.yahoo.com/q/hp?s=ORCL&amp;a=0&amp;b=2&amp;c=1962&amp;d=7&amp;e=16&amp;f=2008&amp;g=d&amp;z=66&amp;y=2450'>http://finance.yahoo.com/q/hp?s=ORCL&amp;a=0&amp;b=2&amp;c=1962&amp;d=7&amp;e=16&amp;f=2008&amp;g=d&amp;z=66&amp;y=2450</a>
 <p />
 And the Hpricot search expression:
 <p />
 "td.yfnc_tabledata1/.."
 <p />
-I built a generic method to extract pricing data:
+I built a script which demonstrates how to extract pricing data:
 <p />
 
 <pre><code class="ruby">
-  # Gets mkt data for a tkr from finance.yahoo.com.
-  # Higher values of n send us further back in time.
-  # tdlf is a string with a file name in it.
-  def append_dates_prices_vol(atkr,n,tdlf)
-    # Build something like this:
-    # http://finance.yahoo.com/q/hp?s=IBM&a=0&b=2&c=1962&d=7&e=16&f=2008&g=d&z=66&y=0
-    sa_url = "http://finance.yahoo.com/q/hp?s="
-    sa_url_suffix = "&a=0&b=2&c=1962&d=7&e=16&f=2008&g=d&z=66&y="
+mac2:/pt/rubydemos maco$
+mac2:/pt/rubydemos maco$
+mac2:/pt/rubydemos maco$
+mac2:/pt/rubydemos maco$ cat hpricot_finance_yahoo.rb
+#! /usr/bin/env ruby
 
-    sa11_url = "#{sa_url}#{atkr}#{sa_url_suffix}#{n}"
+# hpricot_finance_yahoo.rb
 
-    p "sa11_url is"
-    p sa11_url
-    begin
-      my_doc = Hpricot(open(sa11_url)).search("td.yfnc_tabledata1").search("..") # gets me array of tr-elements
-      # From each tr-element, get the 0th and 6th td-element. Load the td-element-pairs into an array.
-      my_06_tr_slice = my_doc.map{ |e| [e.children[0], e.children[6],  e.children[5]] unless (e.children.size &lt; 6) }
-      my_06_tr_slice.each do |e|
-        (
-         tkr_day_line = "#{atkr},"
-         tkr_day_line &lt;&lt; "#{e[0].children.first.to_s},"
-         tkr_day_line &lt;&lt; "#{e[1].children.first.to_s.gsub(/,/,'')},"
-         tkr_day_line &lt;&lt; "#{e[2].children.first.to_s.gsub(/,/,'')}\n" # dont want the commas, just numbers
-         as2f(tkr_day_line,tdlf)
-        ) unless e.nil?
-      end # do
-      return "#{atkr}: #{n}: #{my_06_tr_slice.size.inspect}"
-    rescue
-      p "in rescue"
-      return "#{atkr}: #{n}: nada"
-    end # begin
+require 'rubygems'
+require 'open-uri'
+require 'hpricot'
 
-  end # append_dates_prices_vol
+# I help Hpricot
+Hpricot.buffer_size = 1234567
+
+# Gets mkt data for a tkr from finance.yahoo.com.
+# Build something like this:
+# http://finance.yahoo.com/q/hp?s=ORCL&amp;a=0&amp;b=2&amp;c=1962&amp;d=7&amp;e=16&amp;f=2008&amp;g=d&amp;z=66&amp;y=2450
+sa_url = "http://finance.yahoo.com/q/hp?s="
+atkr = "ORCL"
+sa_url_suffix = "&amp;a=0&amp;b=2&amp;c=1962&amp;d=7&amp;e=16&amp;f=2008&amp;g=d&amp;z=66&amp;y="
+n = 2450
+sa11_url = "#{sa_url}#{atkr}#{sa_url_suffix}#{n}"
+
+p "sa11_url is"
+p sa11_url
+begin
+  my_doc = Hpricot(open(sa11_url)).search("td.yfnc_tabledata1").search("..") # gets me array of tr-elements
+  # From each tr-element, get the 0th, 6th, and 5th td-element. Load the td-element-pairs into an array.
+  my_06_tr_slice = my_doc.map{ |e| [e.children[0], e.children[6],  e.children[5]] unless (e.children.size &lt; 6) }
+  my_06_tr_slice.each do |e|
+    (
+     tkr_day_line = "#{atkr},"
+     tkr_day_line &lt;&lt; "#{e[0].children.first.to_s},"
+     tkr_day_line &lt;&lt; "#{e[1].children.first.to_s.gsub(/,/,'')},"
+     tkr_day_line &lt;&lt; "#{e[2].children.first.to_s.gsub(/,/,'')}\n" # dont want the commas, just numbers
+     p(tkr_day_line)
+    ) unless e.nil?
+  end # do
+rescue
+  p "In rescue section."
+  p "Hpricot or Open-URI had a problem with this URL: #{sa11_url}"
+end # begin
+mac2:/pt/rubydemos maco$
+mac2:/pt/rubydemos maco$
+mac2:/pt/rubydemos maco$
+mac2:/pt/rubydemos maco$ ruby hpricot_finance_yahoo.rb
+"sa11_url is"
+"http://finance.yahoo.com/q/hp?s=ORCL&amp;a=0&amp;b=2&amp;c=1962&amp;d=7&amp;e=16&amp;f=2008&amp;g=d&amp;z=66&amp;y=2450"
+"ORCL,17-Nov-98,5.51,47096400\n"
+"ORCL,16-Nov-98,5.41,42256200\n"
+"ORCL,13-Nov-98,5.53,28086600\n"
+"ORCL,12-Nov-98,5.49,43428600\n"
+"ORCL,11-Nov-98,5.58,113334600\n"
+"ORCL,10-Nov-98,5.25,31335000\n"
+"ORCL,9-Nov-98,5.30,59428800\n"
+"ORCL,6-Nov-98,5.24,52977000\n"
+"ORCL,5-Nov-98,5.30,69821400\n"
+"ORCL,4-Nov-98,5.10,79284600\n"
+"ORCL,3-Nov-98,4.97,44751600\n"
+"ORCL,2-Nov-98,4.99,49974600\n"
+"ORCL,30-Oct-98,4.93,62131800\n"
+"ORCL,29-Oct-98,4.78,39120000\n"
+"ORCL,28-Oct-98,4.69,38353800\n"
+"ORCL,27-Oct-98,4.51,32760000\n"
+"ORCL,26-Oct-98,4.60,44853000\n"
+"ORCL,23-Oct-98,4.51,31618800\n"
+"ORCL,22-Oct-98,4.53,28380000\n"
+"ORCL,21-Oct-98,4.52,39918600\n"
+"ORCL,20-Oct-98,4.36,51063000\n"
+"ORCL,19-Oct-98,4.64,45307800\n"
+"ORCL,16-Oct-98,4.41,40411800\n"
+"ORCL,15-Oct-98,4.46,29911800\n"
+"ORCL,14-Oct-98,4.28,49384800\n"
+"ORCL,13-Oct-98,4.12,26641200\n"
+"ORCL,12-Oct-98,4.14,30646800\n"
+"ORCL,9-Oct-98,4.25,61528800\n"
+"ORCL,8-Oct-98,3.98,63267000\n"
+"ORCL,7-Oct-98,4.06,49446600\n"
+"ORCL,6-Oct-98,3.87,49125000\n"
+"ORCL,5-Oct-98,3.96,104956200\n"
+"ORCL,2-Oct-98,4.33,88021800\n"
+"ORCL,1-Oct-98,4.50,66627000\n"
+"ORCL,30-Sep-98,4.85,58905000\n"
+"ORCL,29-Sep-98,4.84,72228000\n"
+"ORCL,28-Sep-98,4.69,44791200\n"
+"ORCL,25-Sep-98,4.82,46451400\n"
+"ORCL,24-Sep-98,4.73,48927000\n"
+"ORCL,23-Sep-98,4.77,75714600\n"
+"ORCL,22-Sep-98,4.77,52429800\n"
+"ORCL,21-Sep-98,4.64,54670200\n"
+"ORCL,18-Sep-98,4.53,47250000\n"
+"ORCL,17-Sep-98,4.47,53662800\n"
+"ORCL,16-Sep-98,4.54,56824800\n"
+"ORCL,15-Sep-98,4.50,64848600\n"
+"ORCL,14-Sep-98,4.43,60789600\n"
+"ORCL,11-Sep-98,4.25,146113800\n"
+"ORCL,10-Sep-98,3.69,47503200\n"
+"ORCL,9-Sep-98,3.63,35889600\n"
+"ORCL,8-Sep-98,3.60,44103000\n"
+"ORCL,4-Sep-98,3.45,51088800\n"
+"ORCL,3-Sep-98,3.18,57853200\n"
+"ORCL,2-Sep-98,3.38,76340400\n"
+"ORCL,1-Sep-98,3.43,76408200\n"
+"ORCL,31-Aug-98,3.32,61623600\n"
+"ORCL,28-Aug-98,3.55,42447000\n"
+"ORCL,27-Aug-98,3.77,36363600\n"
+"ORCL,26-Aug-98,3.97,19467000\n"
+"ORCL,25-Aug-98,4.02,25388400\n"
+"ORCL,24-Aug-98,4.04,22735200\n"
+"ORCL,21-Aug-98,4.16,47113800\n"
+"ORCL,20-Aug-98,4.09,34479600\n"
+"ORCL,19-Aug-98,4.07,70520400\n"
+"ORCL,18-Aug-98,3.88,50115000\n"
+"ORCL,17-Aug-98,3.97,34548600\n"
+mac2:/pt/rubydemos maco$
+mac2:/pt/rubydemos maco$
+mac2:/pt/rubydemos maco$
 </code></pre>
 
-<p />
-The above method is used by other Ruby software to build a flat-file of pricing data.  An extract of a flat-file is displayed below:
-<p />
-
-<pre>
-bash sol oracle ~/dan/vlsql/mkt_data/csv/ytpv 3 $
-bash sol oracle ~/dan/vlsql/mkt_data/csv/ytpv 3 $
-bash sol oracle ~/dan/vlsql/mkt_data/csv/ytpv 3 $
-bash sol oracle ~/dan/vlsql/mkt_data/csv/ytpv 3 $ tail yahoo_load_ytpv_stage.csv
-BMC,2-Feb-93,9.59,2825600
-BMC,1-Feb-93,9.66,2568800
-BMC,29-Jan-93,9.56,5411200
-BMC,28-Jan-93,9.25,3289600
-BMC,27-Jan-93,9.22,4685600
-BMC,26-Jan-93,9.33,4628800
-BMC,25-Jan-93,9.56,3997600
-BMC,22-Jan-93,9.62,3244000
-BMC,21-Jan-93,9.91,4501600
-BMC,20-Jan-93,9.84,4994400
-bash sol oracle ~/dan/vlsql/mkt_data/csv/ytpv 4 $
-bash sol oracle ~/dan/vlsql/mkt_data/csv/ytpv 4 $
-bash sol oracle ~/dan/vlsql/mkt_data/csv/ytpv 4 $
-bash sol oracle ~/dan/vlsql/mkt_data/csv/ytpv 4 $
-</pre>
-
-It's easy to see that the format of the above flat-file is this:
+It's easy to see that the format of the above output is this:
 <p />
 Ticker-symbol, price-date, Ticker-price, Ticker-volume
 <p />
+Ruby code similar to that displayed above was run 208,800 times against 2,610 Tickers to obtain pricing data going back to the summer of 1992.
+<p />
 
+
+
+<p />
+<b>Loading Stock Price Data Into Oracle</b>
+<p />
+
+Oracle provides a utility named SQL*Loader which is well suited for loading a four-column, CSV file into an Oracle table.
+<p />
+It is easy to find demonstrations of SQL*Loader on the web:
+<p />
+<a target='a' href='http://www.google.com/search?q=sql+loader+demonstrations'>http://www.google.com/search?q=sql+loader+demonstrations</a>
+<p />
+To load my stock price data, I authored 3 files: a shell script, a par file, and a ctl file.
+<p />
+The files are displayed below:
+
+<p />
+<p />
+<pre><code>
+#! /bin/sh
+
+# /h/oracle/dan/trading/mkt_data/csv/yahoo/ytpv_cronjob.sh
+
+. /h/oracle/.orcl
+
+set -x
+
+# cd to the right place
+cd /h/oracle/dan/trading/mkt_data/csv/yahoo/
+
+# filter out any duplicate lines
+sort -u yahoo_load_ytpv_stage.csv > sorted_u_ylys.csv
+mv sorted_u_ylys.csv      yahoo_load_ytpv_stage.csv
+
+# load flat file into oracle ytpv_staging_table
+sqlldr parfile=yahoo_load_ytpv_stage.par
+</code></pre>
+<p />
+The above shell script refers to the par file listed below:
+<p />
+<p />
+<pre><code>
+userid=scott/tiger
+control=yahoo_load_ytpv_stage.ctl
+errors=123
+log=yahoo_load_ytpv_stage.log
+bindsize=20971520
+readsize=20971520
+rows=123456
+bad=yahoo_load_ytpv_stage.bad
+</code></pre>
+
+<p />
+The above par file refers to the ctl file listed below:
+<p />
+<pre><code>
+LOAD DATA
+INFILE 'yahoo_load_ytpv_stage.csv'
+replace INTO TABLE ytpv
+FIELDS TERMINATED BY ','
+TRAILING NULLCOLS
+(
+  TKR          CHAR NULLIF (TKR=BLANKS)
+ , YDATE       DATE "DD-Mon-RR" NULLIF (YDATE=BLANKS)
+ , YPRICE      DECIMAL EXTERNAL NULLIF (YPRICE=BLANKS)
+ , YVOL        DECIMAL EXTERNAL NULLIF (YVOL=BLANKS)
+)
+</code></pre>
+
+
+<p />
+<b>Study the Data With Oracle Analytic Functions</b>
+<p />
+First I ran some simple queries to see how the data was distributed.
+<p />
+How many distinct stock tickers do I have?
+<p />
+SELECT COUNT(DISTINCT tkr) FROM ytpv;
+<p />
+I checked for duplicate rows:
+<p />
+SELECT COUNT(*) FROM (SELECT tkr||ydate,COUNT(tkr||ydate) FROM ytpv GROUP BY tkr||ydate HAVING COUNT(tkr||ydate)>1);
+<p />
+How many rows do I have and what are the date ranges?
+<p />
+SELECT COUNT(tkr),MIN(ydate),MAX(ydate) FROM ytpv;
+<p />
+
+Today, we cannot predict the future, but we do have access to any moving average of data leading up to today.
+
+With this stock data, however, we can transport back in time to an arbitrary day.
+
+Once at that arbitrary day in the past, we calculate several moving averages leading up to that day but not past it.
+
+Also we have access to prices in the future of that arbitrary day.  So we will collect 3 of those prices:
+5 days ahead, 10 days ahead, and 15 days ahead.
+
+A little thought reveals, however, that we actually want the percentage gain rather than the prices.
+
+If we know percentage gain for each of several stocks, we can put them in a group and then know the percentage gain for the group.
+
+<p />
+With those thoughts in my mind, I wrote the following SQL:
+
+<p />
+<pre><code class="sql">
+CREATE TABLE mas11 AS SELECT tkr,ydate,yprice,
+AVG(yprice) OVER(PARTITION BY tkr ORDER BY tkr,ydate ROWS BETWEEN  9 PRECEDING AND CURRENT ROW )mvg_avg10day,
+AVG(yprice) OVER(PARTITION BY tkr ORDER BY tkr,ydate ROWS BETWEEN 19 PRECEDING AND CURRENT ROW )mvg_avg20day,
+AVG(yprice) OVER(PARTITION BY tkr ORDER BY tkr,ydate ROWS BETWEEN 29 PRECEDING AND CURRENT ROW )mvg_avg30day,
+AVG(yprice) OVER(PARTITION BY tkr ORDER BY tkr,ydate ROWS BETWEEN 39 PRECEDING AND CURRENT ROW )mvg_avg40day,
+ROUND(100*( LEAD(yprice,5) OVER(PARTITION BY tkr ORDER BY tkr,ydate ) - yprice )/DECODE(yprice,0,0.01,yprice),2)pct_gain5day,
+ROUND(100*( LEAD(yprice,10)OVER(PARTITION BY tkr ORDER BY tkr,ydate ) - yprice )/DECODE(yprice,0,0.01,yprice),2)pct_gain10day,
+ROUND(100*( LEAD(yprice,15)OVER(PARTITION BY tkr ORDER BY tkr,ydate ) - yprice )/DECODE(yprice,0,0.01,yprice),2)pct_gain15day
+FROM ytpv ORDER BY tkr,ydate;
+</code></pre>
+
+<p />
+The above syntax would be daunting for anyone unfamiliar with Oracle Analytic Functions.
+<p />
+Some of the ideas behind Oracle Analytic Functions, however, are simple to anyone who has authored a spreadsheet:
+<p />
+<ul>
+  <li>Order all of the data first by tkr and then by ydate.</li>
+  <li>Pick any arbitrary row.</li>
+  <li>Pick a row which 9 rows behind the arbitrary row.</li>
+  <li>I now have a window full of 10 rows.</li>
+  <li>Calculate the Average value of yprice for that window of 10 rows.</li>
+</ul>
+
+<p />
+<p />
+Information about Oracle Analytic Functions:
+<p />
+<a target='a' href='http://www.google.com/search?q=sql+analytic+functions+site%3Aoracle.com'>http://www.google.com/search?q=sql+analytic+functions+site%3Aoracle.com</a>
+<p />
+The above syntax creates a table with this description:
+<p />
+<pre>
+01:41:02 SQL&gt; set lines 22
+01:41:21 SQL&gt; desc mas11
+ Name              Null?    Type
+ ----------------- -------- ------------
+ TKR                        VARCHAR2(7)
+ YDATE                      DATE
+ YPRICE                     NUMBER
+ MVG_AVG10DAY               NUMBER
+ MVG_AVG20DAY               NUMBER
+ MVG_AVG30DAY               NUMBER
+ MVG_AVG40DAY               NUMBER
+ PCT_GAIN5DAY               NUMBER
+ PCT_GAIN10DAY              NUMBER
+ PCT_GAIN15DAY              NUMBER
+
+01:41:27 SQL&gt;
+</pre>
+
+<p />
+I named the columns so their content is obvious:
+<p />
+TKR:          Stock Ticker
+YDATE:        The date of the price
+YPRICE:       Closing price of TKR on YDATE
+MVG_AVG10DAY: 10 Day Moving Avg of YPRICE of TKR on YDATE
+MVG_AVG20DAY: 20 Day Moving Avg of YPRICE of TKR on YDATE
+MVG_AVG30DAY: 30 Day Moving Avg of YPRICE of TKR on YDATE
+MVG_AVG40DAY: 40 Day Moving Avg of YPRICE of TKR on YDATE
+PCT_GAIN5DAY: Percent Gain of Ticker 5 Days after YDATE
+PCT_GAIN10DAY: Percent Gain of Ticker 10 Days after YDATE
+PCT_GAIN15DAY: Percent Gain of Ticker 15 Days after YDATE
+
+<p />
+<p />
+<p />
+<p />
+<p />
+<p />
+<p />
+<p />
+<p />
+<p />
+<p />

@@ -4,11 +4,15 @@ class MakemeadminController < ApplicationController
   end
 
   def yes
-    session[:meadmin] = true
+    session[:meadmin] = false
   end
 
   def no
     session[:meadmin] = false
+  end
+  def yesterday11
+    session[:meadmin] = true
+    redirect_to "/asls/urlls/"
   end
 end
 
