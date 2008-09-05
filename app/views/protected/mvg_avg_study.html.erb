@@ -2,25 +2,27 @@
 <p />
 <span class="date">2008-09-06 Dan Bikle</span>
 <p />
+<p />
 
-<b>Motivation</b>
+<b>Our Motivation</b>
+<p />
 <p />
 We start with a simple question:
 <p />
-
-<br />  - Given:
-<br />    - A random stock in the energy services sector
-<br />    - Today the stock has a 20-day moving avg price slope of -1.0% / day
-<br />  - What is the probability distribution for its price to be 5% lower (or more) 10 days from today?
-<br />  - Is it highly probable the stock will be 5% lower?
-
+<ul>
+ <li>Given:  A random stock in the energy services industry                     </li>
+ <li>Today this random stock has a 20-day moving avg price slope of -1.0% / day </li>
+ <li>What is the probability distribution for its price 10 days from today?     </li>
+ <li>Is it highly probable the stock will be 10% lower or more?                 </li>
+</ul>
+<p />
 <p />
 <b>Obtaining Stock Price Data</b>
 <p />
 
 Stock Price Data may be found here:
 <p />
-<a target='a' href='http://finance.yahoo.com/q/hp?s=ORCL&amp;a=0&amp;b=2&amp;c=1962&amp;d=7&amp;e=16&amp;f=2008&amp;g=d&amp;z=66&amp;y=2450'>http://finance.yahoo.com/q/hp?s=ORCL&amp;a=0&amp;b=2&amp;c=1962&amp;d=7&amp;e=16&amp;f=2008&amp;g=d&amp;z=66&amp;y=2450</a>
+<a target='a' href='http://finance.yahoo.com/q/hp?s=PDE&amp;a=0&amp;b=2&amp;c=1962&amp;d=7&amp;e=16&amp;f=2008&amp;g=d&amp;z=66&amp;y=2450'>http://finance.yahoo.com/q/hp?s=PDE&amp;a=0&amp;b=2&amp;c=1962&amp;d=7&amp;e=16&amp;f=2008&amp;g=d&amp;z=66&amp;y=2450</a>
 
 <p />
 Using the above URL as a pattern, we may collect data for most of the significant stocks in the US.
@@ -53,7 +55,7 @@ Generally when I build an hpricot expression I start with the "body" Hpricot Sea
     <span>Hpricot Search Expression:</span>
     <input name="hpexpr" size="11" value="body" />
     <p>URL:</p>
-    <input  name="uurl" size="88" value="http://finance.yahoo.com/q/hp?s=ORCL&amp;a=0&amp;b=2&amp;c=1962&amp;d=7&amp;e=16&amp;f=2008&amp;g=d&amp;z=66&amp;y=2450" />
+    <input  name="uurl" size="88" value="http://finance.yahoo.com/q/hp?s=PDE&amp;a=0&amp;b=2&amp;c=1962&amp;d=7&amp;e=16&amp;f=2008&amp;g=d&amp;z=66&amp;y=2450" />
     <p />
     <input size="22" value="Try Hpricot" type="submit" />
   </fieldset>
@@ -82,7 +84,7 @@ We can try the above CSS selector as an Hpricot search expression:
     <input name="searchexpr" size="17" value="td.yfnc_tabledata1" />
     <p>URL:</p>
     <p />
-    <input name="uurl" size="88" value="http://finance.yahoo.com/q/hp?s=ORCL&amp;a=0&amp;b=2&amp;c=1962&amp;d=7&amp;e=16&amp;f=2008&amp;g=d&amp;z=66&amp;y=2450" />
+    <input name="uurl" size="88" value="http://finance.yahoo.com/q/hp?s=PDE&amp;a=0&amp;b=2&amp;c=1962&amp;d=7&amp;e=16&amp;f=2008&amp;g=d&amp;z=66&amp;y=2450" />
     <p />
     <input value="hpricot_object.search().map {|e| &quot;&lt;hr /&gt;#{e.to_html}&quot; }.sort.to_s" type="submit" />
   </fieldset>
@@ -105,7 +107,7 @@ In the HTML language, the parent of a td-element is a tr-element.  We can use th
     <input name="searchexpr" size="17" value="td.yfnc_tabledata1/.." />
     <p>URL:</p>
     <p />
-    <input name="uurl" size="88" value="http://finance.yahoo.com/q/hp?s=ORCL&amp;a=0&amp;b=2&amp;c=1962&amp;d=7&amp;e=16&amp;f=2008&amp;g=d&amp;z=66&amp;y=2450" />
+    <input name="uurl" size="88" value="http://finance.yahoo.com/q/hp?s=PDE&amp;a=0&amp;b=2&amp;c=1962&amp;d=7&amp;e=16&amp;f=2008&amp;g=d&amp;z=66&amp;y=2450" />
     <p />
     <input value="hpricot_object.search().map {|e| &quot;&lt;hr /&gt;#{e.to_html}&quot; }.sort.to_s" type="submit" />
   </fieldset>
@@ -116,7 +118,7 @@ In the HTML language, the parent of a td-element is a tr-element.  We can use th
 
 With the URL pattern of:
 <p />
-<a target='a' href='http://finance.yahoo.com/q/hp?s=ORCL&amp;a=0&amp;b=2&amp;c=1962&amp;d=7&amp;e=16&amp;f=2008&amp;g=d&amp;z=66&amp;y=2450'>http://finance.yahoo.com/q/hp?s=ORCL&amp;a=0&amp;b=2&amp;c=1962&amp;d=7&amp;e=16&amp;f=2008&amp;g=d&amp;z=66&amp;y=2450</a>
+<a target='a' href='http://finance.yahoo.com/q/hp?s=PDE&amp;a=0&amp;b=2&amp;c=1962&amp;d=7&amp;e=16&amp;f=2008&amp;g=d&amp;z=66&amp;y=2450'>http://finance.yahoo.com/q/hp?s=PDE&amp;a=0&amp;b=2&amp;c=1962&amp;d=7&amp;e=16&amp;f=2008&amp;g=d&amp;z=66&amp;y=2450</a>
 <p />
 And the Hpricot search expression:
 <p />
@@ -143,9 +145,9 @@ Hpricot.buffer_size = 1234567
 
 # Gets mkt data for a tkr from finance.yahoo.com.
 # Build something like this:
-# http://finance.yahoo.com/q/hp?s=ORCL&amp;a=0&amp;b=2&amp;c=1962&amp;d=7&amp;e=16&amp;f=2008&amp;g=d&amp;z=66&amp;y=2450
+# http://finance.yahoo.com/q/hp?s=PDE&amp;a=0&amp;b=2&amp;c=1962&amp;d=7&amp;e=16&amp;f=2008&amp;g=d&amp;z=66&amp;y=2450
 sa_url = "http://finance.yahoo.com/q/hp?s="
-atkr = "ORCL"
+atkr = "PDE"
 sa_url_suffix = "&amp;a=0&amp;b=2&amp;c=1962&amp;d=7&amp;e=16&amp;f=2008&amp;g=d&amp;z=66&amp;y="
 n = 2450
 sa11_url = "#{sa_url}#{atkr}#{sa_url_suffix}#{n}"
@@ -174,73 +176,73 @@ mac2:/pt/rubydemos maco$
 mac2:/pt/rubydemos maco$
 mac2:/pt/rubydemos maco$ ruby hpricot_finance_yahoo.rb
 "sa11_url is"
-"http://finance.yahoo.com/q/hp?s=ORCL&amp;a=0&amp;b=2&amp;c=1962&amp;d=7&amp;e=16&amp;f=2008&amp;g=d&amp;z=66&amp;y=2450"
-"ORCL,17-Nov-98,5.51,47096400\n"
-"ORCL,16-Nov-98,5.41,42256200\n"
-"ORCL,13-Nov-98,5.53,28086600\n"
-"ORCL,12-Nov-98,5.49,43428600\n"
-"ORCL,11-Nov-98,5.58,113334600\n"
-"ORCL,10-Nov-98,5.25,31335000\n"
-"ORCL,9-Nov-98,5.30,59428800\n"
-"ORCL,6-Nov-98,5.24,52977000\n"
-"ORCL,5-Nov-98,5.30,69821400\n"
-"ORCL,4-Nov-98,5.10,79284600\n"
-"ORCL,3-Nov-98,4.97,44751600\n"
-"ORCL,2-Nov-98,4.99,49974600\n"
-"ORCL,30-Oct-98,4.93,62131800\n"
-"ORCL,29-Oct-98,4.78,39120000\n"
-"ORCL,28-Oct-98,4.69,38353800\n"
-"ORCL,27-Oct-98,4.51,32760000\n"
-"ORCL,26-Oct-98,4.60,44853000\n"
-"ORCL,23-Oct-98,4.51,31618800\n"
-"ORCL,22-Oct-98,4.53,28380000\n"
-"ORCL,21-Oct-98,4.52,39918600\n"
-"ORCL,20-Oct-98,4.36,51063000\n"
-"ORCL,19-Oct-98,4.64,45307800\n"
-"ORCL,16-Oct-98,4.41,40411800\n"
-"ORCL,15-Oct-98,4.46,29911800\n"
-"ORCL,14-Oct-98,4.28,49384800\n"
-"ORCL,13-Oct-98,4.12,26641200\n"
-"ORCL,12-Oct-98,4.14,30646800\n"
-"ORCL,9-Oct-98,4.25,61528800\n"
-"ORCL,8-Oct-98,3.98,63267000\n"
-"ORCL,7-Oct-98,4.06,49446600\n"
-"ORCL,6-Oct-98,3.87,49125000\n"
-"ORCL,5-Oct-98,3.96,104956200\n"
-"ORCL,2-Oct-98,4.33,88021800\n"
-"ORCL,1-Oct-98,4.50,66627000\n"
-"ORCL,30-Sep-98,4.85,58905000\n"
-"ORCL,29-Sep-98,4.84,72228000\n"
-"ORCL,28-Sep-98,4.69,44791200\n"
-"ORCL,25-Sep-98,4.82,46451400\n"
-"ORCL,24-Sep-98,4.73,48927000\n"
-"ORCL,23-Sep-98,4.77,75714600\n"
-"ORCL,22-Sep-98,4.77,52429800\n"
-"ORCL,21-Sep-98,4.64,54670200\n"
-"ORCL,18-Sep-98,4.53,47250000\n"
-"ORCL,17-Sep-98,4.47,53662800\n"
-"ORCL,16-Sep-98,4.54,56824800\n"
-"ORCL,15-Sep-98,4.50,64848600\n"
-"ORCL,14-Sep-98,4.43,60789600\n"
-"ORCL,11-Sep-98,4.25,146113800\n"
-"ORCL,10-Sep-98,3.69,47503200\n"
-"ORCL,9-Sep-98,3.63,35889600\n"
-"ORCL,8-Sep-98,3.60,44103000\n"
-"ORCL,4-Sep-98,3.45,51088800\n"
-"ORCL,3-Sep-98,3.18,57853200\n"
-"ORCL,2-Sep-98,3.38,76340400\n"
-"ORCL,1-Sep-98,3.43,76408200\n"
-"ORCL,31-Aug-98,3.32,61623600\n"
-"ORCL,28-Aug-98,3.55,42447000\n"
-"ORCL,27-Aug-98,3.77,36363600\n"
-"ORCL,26-Aug-98,3.97,19467000\n"
-"ORCL,25-Aug-98,4.02,25388400\n"
-"ORCL,24-Aug-98,4.04,22735200\n"
-"ORCL,21-Aug-98,4.16,47113800\n"
-"ORCL,20-Aug-98,4.09,34479600\n"
-"ORCL,19-Aug-98,4.07,70520400\n"
-"ORCL,18-Aug-98,3.88,50115000\n"
-"ORCL,17-Aug-98,3.97,34548600\n"
+"http://finance.yahoo.com/q/hp?s=PDE&a=0&b=2&c=1962&d=7&e=16&f=2008&g=d&z=66&y=2450"
+"PDE,9-Nov-98,12.00,422300\n"
+"PDE,6-Nov-98,12.00,436900\n"
+"PDE,5-Nov-98,11.69,332000\n"
+"PDE,4-Nov-98,12.00,285800\n"
+"PDE,3-Nov-98,12.31,352200\n"
+"PDE,2-Nov-98,12.50,816000\n"
+"PDE,30-Oct-98,11.62,576300\n"
+"PDE,29-Oct-98,11.25,433300\n"
+"PDE,28-Oct-98,11.25,839300\n"
+"PDE,27-Oct-98,11.50,1123900\n"
+"PDE,26-Oct-98,11.25,601100\n"
+"PDE,23-Oct-98,10.44,756000\n"
+"PDE,22-Oct-98,10.50,689500\n"
+"PDE,21-Oct-98,9.81,1028500\n"
+"PDE,20-Oct-98,8.56,849100\n"
+"PDE,19-Oct-98,8.38,857900\n"
+"PDE,16-Oct-98,7.88,1016900\n"
+"PDE,15-Oct-98,7.00,799500\n"
+"PDE,14-Oct-98,6.38,439800\n"
+"PDE,13-Oct-98,6.56,158300\n"
+"PDE,12-Oct-98,6.81,477100\n"
+"PDE,9-Oct-98,6.56,242700\n"
+"PDE,8-Oct-98,6.56,436300\n"
+"PDE,7-Oct-98,6.94,279300\n"
+"PDE,6-Oct-98,7.19,318600\n"
+"PDE,5-Oct-98,7.44,453300\n"
+"PDE,2-Oct-98,7.75,574800\n"
+"PDE,1-Oct-98,7.69,327500\n"
+"PDE,30-Sep-98,8.00,323900\n"
+"PDE,29-Sep-98,8.38,366200\n"
+"PDE,28-Sep-98,8.62,418400\n"
+"PDE,25-Sep-98,8.75,261800\n"
+"PDE,24-Sep-98,8.87,379400\n"
+"PDE,23-Sep-98,9.38,558900\n"
+"PDE,22-Sep-98,8.69,228000\n"
+"PDE,21-Sep-98,9.00,149500\n"
+"PDE,18-Sep-98,9.06,243500\n"
+"PDE,17-Sep-98,9.19,327400\n"
+"PDE,16-Sep-98,9.62,436700\n"
+"PDE,15-Sep-98,9.19,747800\n"
+"PDE,14-Sep-98,9.75,920200\n"
+"PDE,11-Sep-98,9.13,935200\n"
+"PDE,10-Sep-98,8.44,947500\n"
+"PDE,9-Sep-98,8.00,679000\n"
+"PDE,8-Sep-98,8.12,645400\n"
+"PDE,4-Sep-98,8.56,842500\n"
+"PDE,3-Sep-98,8.12,674700\n"
+"PDE,2-Sep-98,8.25,481700\n"
+"PDE,1-Sep-98,8.00,571800\n"
+"PDE,31-Aug-98,7.94,569000\n"
+"PDE,28-Aug-98,9.00,462600\n"
+"PDE,27-Aug-98,8.94,426600\n"
+"PDE,26-Aug-98,9.31,628600\n"
+"PDE,25-Aug-98,10.19,344600\n"
+"PDE,24-Aug-98,10.31,256400\n"
+"PDE,21-Aug-98,10.81,337900\n"
+"PDE,20-Aug-98,11.06,300400\n"
+"PDE,19-Aug-98,11.12,615000\n"
+"PDE,18-Aug-98,10.12,756800\n"
+"PDE,17-Aug-98,9.81,259000\n"
+"PDE,14-Aug-98,10.12,764200\n"
+"PDE,13-Aug-98,10.75,488300\n"
+"PDE,12-Aug-98,11.06,778000\n"
+"PDE,11-Aug-98,11.00,277400\n"
+"PDE,10-Aug-98,11.75,489300\n"
+"PDE,7-Aug-98,12.56,797700\n"
 mac2:/pt/rubydemos maco$
 mac2:/pt/rubydemos maco$
 mac2:/pt/rubydemos maco$
@@ -326,32 +328,44 @@ TRAILING NULLCOLS
 <p />
 <b>Study the Data With Oracle Analytic Functions</b>
 <p />
-First I ran some simple queries to see how the data was distributed.
+After I ran the above shell script to load the data, I ran some simple queries to see how the data was distributed.
 <p />
 How many distinct stock tickers do I have?
 <p />
+<pre><code class="sql">
 SELECT COUNT(DISTINCT tkr) FROM ytpv;
+</code></pre>
 <p />
 I checked for duplicate rows:
 <p />
+<pre><code class="sql">
 SELECT COUNT(*) FROM (SELECT tkr||ydate,COUNT(tkr||ydate) FROM ytpv GROUP BY tkr||ydate HAVING COUNT(tkr||ydate)>1);
+</code></pre>
 <p />
 How many rows do I have and what are the date ranges?
 <p />
+<pre><code class="sql">
 SELECT COUNT(tkr),MIN(ydate),MAX(ydate) FROM ytpv;
+</code></pre>
+<p />
 <p />
 
 Today, we cannot predict the future, but we do have access to any moving average of data leading up to today.
 
+<p />
 With this stock data, however, we can transport back in time to an arbitrary day.
 
+<p />
 Once at that arbitrary day in the past, we calculate several moving averages leading up to that day but not past it.
 
+<p />
 Also we have access to prices in the future of that arbitrary day.  So we will collect 3 of those prices:
 5 days ahead, 10 days ahead, and 15 days ahead.
 
+<p />
 A little thought reveals, however, that we actually want the percentage gain rather than the prices.
 
+<p />
 If we know percentage gain for each of several stocks, we can put them in a group and then know the percentage gain for the group.
 
 <p />
@@ -376,11 +390,29 @@ The above syntax would be daunting for anyone unfamiliar with Oracle Analytic Fu
 Some of the <em>IDEAS</em> behind Oracle Analytic Functions, however, are simple to anyone who has authored a spreadsheet:
 <p />
 <ul>
-  <li>Order all of the data first by tkr and then by ydate.</li>
-  <li>Pick any arbitrary row.</li>
-  <li>Pick a row which is 9 rows behind the arbitrary row.</li>
+  <li>In the table, order all of the rows first by tkr and then by ydate.</li>
+  <li>Pick the last row.</li>
+  <li>Pick a row which is 9 rows behind the last row.</li>
   <li>I now have a <em>window</em> full of 10 rows.</li>
   <li>Calculate the Average value of yprice for that window of 10 rows.</li>
+  <li>I now have a 10 day moving average for that last row.</li>
+  <li>Repeat the above procedure for all the rows in the table.</li>
+</ul>
+<p />
+<p />
+
+If we inspect the SQL code above we see calls to a function named LEAD().
+<p />
+From a spreadsheet perspective, LEAD() might be described like this:
+<p />
+<ul>
+  <li>Order all of the rows first by tkr and then by ydate.</li>
+  <li>Pick the first row.</li>
+  <li>Pick a row which is 5 rows ahead of the first row.</li>
+  <li>Copy some data from this lead row into the first row.</li>
+  <li>Use this copied data to calculate percentage gain in yprice:</li>
+  <li>pct_gain5day = 100 * (lead_yprice - yprice) / yprice</li>
+  <li>Repeat the above procedure for all the rows in the table.</li>
 </ul>
 
 <p />
@@ -389,7 +421,7 @@ Information about Oracle Analytic Functions:
 <p />
 <a target='a' href='http://www.google.com/search?q=sql+analytic+functions+site%3Aoracle.com'>http://www.google.com/search?q=sql+analytic+functions+site%3Aoracle.com</a>
 <p />
-The above syntax creates a table with this description:
+The above syntax creates a table named "mas11" with this description:
 <p />
 <pre>
 01:41:02 SQL&gt; set lines 22
@@ -415,26 +447,142 @@ I named the columns so their content is obvious:
 <p />
 
 <pre><code>
-TKR:           Stock Ticker
-YDATE:         The date of the price
-YPRICE:        Closing price of TKR on YDATE
-MVG_AVG10DAY:  10 Day Moving Avg of YPRICE of TKR on YDATE
-MVG_AVG20DAY:  20 Day Moving Avg of YPRICE of TKR on YDATE
-MVG_AVG30DAY:  30 Day Moving Avg of YPRICE of TKR on YDATE
-MVG_AVG40DAY:  40 Day Moving Avg of YPRICE of TKR on YDATE
-PCT_GAIN5DAY:  Percent Gain of Ticker 5 Days after YDATE
-PCT_GAIN10DAY: Percent Gain of Ticker 10 Days after YDATE
-PCT_GAIN15DAY: Percent Gain of Ticker 15 Days after YDATE
+mas11 columns:
+  TKR:           Stock Ticker
+  YDATE:         The date of the price
+  YPRICE:        Closing price of TKR on YDATE
+  MVG_AVG10DAY:  10 Day Moving Avg of YPRICE of TKR on YDATE
+  MVG_AVG20DAY:  20 Day Moving Avg of YPRICE of TKR on YDATE
+  MVG_AVG30DAY:  30 Day Moving Avg of YPRICE of TKR on YDATE
+  MVG_AVG40DAY:  40 Day Moving Avg of YPRICE of TKR on YDATE
+  PCT_GAIN5DAY:  Percent Gain of Ticker 5 Days after YDATE
+  PCT_GAIN10DAY: Percent Gain of Ticker 10 Days after YDATE
+  PCT_GAIN15DAY: Percent Gain of Ticker 15 Days after YDATE
 </code></pre>
 
 <p />
 <p />
+The moving averages in the above table are mildly interesting.
 <p />
 <p />
+I would prefer, however, to see the slopes of the moving averages.
+<p />
+The slope of a moving average might have the unit of measure: dollars/day.
+<p />
+For our purposes, though, we want the slope to be in terms of percentage-gain/day.
 <p />
 <p />
+An SQL script containing Oracle Analytic Functions to calculate the slopes of the moving averages is displayed below:
 <p />
 <p />
+<pre><code class="sql">
+CREATE TABLE mas12 AS SELECT tkr,ydate,yprice,
+mvg_avg10day,
+mvg_avg20day,
+mvg_avg30day,
+mvg_avg40day,
+pct_gain5day,
+pct_gain10day,
+pct_gain15day
+,ROUND(100*(mvg_avg10day - LAG(mvg_avg10day,1,mvg_avg10day)OVER(PARTITION BY tkr ORDER BY tkr,ydate ))/DECODE(mvg_avg10day,0,0.01,mvg_avg10day),2)mvg_avg10slope
+,ROUND(100*(mvg_avg20day - LAG(mvg_avg20day,1,mvg_avg20day)OVER(PARTITION BY tkr ORDER BY tkr,ydate ))/DECODE(mvg_avg20day,0,0.01,mvg_avg20day),2)mvg_avg20slope
+,ROUND(100*(mvg_avg30day - LAG(mvg_avg30day,1,mvg_avg30day)OVER(PARTITION BY tkr ORDER BY tkr,ydate ))/DECODE(mvg_avg30day,0,0.01,mvg_avg30day),2)mvg_avg30slope
+,ROUND(100*(mvg_avg40day - LAG(mvg_avg40day,1,mvg_avg40day)OVER(PARTITION BY tkr ORDER BY tkr,ydate ))/DECODE(mvg_avg40day,0,0.01,mvg_avg40day),2)mvg_avg40slope
+FROM mas11 ORDER BY tkr,ydate;
+</code></pre>
 <p />
+<p />
+
+The above syntax creates a table named "mas12" with this description:
+<p />
+<pre>
+12:51:28 SQL&gt; SET LINES 22
+12:51:34 SQL&gt; DESC mas12
+ Name              Null?    Type
+ ----------------- -------- ------------
+ TKR                        VARCHAR2(7)
+ YDATE                      DATE
+ YPRICE                     NUMBER
+ MVG_AVG10DAY               NUMBER
+ MVG_AVG20DAY               NUMBER
+ MVG_AVG30DAY               NUMBER
+ MVG_AVG40DAY               NUMBER
+ PCT_GAIN5DAY               NUMBER
+ PCT_GAIN10DAY              NUMBER
+ PCT_GAIN15DAY              NUMBER
+ MVG_AVG10SLOPE             NUMBER
+ MVG_AVG20SLOPE             NUMBER
+ MVG_AVG30SLOPE             NUMBER
+ MVG_AVG40SLOPE             NUMBER
+
+12:51:42 SQL&gt;
+12:51:48 SQL&gt;
+</pre>
+<p />
+<p />
+We now have data suitable for backtesting a simple strategy which was described in the opening question:
+<p />
+<p />
+
+<ul>
+ <li>Given:  A random stock in the energy services industry                     </li>
+ <li>Today this random stock has a 20-day moving avg price slope of -1.0% / day </li>
+ <li>What is the probability distribution for its price 10 days from today?     </li>
+ <li>Is it highly probable the stock will be 10% lower or more?                 </li>
+</ul>
+
+<p />
+<p />
+Building a query to answer the first question is easy:
+
+<p />
+
+<p />
+
+<pre><code class='sql'>
+SELECT ROUND(pct_gain10day)||','|| COUNT(ROUND(pct_gain10day))
+FROM mas12
+WHERE mvg_avg20slope BETWEEN -1.1 AND -0.9
+GROUP BY  ROUND(pct_gain10day)
+HAVING COUNT(ROUND(pct_gain10day))>2
+ORDER BY  ROUND(pct_gain10day) ;
+</code></pre>
+
+<p />
+<p />
+When we plot the results of the above query, we obtain a shape which resembles a Gaussian Distribution:
+<p />
+<p />
+
+To study the second question we first obtain the value of the area under the entire distribution.
+
+<p />
+This can be done with a simple COUNT query:
+<p />
+<p />
+SELECT COUNT(rowid) FROM mas12 WHERE mvg_avg20slope BETWEEN -1.1 AND -0.9;
+<p />
+<p />
+Then we  obtain the value of the area under the distribution WHERE pct_gain10day <= -10.0 :
+<p />
+
+SELECT COUNT(rowid) FROM mas12 WHERE mvg_avg20slope BETWEEN -1.1 AND -0.9 AND pct_gain10day < -10.0;
+
+<p />
+<p />
+Then we just divide the second area by the first to get this value:
+<p />
+<p />
+It is possible to do this calculation with a single query instead of two:
+<p />
+<p />
+
+SELECT
+(100 * COUNT(mas12.rowid) / count_total) pct_prob
+FROM mas12 ,
+  (SELECT COUNT(rowid)count_total FROM mas12 WHERE mvg_avg20slope BETWEEN -1.1 AND -0.9)
+WHERE mvg_avg20slope BETWEEN -1.1 AND -0.9 AND pct_gain10day < -10.0
+GROUP BY count_total;
+
 <p />
 <p />
