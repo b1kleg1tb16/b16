@@ -9,18 +9,20 @@
 <p />
 We start with a simple question:
 <p />
+
 <ul>
- <li>Given:  A random stock in the energy services industry                     </li>
+ <li>Given:  A random stock in the Oil Services/Equipment industry              </li>
  <li>Today this random stock has a 20-day moving avg price slope of -1.0% / day </li>
  <li>What is the probability distribution for its price 10 days from today?     </li>
  <li>Is it highly probable the stock will be 10% lower or more?                 </li>
 </ul>
+
 <p />
 <p />
 <b>Obtaining Stock Price Data</b>
 <p />
 
-Stock Price Data may be found here:
+A small amount of stock Price Data may be found here:
 <p />
 <a target='a' href='http://finance.yahoo.com/q/hp?s=PDE&amp;a=0&amp;b=2&amp;c=1962&amp;d=7&amp;e=16&amp;f=2008&amp;g=d&amp;z=66&amp;y=2450'>http://finance.yahoo.com/q/hp?s=PDE&amp;a=0&amp;b=2&amp;c=1962&amp;d=7&amp;e=16&amp;f=2008&amp;g=d&amp;z=66&amp;y=2450</a>
 
@@ -34,7 +36,7 @@ One problem embedded in the data is survivorship bias.  A failed or acquired com
 <a target='a' href='http://en.wikipedia.org/wiki/Survivorship_bias'>http://en.wikipedia.org/wiki/Survivorship_bias</a>
 
 <p />
-I use the Ruby language to obtain data.  Ruby offers two modules named "OpenURI" and "hpricot" which I use to obtain data:
+I use the Ruby language to obtain data.  Ruby offers two modules named "OpenURI" and "hpricot" which I use to collect data:
 
 <ul>
   <li><a target='a' href='http://www.ruby-doc.org/core/classes/OpenURI.html'>http://www.ruby-doc.org/core/classes/OpenURI.html</a></li>
@@ -525,7 +527,7 @@ We now have data suitable for backtesting a simple strategy which was described 
 <p />
 
 <ul>
- <li>Given:  A random stock in the energy services industry                     </li>
+ <li>Given:  A random stock in the Oil Services/Equipment industry              </li>
  <li>Today this random stock has a 20-day moving avg price slope of -1.0% / day </li>
  <li>What is the probability distribution for its price 10 days from today?     </li>
  <li>Is it highly probable the stock will be 10% lower or more?                 </li>
@@ -541,8 +543,10 @@ Building a query to answer the first question is easy:
 
 <pre><code class='sql'>
 SELECT ROUND(pct_gain10day)||','|| COUNT(ROUND(pct_gain10day))
-FROM mas12
+FROM mas12,tkr_industry
 WHERE mvg_avg20slope BETWEEN -1.1 AND -0.9
+AND mas12.tkr = tkr_industry.tkr
+AND tkr_industry.inudstry = 'Oilfield Svcs/Equip.'
 GROUP BY  ROUND(pct_gain10day)
 HAVING COUNT(ROUND(pct_gain10day))>2
 ORDER BY  ROUND(pct_gain10day) ;
@@ -550,39 +554,338 @@ ORDER BY  ROUND(pct_gain10day) ;
 
 <p />
 <p />
+Notice that we join with the table tkr_indust.  Some information about tkr_indust is displayed below:
+<p />
+<p />
+<pre><code class='sql'>
+15:55:19 SQL&gt;
+16:00:42 SQL&gt;
+16:00:43 SQL&gt; SELECT COUNT(tkr), indust FROM tkr_industry GROUP BY indust ORDER BY indust ;
+
+COUNT(TKR) INDUST
+---------- -------------------------------------------------------
+        12 Advertising
+        28 Aerospace/Defense
+        22 Air Transport
+        16 Apparel
+        13 Auto & Truck
+        26 Auto Parts
+        58 Bank
+        15 Bank (Midwest)
+        14 Beverage
+        37 Biotechnology
+        23 Building Materials
+        10 Cable TV
+         5 Canadian Energy
+        13 Chemical (Basic)
+        22 Chemical (Diversified)
+        32 Chemical (Specialty)
+        15 Coal
+        87 Computer Software/Svcs
+        48 Computers/Peripherals
+        38 Diversified Co.
+       131 Drug
+        28 E-Commerce
+        42 ETF
+        11 Educational Services
+        19 Electric Util. (Central)
+        18 Electric Utility (East)
+        14 Electric Utility (West)
+        35 Electrical Equipment
+        49 Electronics
+        25 Entertainment
+        17 Entertainment Tech
+        17 Environmental
+        91 Financial Svcs. (Div.)
+        39 Food Processing
+         6 Food Wholesalers
+         5 Foreign Electronics
+         2 Funeral Services
+        13 Furn/Home Furnishings
+         6 Grocery
+         8 Healthcare Information
+         8 Heavy Construction
+        14 Homebuilding
+        28 Hotel/Gaming
+        16 Household Products
+        19 Human Resources
+         5 INDEX
+        44 Industrial Services
+        13 Information Services
+        18 Insurance (Life)
+        34 Insurance (Prop/Cas.)
+        54 Internet
+        53 Machinery
+         6 Manuf. Housing/RV
+        33 Maritime
+        52 Medical Services
+       101 Medical Supplies
+        12 Metal Fabricating
+        24 Metals & Mining (Div.)
+        25 Natural Gas (Div.)
+        11 Natural Gas Utility
+         8 Newspaper
+        14 Office Equip/Supplies
+        13 Oil/Gas Distribution
+        72 Oilfield Svcs/Equip.
+        15 Packaging & Container
+        15 Paper/Forest Products
+        20 Petroleum (Integrated)
+        72 Petroleum (Producing)
+        10 Pharmacy Services
+        30 Power
+        28 Precious Metals
+        36 Precision Instrument
+         3 Property Management
+         7 Public/Private Equity
+        10 Publishing
+        68 R.E.I.T.
+        11 Railroad
+        22 Recreation
+         7 Reinsurance
+        34 Restaurant
+        77 Retail (Special Lines)
+         9 Retail Automotive
+         6 Retail Building Supply
+        20 Retail Store
+        19 Securities Brokerage
+        73 Semiconductor
+        14 Semiconductor Equip
+        12 Shoe
+        11 Steel (General)
+         6 Steel (Integrated)
+        45 Telecom. Equipment
+        51 Telecom. Services
+        22 Thrift
+         6 Tobacco
+        11 Toiletries/Cosmetics
+        19 Trucking
+         2 Utility (Foreign)
+         2 Water Utility
+        31 Wireless Networking
+
+99 rows selected.
+
+Elapsed: 00:00:00.09
+16:02:06 SQL&gt;
+
+16:04:48 SQL&gt; SELECT tkr FROM tkr_industry WHERE indust = 'Oilfield Svcs/Equip.' ORDER BY tkr;
+
+TKR
+-------------------------------------------------------
+ACGY
+ALY
+APL
+ATW
+BAS
+BHI
+BJS
+CAM
+CKH
+CLB
+CPNO
+CPX
+CQP
+CRR
+DO
+DPM
+DRQ
+DVR
+DWSN
+EEQ
+EPE
+ESV
+ETE
+FTI
+FTK
+FXEN
+GEL
+GIFI
+GLBL
+GW
+HAL
+HERO
+HLX
+HOS
+HP
+IO
+KEG
+LNG
+LUFK
+MGG
+NBR
+NE
+NGAS
+NGLS
+NGS
+NOV
+NR
+NS
+NSH
+NTG
+OII
+OIS
+OMNI
+PDC
+PDE
+PKD
+PTEN
+RDC
+RES
+RGNC
+RIG
+SII
+SLB
+SPN
+TCLP
+TDW
+TRMA
+TTES
+TTI
+WFT
+WG
+WPZ
+
+72 rows selected.
+
+Elapsed: 00:00:00.03
+16:05:05 SQL&gt;
+16:05:13 SQL&gt;
+
+</code></pre>
+<p />
+<p />
+Graphs for the above tkr values are listed below:
+
+<p />
+<p />
+
+
+<ul>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=ACGY&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=ACGY&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=ALY&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=ALY&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=APL&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=APL&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=ATW&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=ATW&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=BAS&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=BAS&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=BHI&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=BHI&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=BJS&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=BJS&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=CAM&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=CAM&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=CKH&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=CKH&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=CLB&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=CLB&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=CPNO&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=CPNO&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=CPX&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=CPX&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=CQP&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=CQP&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=CRR&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=CRR&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=DO&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=DO&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=DPM&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=DPM&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=DRQ&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=DRQ&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=DVR&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=DVR&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=DWSN&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=DWSN&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=EEQ&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=EEQ&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=EPE&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=EPE&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=ESV&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=ESV&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=ETE&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=ETE&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=FTI&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=FTI&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=FTK&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=FTK&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=FXEN&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=FXEN&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=GEL&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=GEL&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=GIFI&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=GIFI&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=GLBL&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=GLBL&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=GW&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=GW&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=HAL&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=HAL&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=HERO&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=HERO&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=HLX&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=HLX&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=HOS&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=HOS&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=HP&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=HP&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=IO&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=IO&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=KEG&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=KEG&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=LNG&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=LNG&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=LUFK&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=LUFK&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=MGG&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=MGG&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=NBR&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=NBR&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=NE&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=NE&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=NGAS&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=NGAS&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=NGLS&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=NGLS&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=NGS&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=NGS&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=NOV&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=NOV&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=NR&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=NR&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=NS&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=NS&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=NSH&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=NSH&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=NTG&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=NTG&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=OII&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=OII&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=OIS&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=OIS&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=OMNI&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=OMNI&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=PDC&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=PDC&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=PDE&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=PDE&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=PKD&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=PKD&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=PTEN&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=PTEN&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=RDC&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=RDC&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=RES&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=RES&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=RGNC&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=RGNC&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=RIG&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=RIG&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=SII&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=SII&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=SLB&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=SLB&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=SPN&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=SPN&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=TCLP&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=TCLP&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=TDW&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=TDW&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=TRMA&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=TRMA&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=TTES&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=TTES&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=TTI&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=TTI&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=WFT&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=WFT&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=WG&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=WG&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+<li><a target='a' href='http://finance.yahoo.com/q/ta?s=WPZ&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c='>http://finance.yahoo.com/q/ta?s=WPZ&amp;t=5y&amp;l=off&amp;z=l&amp;q=c&amp;p=m20&amp;a=f14,r14&amp;c=</a></li>
+</ul>
+
+
+
+<p />
+<p />
+Now we return our attention back to the query which will answer the original question:
+
+<ul>
+ <li>Given:  A random stock in the Oil Services/Equipment industry              </li>
+ <li>Today this random stock has a 20-day moving avg price slope of -1.0% / day </li>
+ <li>What is the probability distribution for its price 10 days from today?     </li>
+ <li>Is it highly probable the stock will be 10% lower or more?                 </li>
+</ul>
+
+<p />
 When we plot the results of the above query, we obtain a shape which resembles a Gaussian Distribution:
 <p />
 <p />
-
-To study the second question we first obtain the value of the area under the entire distribution.
-
 <p />
-This can be done with a simple COUNT query:
-<p />
-<p />
-SELECT COUNT(rowid) FROM mas12 WHERE mvg_avg20slope BETWEEN -1.1 AND -0.9;
-<p />
-<p />
-Then we  obtain the value of the area under the distribution WHERE pct_gain10day <= -10.0 :
-<p />
-
-SELECT COUNT(rowid) FROM mas12 WHERE mvg_avg20slope BETWEEN -1.1 AND -0.9 AND pct_gain10day < -10.0;
-
-<p />
-<p />
-Then we just divide the second area by the first to get this value:
-<p />
-<p />
-It is possible to do this calculation with a single query instead of two:
+Is it highly probable the stock will be 10% lower or more?
 <p />
 <p />
 
-SELECT
-(100 * COUNT(mas12.rowid) / count_total) pct_prob
-FROM mas12 ,
-  (SELECT COUNT(rowid)count_total FROM mas12 WHERE mvg_avg20slope BETWEEN -1.1 AND -0.9)
-WHERE mvg_avg20slope BETWEEN -1.1 AND -0.9 AND pct_gain10day < -10.0
-GROUP BY count_total;
+To answer the above question we first obtain the value of the area
+under the distribution where pct_gain10day < -10.0.
+<p />
+<p />
+Then, we divide that value by the total area under the distribution.
+<p />
+<p />
+The query listed below calculates this value for us:
+<p />
+<p />
+
+<pre><code class='sql'>
+SELECT 100 * count1 / count2
+FROM
+(
+  SELECT COUNT(mas12.rowid) count1 FROM mas12,tkr_industry
+  WHERE mvg_avg20slope BETWEEN -1.1 AND -0.9
+  AND mas12.tkr = tkr_industry.tkr
+  AND tkr_industry.indust = 'Oilfield Svcs/Equip.'
+  AND pct_gain10day < -10.0
+),
+(
+  SELECT COUNT(mas12.rowid) count2 FROM mas12,tkr_industry
+  WHERE mvg_avg20slope BETWEEN -1.1 AND -0.9
+  AND mas12.tkr = tkr_industry.tkr
+  AND tkr_industry.indust = 'Oilfield Svcs/Equip.'
+);
+</code></pre>
 
 <p />
 <p />
