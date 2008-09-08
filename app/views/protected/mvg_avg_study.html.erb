@@ -335,19 +335,41 @@ After I ran the above shell script to load the data, I ran some simple queries t
 How many distinct stock tickers do I have?
 <p />
 <pre><code class="sql">
-SELECT COUNT(DISTINCT tkr) FROM ytpv;
+09:59:46 SQL&gt; SELECT COUNT(DISTINCT tkr) FROM ytpv;
+
+COUNT(DISTINCTTKR)
+------------------
+           2623
+
+Elapsed: 00:00:13.57
+10:00:07 SQL&gt;
 </code></pre>
 <p />
 I checked for duplicate rows:
 <p />
 <pre><code class="sql">
-SELECT COUNT(*) FROM (SELECT tkr||ydate,COUNT(tkr||ydate) FROM ytpv GROUP BY tkr||ydate HAVING COUNT(tkr||ydate)>1);
+10:00:07 SQL&gt; SELECT COUNT(*) FROM (SELECT tkr||ydate,COUNT(tkr||ydate) FROM ytpv GROUP BY tkr||ydate HAVING COUNT(tkr||ydate)&gt;1);
+
+  COUNT(*)
+----------
+         0
+
+Elapsed: 00:01:05.56
+10:02:10 SQL&gt;
 </code></pre>
 <p />
 How many rows do I have and what are the date ranges?
 <p />
 <pre><code class="sql">
-SELECT COUNT(tkr),MIN(ydate),MAX(ydate) FROM ytpv;
+
+10:02:10 SQL&gt; SELECT COUNT(tkr),MIN(ydate),MAX(ydate) FROM ytpv;
+
+COUNT(TKR) MIN(YDATE) MAX(YDATE)
+---------- ---------- ----------
+   7476396 1984-09-07 2008-09-05
+
+Elapsed: 00:00:12.94
+10:05:54 SQL&gt;
 </code></pre>
 <p />
 <p />
@@ -375,15 +397,25 @@ With those thoughts in my mind, I wrote the following SQL:
 
 <p />
 <pre><code class="sql">
-CREATE TABLE mas11 AS SELECT tkr,ydate,yprice,
-AVG(yprice) OVER(PARTITION BY tkr ORDER BY tkr,ydate ROWS BETWEEN  9 PRECEDING AND CURRENT ROW )mvg_avg10day,
-AVG(yprice) OVER(PARTITION BY tkr ORDER BY tkr,ydate ROWS BETWEEN 19 PRECEDING AND CURRENT ROW )mvg_avg20day,
-AVG(yprice) OVER(PARTITION BY tkr ORDER BY tkr,ydate ROWS BETWEEN 29 PRECEDING AND CURRENT ROW )mvg_avg30day,
-AVG(yprice) OVER(PARTITION BY tkr ORDER BY tkr,ydate ROWS BETWEEN 39 PRECEDING AND CURRENT ROW )mvg_avg40day,
-ROUND(100*( LEAD(yprice,5) OVER(PARTITION BY tkr ORDER BY tkr,ydate ) - yprice )/DECODE(yprice,0,0.01,yprice),2)pct_gain5day,
-ROUND(100*( LEAD(yprice,10)OVER(PARTITION BY tkr ORDER BY tkr,ydate ) - yprice )/DECODE(yprice,0,0.01,yprice),2)pct_gain10day,
-ROUND(100*( LEAD(yprice,15)OVER(PARTITION BY tkr ORDER BY tkr,ydate ) - yprice )/DECODE(yprice,0,0.01,yprice),2)pct_gain15day
-FROM ytpv ORDER BY tkr,ydate;
+10:11:32 SQL&gt;
+10:11:32 SQL&gt; l
+  1  CREATE TABLE mas11 AS SELECT tkr,ydate,yprice,
+  2  AVG(yprice) OVER(PARTITION BY tkr ORDER BY tkr,ydate ROWS BETWEEN       9 PRECEDING AND CURRENT ROW )mvg_avg10day,
+  3  AVG(yprice) OVER(PARTITION BY tkr ORDER BY tkr,ydate ROWS BETWEEN 19 PRECEDING AND CURRENT ROW )mvg_avg20day,
+  4  AVG(yprice) OVER(PARTITION BY tkr ORDER BY tkr,ydate ROWS BETWEEN 29 PRECEDING AND CURRENT ROW )mvg_avg30day,
+  5  AVG(yprice) OVER(PARTITION BY tkr ORDER BY tkr,ydate ROWS BETWEEN 39 PRECEDING AND CURRENT ROW )mvg_avg40day,
+  6  ROUND(100*( LEAD(yprice,5) OVER(PARTITION BY tkr ORDER BY tkr,ydate ) - yprice )/DECODE(yprice,0,0.01,yprice),2)pct_gain5day,
+  7  ROUND(100*( LEAD(yprice,10)OVER(PARTITION BY tkr ORDER BY tkr,ydate ) - yprice )/DECODE(yprice,0,0.01,yprice),2)pct_gain10day,
+  8  ROUND(100*( LEAD(yprice,15)OVER(PARTITION BY tkr ORDER BY tkr,ydate ) - yprice )/DECODE(yprice,0,0.01,yprice),2)pct_gain15day
+  9* FROM ytpv ORDER BY tkr,ydate
+10:11:34 SQL&gt;
+10:11:36 SQL&gt;
+10:11:36 SQL&gt; /
+
+Table created.
+
+Elapsed: 00:04:14.37
+10:15:58 SQL&gt;
 </code></pre>
 
 <p />
@@ -478,19 +510,29 @@ An SQL script containing Oracle Analytic Functions to calculate the slopes of th
 <p />
 <p />
 <pre><code class="sql">
-CREATE TABLE mas12 AS SELECT tkr,ydate,yprice,
-mvg_avg10day,
-mvg_avg20day,
-mvg_avg30day,
-mvg_avg40day,
-pct_gain5day,
-pct_gain10day,
-pct_gain15day
-,ROUND(100*(mvg_avg10day - LAG(mvg_avg10day,1,mvg_avg10day)OVER(PARTITION BY tkr ORDER BY tkr,ydate ))/DECODE(mvg_avg10day,0,0.01,mvg_avg10day),2)mvg_avg10slope
-,ROUND(100*(mvg_avg20day - LAG(mvg_avg20day,1,mvg_avg20day)OVER(PARTITION BY tkr ORDER BY tkr,ydate ))/DECODE(mvg_avg20day,0,0.01,mvg_avg20day),2)mvg_avg20slope
-,ROUND(100*(mvg_avg30day - LAG(mvg_avg30day,1,mvg_avg30day)OVER(PARTITION BY tkr ORDER BY tkr,ydate ))/DECODE(mvg_avg30day,0,0.01,mvg_avg30day),2)mvg_avg30slope
-,ROUND(100*(mvg_avg40day - LAG(mvg_avg40day,1,mvg_avg40day)OVER(PARTITION BY tkr ORDER BY tkr,ydate ))/DECODE(mvg_avg40day,0,0.01,mvg_avg40day),2)mvg_avg40slope
-FROM mas11 ORDER BY tkr,ydate;
+
+10:22:16 SQL>
+10:22:16 SQL> l
+  1  CREATE TABLE mas12 AS SELECT tkr,ydate,yprice,
+  2  mvg_avg10day,
+  3  mvg_avg20day,
+  4  mvg_avg30day,
+  5  mvg_avg40day,
+  6  pct_gain5day,
+  7  pct_gain10day,
+  8  pct_gain15day
+  9  ,ROUND(100*(mvg_avg10day - LAG(mvg_avg10day,1,mvg_avg10day)OVER(PARTITION BY tkr ORDER BY tkr,ydate ))/DECODE(mvg_avg10day,0,0.01,mvg_avg10day),2)mvg_avg10slope
+ 10  ,ROUND(100*(mvg_avg20day - LAG(mvg_avg20day,1,mvg_avg20day)OVER(PARTITION BY tkr ORDER BY tkr,ydate ))/DECODE(mvg_avg20day,0,0.01,mvg_avg20day),2)mvg_avg20slope
+ 11  ,ROUND(100*(mvg_avg30day - LAG(mvg_avg30day,1,mvg_avg30day)OVER(PARTITION BY tkr ORDER BY tkr,ydate ))/DECODE(mvg_avg30day,0,0.01,mvg_avg30day),2)mvg_avg30slope
+ 12  ,ROUND(100*(mvg_avg40day - LAG(mvg_avg40day,1,mvg_avg40day)OVER(PARTITION BY tkr ORDER BY tkr,ydate ))/DECODE(mvg_avg40day,0,0.01,mvg_avg40day),2)mvg_avg40slope
+ 13* FROM mas11 ORDER BY tkr,ydate
+10:22:17 SQL>
+10:22:19 SQL> /
+
+Table created.
+
+Elapsed: 00:03:33.01
+10:25:53 SQL>
 </code></pre>
 <p />
 <p />
@@ -542,19 +584,118 @@ Building a query to answer the first question is easy:
 <p />
 
 <pre><code class='sql'>
-SELECT ROUND(pct_gain10day)||','|| COUNT(ROUND(pct_gain10day))
-FROM mas12,tkr_industry
-WHERE mvg_avg20slope BETWEEN -1.1 AND -0.9
-AND mas12.tkr = tkr_industry.tkr
-AND tkr_industry.inudstry = 'Oilfield Svcs/Equip.'
-GROUP BY  ROUND(pct_gain10day)
-HAVING COUNT(ROUND(pct_gain10day))>2
-ORDER BY  ROUND(pct_gain10day) ;
+10:37:13 SQL&gt; l
+  1  SELECT ROUND(pct_gain10day)||','|| COUNT(ROUND(pct_gain10day))
+  2  FROM mas12,tkr_industry
+  3  WHERE mvg_avg20slope BETWEEN -1.1 AND -0.9
+  4  AND mas12.tkr = tkr_industry.tkr
+  5  AND tkr_industry.indust = 'Oilfield Svcs/Equip.'
+  6  GROUP BY  ROUND(pct_gain10day)
+  7  HAVING COUNT(ROUND(pct_gain10day))&gt;2
+  8* ORDER BY  ROUND(pct_gain10day)
+10:37:14 SQL&gt; /
+
+ROUND(PCT_GAIN10DAY)||','||COUNT(ROUND(PCT_GAIN10DAY))
+---------------------------------------------------------------------------------
+-40,3
+-37,5
+-34,6
+-33,7
+-32,3
+-31,3
+-30,5
+-29,4
+-28,6
+-27,10
+-26,10
+-25,3
+-24,16
+-23,15
+-22,20
+-21,17
+-20,22
+-19,28
+-18,32
+-17,45
+-16,45
+-15,66
+-14,59
+-13,75
+-12,81
+-11,95
+-10,97
+-9,101
+-8,115
+-7,142
+-6,133
+-5,140
+-4,153
+-3,178
+-2,157
+-1,173
+0,263
+1,161
+2,188
+3,182
+4,181
+5,159
+6,135
+7,148
+8,135
+9,132
+10,118
+11,101
+12,87
+13,71
+14,66
+15,62
+16,58
+17,52
+18,38
+19,36
+20,45
+21,26
+22,15
+23,25
+24,26
+25,14
+26,18
+27,14
+28,12
+29,5
+30,9
+31,13
+32,13
+33,6
+34,8
+35,9
+36,6
+38,4
+39,5
+40,6
+42,3
+48,4
+49,5
+50,7
+
+80 rows selected.
+
+Elapsed: 00:00:15.49
+10:37:31 SQL&gt;
 </code></pre>
 
 <p />
 <p />
-Notice that we join with the table tkr_indust.  Some information about tkr_indust is displayed below:
+
+When we plot the results of the above query, we obtain a shape which resembles a Gaussian Distribution:
+<p />
+<img src="/images/mas12distribution.png" alt="10-Day Pct.Gain vs. COUNT(10-Day Pct.Gain)" />
+<p />
+<p />
+Obviously the most frequent outcome is a 10-Day Pct. Gain of 0%.
+<p />
+<p />
+Notice in the above query, that we join with the table tkr_indust.  Some information about tkr_indust is displayed below:
 <p />
 <p />
 <pre><code class='sql'>
@@ -840,7 +981,7 @@ Graphs for the above tkr values are listed below:
 
 <p />
 <p />
-Now we return our attention back to the query which will answer the original question:
+Now we return our attention back to the original question:
 
 <ul>
  <li>Given:  A random stock in the Oil Services/Equipment industry              </li>
@@ -850,16 +991,28 @@ Now we return our attention back to the query which will answer the original que
 </ul>
 
 <p />
-When we plot the results of the above query, we obtain a shape which resembles a Gaussian Distribution:
+<p />
+Question: What is the probability distribution for its price 10 days from today?
 <p />
 <p />
+Answer: See the bell-shaped curve above.
 <p />
-Is it highly probable the stock will be 10% lower or more?
+<p />
+Question: Is it highly probable the stock will be 10% lower or more?
 <p />
 <p />
 
-To answer the above question we first obtain the value of the area
-under the distribution where pct_gain10day < -10.0.
+Answer: Based on a subjective assessment of the above bell-shaped
+curve, I would say "No."  Obviously the most frequent outcome is a
+gain of 0%.  But it appears that the curve has a slight bias towards
+the right which would suggest a positive percentage gain instead of a
+negative percentage gain.
+
+<p />
+<p />
+
+To answer the above question quantitatively, we first obtain the value of the area
+under the distribution where pct_gain10day &lt; -10.0.
 <p />
 <p />
 Then, we divide that value by the total area under the distribution.
@@ -870,22 +1023,41 @@ The query listed below calculates this value for us:
 <p />
 
 <pre><code class='sql'>
-SELECT 100 * count1 / count2
-FROM
-(
-  SELECT COUNT(mas12.rowid) count1 FROM mas12,tkr_industry
-  WHERE mvg_avg20slope BETWEEN -1.1 AND -0.9
-  AND mas12.tkr = tkr_industry.tkr
-  AND tkr_industry.indust = 'Oilfield Svcs/Equip.'
-  AND pct_gain10day < -10.0
-),
-(
-  SELECT COUNT(mas12.rowid) count2 FROM mas12,tkr_industry
-  WHERE mvg_avg20slope BETWEEN -1.1 AND -0.9
-  AND mas12.tkr = tkr_industry.tkr
-  AND tkr_industry.indust = 'Oilfield Svcs/Equip.'
-);
+11:26:40 SQL&gt;
+11:26:41 SQL&gt; l
+  1  SELECT 100 * count1 / count2
+  2  FROM
+  3  (
+  4    SELECT COUNT(mas12.rowid) count1 FROM mas12,tkr_industry
+  5    WHERE mvg_avg20slope BETWEEN -1.1 AND -0.9
+  6    AND mas12.tkr = tkr_industry.tkr
+  7    AND tkr_industry.indust = 'Oilfield Svcs/Equip.'
+  8    AND pct_gain10day &lt; -10.0
+  9  ),
+ 10  (
+ 11    SELECT COUNT(mas12.rowid) count2 FROM mas12,tkr_industry
+ 12    WHERE mvg_avg20slope BETWEEN -1.1 AND -0.9
+ 13    AND mas12.tkr = tkr_industry.tkr
+ 14    AND tkr_industry.indust = 'Oilfield Svcs/Equip.'
+ 15* )
+11:26:42 SQL&gt;
+11:26:44 SQL&gt; /
+
+100*COUNT1/COUNT2
+-----------------
+       15.3638254
+
+Elapsed: 00:00:35.63
+11:27:21 SQL&gt;
 </code></pre>
 
 <p />
 <p />
+So, the probability that a random stock in the Oil Services/Equipment industry,
+<br />
+which has a 20-day moving avg price slope of -1.0% / day,
+<br />
+and will then continue that price slide to a loss of 10% or more in 10 days is ...
+<br />
+15.4%
+
